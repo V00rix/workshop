@@ -7,7 +7,7 @@ namespace workshopIS.Models
 {
     public class CPartner : IPartner
     {
-        string MyTest;
+        string Dog;
         private int Id;
         public string Name;
         public string Surname;
