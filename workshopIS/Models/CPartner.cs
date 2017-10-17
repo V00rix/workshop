@@ -7,8 +7,8 @@ namespace workshopIS.Models
 {
     public class CPartner : IPartner
     {
-        string Dog;
-        private int Id;
+        // all params - public?
+        public int Id;
         public string Name;
         public string Surname;
         public string DokumentPath;
