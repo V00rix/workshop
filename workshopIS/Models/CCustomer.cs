@@ -5,7 +5,7 @@ using System.Web;
 
 namespace workshopIS.Models
 {
-    public class CCustormer : ICustomer
+    public class CCustomer : ICustomer
     {
         // all params - public?
         public int Id;
@@ -20,6 +20,17 @@ namespace workshopIS.Models
         public string Surname;
         public string Email;
         public string Note;
+
+        public CCustomer() { } 
+
+        string ICustomer.GetName()
+        {
+            return this.Name;
+        }
+        public string GetSurname()
+        {
+            return this.Surname;
+        }
     }
 
     public enum ECallState

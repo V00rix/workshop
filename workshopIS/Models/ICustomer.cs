@@ -8,6 +8,9 @@ namespace workshopIS.Models
 {
     public interface ICustomer
     {
+        string GetName();
+        string GetSurname();
 
+        // ... others
     }
 }
