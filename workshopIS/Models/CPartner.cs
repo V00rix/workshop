@@ -15,13 +15,13 @@ namespace workshopIS.Models
         private DateTime validTo;
         private List<ICustomer> customers;
 
-        public int Id { get => id; set => id = value; }
-        public string Name { get => name; set => name = value; }
-        public int ICO { get => ico; set => ico = value; }
-        public string DocumentPath { get => documentPath; set => documentPath = value; }
-        public DateTime ValidFrom { get => validFrom; set => validFrom = value; }
-        public DateTime ValidTo { get => validTo; set => validTo = value; }
-        public List<ICustomer> Customers { get => customers; set => customers = value; }
+        public virtual int Id { get => id; set => id = value; }
+        public virtual string Name { get => name; set => name = value; }
+        public virtual int ICO { get => ico; set => ico = value; }
+        public virtual string DocumentPath { get => documentPath; set => documentPath = value; }
+        public virtual DateTime ValidFrom { get => validFrom; set => validFrom = value; }
+        public virtual DateTime ValidTo { get => validTo; set => validTo = value; }
+        public virtual List<ICustomer> Customers { get => customers; set => customers = value; }
 
         public CPartner() { }
     }

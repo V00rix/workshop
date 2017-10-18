@@ -50,7 +50,7 @@ namespace workshopIS.Controllers
         }
 
 
-        static GetPartner (int id)
+        static void GetPartner (int id)
             {
             //ico of partner
             }
