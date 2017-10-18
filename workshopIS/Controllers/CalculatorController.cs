@@ -26,9 +26,11 @@ namespace workshopIS.Controllers
 
         // POST: api/calculator
         [HttpPost]
-        public HttpResponseMessage Post()
+        public IHttpActionResult Post(int partnerId)
         {
-
+            // TODO
+            return Json(partnerId);
+            
         }
 
 
@@ -38,7 +40,7 @@ namespace workshopIS.Controllers
         public List<string> Get()
         {
             return customers.Select(
-                cus => cus.GetName()
+                cus => cus.Name
                 ).ToList();
         }
 

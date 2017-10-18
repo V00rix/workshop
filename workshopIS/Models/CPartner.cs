@@ -7,13 +7,20 @@ namespace workshopIS.Models
 {
     public class CPartner : IPartner
     {
-        // all params - public?
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int ICO { get; set; }
-        public string DokumentPath { get; set; }
-        public DateTime ValidFrom { get; set; }
-        public DateTime ValidTo { get; set; }
+        private int id;
+        private string name;
+        private int ico;
+        private string documentPath;
+        private DateTime validFrom;
+        private DateTime validTo;
+
+        public int Id { get => id; set => id = value; }
+        public string Name { get => name; set => name = value; }
+        public int ICO { get => ico; set => ico = value; }
+        public string DocumentPath { get => documentPath; set => documentPath = value; }
+        public DateTime ValidFrom { get => validFrom; set => validFrom = value; }
+        public DateTime ValidTo { get => validTo; set => validTo = value; }
+
         public CPartner() { }
     }
 }

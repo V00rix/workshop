@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace workshopIS.Models
 {
-    public interface ICustomer
+    interface ICustomer
     {
-        string GetName();
-        string GetSurname();
+        int Id { get; set; }
+        int Phone { get; set; }
+        ECallState ContactState { get; set; }
+        IPartner Partner { get; set; }
 
-        // ... others
+        // optional
+        string Name { get; set; }
+        string Email { get; set; }
+        string Note { get; set; }
     }
 }

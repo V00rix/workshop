@@ -7,30 +7,23 @@ namespace workshopIS.Models
 {
     public class CCustomer : ICustomer
     {
-        // all params - public?
-        public int Id;
-        public int Phone; // code? +420 etc -> need to use string?
-        public ECallState ContactState; // Used by CallCentre and Reports
+        private int id;
+        private int phone;
+        private ECallState contactState;
+        private IPartner partner;
+        string name;
+        private string email;
+        private string note;
 
-        // reference to partner
-        public IPartner Partner;
+        public int Id { get => id; set => id = value; }
+        public int Phone { get => phone; set => phone = value; }
+        public ECallState ContactState { get => contactState; set => contactState = value; }
+        public string Name { get => name; set => name = value; }
+        public string Email { get => email; set => email = value; }
+        public string Note { get => note; set => note = value; }
+        public IPartner Partner { get => partner; set => partner = value; }
 
-        // optional params
-        public string Name;
-        public string Surname;
-        public string Email;
-        public string Note;
-
-        public CCustomer() { } 
-
-        string ICustomer.GetName()
-        {
-            return this.Name;
-        }
-        public string GetSurname()
-        {
-            return this.Surname;
-        }
+        public CCustomer() { }
     }
 
     public enum ECallState

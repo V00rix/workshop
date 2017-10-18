@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace workshopIS.Models
 {
-    public interface IPartner
+    interface IPartner
     {
-
+        int Id { get; set; }
+        string Name { get; set; }
+        int ICO { get; set; }
+        string DokumentPath { get; set; }
+        DateTime ValidFrom { get; set; }
+        DateTime ValidTo { get; set; }
     }
 }
