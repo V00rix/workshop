@@ -24,6 +24,19 @@ namespace workshopIS.Controllers
         // POST: api/Registration
         public void Post([FromBody]string value)
         {
+
+            string url = "http://";
+
+            using (var webClient = new WebClient())
+            {
+
+               
+
+
+
+
+
+            }
         }
 
         // PUT: api/Registration/5
@@ -35,5 +48,13 @@ namespace workshopIS.Controllers
         public void Delete(int id)
         {
         }
+
+
+        static GetPartner (int id)
+            {
+            //ico of partner
+            }
+
+
     }
 }
