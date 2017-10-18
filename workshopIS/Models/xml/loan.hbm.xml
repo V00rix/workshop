@@ -7,7 +7,6 @@
       <column name="Id"/>
       <generator class="increment"/>
     </id>
-    <property name="Name"/>
 
     <property name="Amount" />
 
@@ -17,7 +16,7 @@
 
     <property name="Interest" />
 
-    <property name="MontlyCharge" />
+    <property name="MonthlyCharge" />
     
     <property name="AnnualCharge" />
 

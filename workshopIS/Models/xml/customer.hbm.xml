@@ -9,7 +9,7 @@
     </id>
     <property name="Phone"/>
 
-    <property name="FirsName" />
+    <property name="FirstName" />
 
     <property name="Surname" />
 
@@ -21,7 +21,7 @@
 
     <property name="CreationDate" />
 
-    <property name="PartnerID" />
+    <property name="PartnerId" />
 
   </class>
 </hibernate-mapping>

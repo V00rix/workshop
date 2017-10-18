@@ -49,7 +49,7 @@ namespace workshopIS.Controllers
         public List<string> Get()
         {
             return Data.GetCustomers().Select(
-                cus => cus.Name
+                cus => cus.FirstName
                 ).ToList();
         }
 
