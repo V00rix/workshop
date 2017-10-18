@@ -9,15 +9,17 @@
     </id>
     <property name="Name"/>
 
-    <property name="ICO" />
+    <property name="Amount" />
 
-    <property name="ValidFrom" />
+    <property name="Duration" />
 
-    <property name="ValidTo" />
+    <property name="CustomerID" />
 
-    <property name="IsActive" />
+    <property name="Interest" />
 
-    <property name="FileData" />
+    <property name="MontlyCharge" />
+    
+    <property name="AnnualCharge" />
 
   </class>
 </hibernate-mapping>

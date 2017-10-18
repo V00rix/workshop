@@ -7,17 +7,21 @@
       <column name="Id"/>
       <generator class="increment"/>
     </id>
-    <property name="Name"/>
+    <property name="Phone"/>
 
-    <property name="ICO" />
+    <property name="FirsName" />
 
-    <property name="ValidFrom" />
+    <property name="Surname" />
 
-    <property name="ValidTo" />
+    <property name="Email" />
 
-    <property name="IsActive" />
+    <property name="Note" />
 
-    <property name="FileData" />
+    <property name="State" />
+
+    <property name="CreationDate" />
+
+    <property name="PartnerID" />
 
   </class>
 </hibernate-mapping>
