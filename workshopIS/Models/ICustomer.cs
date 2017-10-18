@@ -13,8 +13,14 @@ namespace workshopIS.Models
         ECallState ContactState { get; set; }
         List<ILoan> Loans { get; set; }
 
+        int State { get; set; }
+        int PartnerId { get; set; }
+        DateTime CreationDate { get; set; }
+
+
         // optional
-        string Name { get; set; }
+        string FirstName { get; set; }
+        string Surname { get; set; }
         string Email { get; set; }
         string Note { get; set; }
     }

@@ -13,24 +13,17 @@ namespace workshopIS.Controllers
 {
     public class ReportsController : ApiController
     {
-        public void GetMessages()
+        public List<CPartner> GetMessages()
         {
-            NHibernate.ISession session = NHibernateHelper.GetCurrentSession();
-            /*
-            var results = session.Query<CCustomer>();
+            ISession session = NHibernateHelper.GetCurrentSession();
 
-            return results.ToList<CCustomer>();*/
-            ITransaction tx = session.BeginTransaction();
+            //ITransaction tx = session.BeginTransaction();
+            //session.Save(new Message { Body = "dsfsdfsdf", CreationTime = DateTime.Now });
+            //tx.Commit();
+            var results = session.Query<CPartner>();
 
-            CPartner customer = new CPartner();
-            customer.Name = "John Snow";
-            customer.ICO = 85753;
-
-
-            session.Save(customer);
-            tx.Commit();
-
-            NHibernateHelper.CloseSession();
+            return results.ToList<CPartner>();
+            var a = 4;
 
         }
     }

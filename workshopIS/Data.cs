@@ -1,6 +1,9 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Collections.Generic;
+using workshopIS.Helpers;
 using workshopIS.Models;
+using System.Linq;
 
 namespace workshopIS
 {
@@ -12,15 +15,23 @@ namespace workshopIS
         public static void Initialize()
         {
             // ReadDataFromDatabase(); 
+
             FakeDatabase();
         }
 
         // DATABASE CODE BELOW
         private static void ReadDataFromDatabase()
         {
-            // TODO: read from db to partners
-            //
-            // partners.add(*FROM DATABASE*)
+            ISession session = NHibernateHelper.GetCurrentSession();
+
+            //ITransaction tx = session.BeginTransaction();
+            //session.Save(new Message { Body = "dsfsdfsdf", CreationTime = DateTime.Now });
+            //tx.Commit();
+            var results = session.Query<CPartner>();
+
+            partners = results.ToList<IPartner>();
+            var a = 4;
+
         }
 
         // Fake DB
@@ -40,22 +51,22 @@ namespace workshopIS
                         new CCustomer
                         {
                             Id = 1,
-                            Name = "Customer Bob",
+                            FirstName = "Customer Bob",
                             Loans = new List<ILoan>
                             {
-                                new CLoan 
+                                new CLoan
                                 {
                                     Id = 1,
                                     Amount = 40000,
                                     Duration = 10
                                 },
-                                new CLoan 
+                                new CLoan
                                 {
                                     Id = 10,
                                     Amount = 200000,
                                     Duration = 50
                                 },
-                                new CLoan 
+                                new CLoan
                                 {
                                     Id = 7,
                                     Amount = 50000,
@@ -66,12 +77,12 @@ namespace workshopIS
                         new CCustomer
                         {
                             Id = 2,
-                            Name = "Customer Cob"
+                            FirstName = "Customer Cob"
                         },
                         new CCustomer
                         {
                             Id = 3,
-                            Name = "Customer Hello World"
+                            FirstName = "Customer Hello World"
                         }
                     }
                 },
@@ -85,12 +96,12 @@ namespace workshopIS
                         new CCustomer
                         {
                             Id = 6,
-                            Name = "Second Partner Customer"
+                            FirstName = "Second Partner Customer"
                         },
                         new CCustomer
                         {
                             Id = 13,
-                            Name = "Friday"
+                            FirstName = "Friday"
                         }
                     }
                 }
