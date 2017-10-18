@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace workshopIS.Models
 {
-    interface ICustomer
+    public interface ICustomer
     {
         int Id { get; set; }
-        int Phone { get; set; }
+        string Phone { get; set; }
         ECallState ContactState { get; set; }
         IPartner Partner { get; set; }
 

@@ -23,14 +23,30 @@ namespace workshopIS.Controllers
                 Name = "Cus2"
             }
         };
+        List<IPartner> partners = new List<IPartner>
+        {
+            new CPartner()
+            {
+                Id = 1,
+                Name = "Partner John",
+                ICO = 7891
+            },
+            new CPartner()
+            {
+                Id = 2,
+                Name = "Partner Lawn",
+                ICO = 32213
+            }
+        };
 
         // POST: api/calculator
         [HttpPost]
-        public IHttpActionResult Post(int partnerId)
+        public IHttpActionResult Post(int partnerId, decimal amount, int duration,
+            string phoneNumber, string name="", string email="", string note="")
         {
             // TODO
             return Json(partnerId);
-            
+
         }
 
 
