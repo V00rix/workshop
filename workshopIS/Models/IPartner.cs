@@ -14,5 +14,6 @@ namespace workshopIS.Models
         string DocumentPath { get; set; }
         DateTime ValidFrom { get; set; }
         DateTime ValidTo { get; set; }
+        List<ICustomer> Customers { get; set; }
     }
 }

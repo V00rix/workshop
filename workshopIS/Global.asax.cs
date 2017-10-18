@@ -13,6 +13,7 @@ namespace workshopIS
     {
         protected void Application_Start()
         {
+            Data.Initialize(); // initialize static data class 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

@@ -11,7 +11,7 @@ namespace workshopIS.Models
         int Id { get; set; }
         string Phone { get; set; }
         ECallState ContactState { get; set; }
-        IPartner Partner { get; set; }
+        List<ILoan> Loans { get; set; }
 
         // optional
         string Name { get; set; }

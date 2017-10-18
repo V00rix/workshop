@@ -10,10 +10,10 @@ namespace workshopIS.Models
         private int id;
         private string phone;
         private ECallState contactState;
-        private IPartner partner;
         private string name;
         private string email;
         private string note;
+        private List<ILoan> loans;
 
         public int Id { get => id; set => id = value; }
         public string Phone { get => phone; set => phone = value; }
@@ -21,7 +21,7 @@ namespace workshopIS.Models
         public string Name { get => name; set => name = value; }
         public string Email { get => email; set => email = value; }
         public string Note { get => note; set => note = value; }
-        public IPartner Partner { get => partner; set => partner = value; }
+        public List<ILoan> Loans { get => loans; set => loans = value; }
 
         public CCustomer() { }
     }

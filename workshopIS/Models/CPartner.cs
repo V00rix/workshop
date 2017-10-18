@@ -13,6 +13,7 @@ namespace workshopIS.Models
         private string documentPath;
         private DateTime validFrom;
         private DateTime validTo;
+        private List<ICustomer> customers;
 
         public int Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
@@ -20,6 +21,7 @@ namespace workshopIS.Models
         public string DocumentPath { get => documentPath; set => documentPath = value; }
         public DateTime ValidFrom { get => validFrom; set => validFrom = value; }
         public DateTime ValidTo { get => validTo; set => validTo = value; }
+        public List<ICustomer> Customers { get => customers; set => customers = value; }
 
         public CPartner() { }
     }

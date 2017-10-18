@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace workshopIS.Models
 {
-    interface ILoan
+    public interface ILoan
     {
         int Id { get; set; }
         int Duration { get; set; }
@@ -14,6 +14,5 @@ namespace workshopIS.Models
         decimal Interest { get; set; }
         decimal MonthlyCharge { get; set; }
         decimal AnnualCharge { get; set; }
-        ICustomer Custromer { get; set; }
     }
 }

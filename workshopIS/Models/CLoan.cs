@@ -13,7 +13,6 @@ namespace workshopIS.Models
         private decimal interest;
         private decimal monthlyCharge;
         private decimal annualCharge;
-        private ICustomer custromer;
 
         public int Id { get => id; set => id = value; }
         public int Duration { get => duration; set => duration = value; }
@@ -21,8 +20,7 @@ namespace workshopIS.Models
         public decimal Interest { get => interest; set => interest = value; }
         public decimal MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
         public decimal AnnualCharge { get => annualCharge; set => annualCharge = value; }
-        public ICustomer Custromer { get => custromer; set => custromer = value; }
-
+ 
         public CLoan() { }
     }
 }

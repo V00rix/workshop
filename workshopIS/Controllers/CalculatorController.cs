@@ -10,35 +10,6 @@ namespace workshopIS.Controllers
 {
     public class CalculatorController : ApiController
     {
-        // Read from DB every time on 
-        // every new controller instance
-        List<ICustomer> customers = new List<ICustomer>
-        {
-            new CCustomer()
-            {
-                Name = "Cus1"
-            },
-            new CCustomer
-            {
-                Name = "Cus2"
-            }
-        };
-        List<IPartner> partners = new List<IPartner>
-        {
-            new CPartner()
-            {
-                Id = 1,
-                Name = "Partner John",
-                ICO = 7891
-            },
-            new CPartner()
-            {
-                Id = 2,
-                Name = "Partner Lawn",
-                ICO = 32213
-            }
-        };
-
         // POST: api/calculator
         /// <summary>
         /// 
@@ -54,11 +25,21 @@ namespace workshopIS.Controllers
         [HttpPost]
         public IHttpActionResult Post(int partnerId, decimal amount, int duration,
             string phoneNumber, string name="", string email="", string note="")
-        {
+        { 
             // 1. check if partners exist
-            // to se tady ma byt RegistrationController.GetPartner(partnerId);
-            return Json(partnerId);
+            // if (RegistrationController.GetPartner(partnerId))
 
+            // alternative
+            if (Data.GetPartners().Select(p => p.Id).Contains(partnerId) && 
+                // 2. check if loan is ok
+                amount >= 20000 && amount <= 60000 && duration >= 6 && duration <= 96)
+            {
+                //ICustomer customer;
+                //if ((customer = CustomerExists(phoneNumber)) == null)
+                //    CreateNewcustomer();
+
+            }
+            return Json(partnerId);
         }
 
 
@@ -67,7 +48,7 @@ namespace workshopIS.Controllers
         [HttpGet]
         public List<string> Get()
         {
-            return customers.Select(
+            return Data.GetCustomers().Select(
                 cus => cus.Name
                 ).ToList();
         }
