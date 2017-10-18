@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  <object id="CallCentreRepositoryService" type="workshopIS.Repository.CallCentreRepository,workshopIS"/>
+  <object id="CallCentrecontroller" type="workshopIS.Controllers.CallCentreController, workshopIS"
+          singleton="false">
+    <property name="CallCentreRepository" ref="CallCentreRepositoryService"/>
+  </object>
+</objects>
