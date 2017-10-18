@@ -1,9 +1,12 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using workshopIS.Helpers;
+using workshopIS.Models;
 
 namespace workshopIS.Controllers
 {
@@ -22,10 +25,14 @@ namespace workshopIS.Controllers
         }
 
         // POST: api/Registration
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody]CPartner parner)
         {
 
-            string url = "http://";
+            ISession session = NHibernateHelper.GetCurrentSession();
+
+            ITransaction tx = session.BeginTransaction();
+            session.Save(parner);
+            tx.Commit();
 
             using (var webClient = new WebClient())
             {
@@ -37,6 +44,7 @@ namespace workshopIS.Controllers
 
 
             }
+            return Ok();
         }
 
         // PUT: api/Registration/5
