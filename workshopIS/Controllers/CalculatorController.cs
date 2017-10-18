@@ -17,29 +17,54 @@ namespace workshopIS.Controllers
         /// <param name="partnerId"></param>
         /// <param name="amount"></param>
         /// <param name="duration"></param>
-        /// <param name="phoneNumber"></param>
+        /// <param name="phone"></param>
         /// <param name="name"></param>
         /// <param name="email"></param>
         /// <param name="note"></param>
         /// <returns></returns>
         [HttpPost]
-        public IHttpActionResult Post(int partnerId, decimal amount, int duration,
-            string phoneNumber, string name="", string email="", string note="")
-        { 
+        public string Post(int partnerId, decimal amount, int duration,
+            string phone, string name = "", string surname = "", string email = "", string note = "")
+        {
             // 1. check if partners exist
-            // if (RegistrationController.GetPartner(partnerId))
-
-            // alternative
-            if (Data.GetPartners().Select(p => p.Id).Contains(partnerId) && 
-                // 2. check if loan is ok
-                amount >= 20000 && amount <= 60000 && duration >= 6 && duration <= 96)
+            IPartner partner;
+            try
             {
-                //ICustomer customer;
-                //if ((customer = CustomerExists(phoneNumber)) == null)
-                //    CreateNewcustomer();
-
+                partner = Data.Partners[partnerId];
             }
-            return Json(partnerId);
+            // if not found
+            catch
+            {
+                // No Partner with such ID
+                return "No partner with id " + partnerId + " exists!";
+            }
+
+            // 2. Check if customer exists
+            ICustomer customer;
+            try
+            {
+                customer = partner.Customers.First(c => c.Phone == phone);
+            }
+            // if not found
+            catch
+            {
+                // customer with such phone number 
+                // is not found on selected partner
+                customer = new CCustomer
+                {
+                    // Id = 393218312 // Some Unique ID
+                    Name = name,
+                    Phone = phone,
+                    Loans = new List<ILoan> { }
+                };
+                partner.Customers.Add(customer);
+            }
+            
+            customer.Loans.Add(new CLoan {
+                Amount = amount,
+                Duration = duration
+            });
+            return "Success!";
         }
 
 
@@ -48,12 +73,16 @@ namespace workshopIS.Controllers
         [HttpGet]
         public List<string> Get()
         {
-            return Data.GetCustomers().Select(
-                cus => cus.Name
-                ).ToList();
+            List<string> partnersAndCustomers = new List<string>();
+            foreach (IPartner partner in Data.Partners)
+            {
+                partnersAndCustomers.Add("[P] " + partner.Name + ": ");
+                foreach (ICustomer customer in partner.Customers)
+                {
+                    partnersAndCustomers.Add("[C] " + customer.Name);
+                }
+            }
+            return partnersAndCustomers;
         }
-
-
-
     }
 }

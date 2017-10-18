@@ -6,7 +6,7 @@ namespace workshopIS
 {
     public static class Data
     {
-        static List<IPartner> partners;
+        public static List<IPartner> Partners;
 
         // Runs on startup
         public static void Initialize()
@@ -28,7 +28,7 @@ namespace workshopIS
         {
             // initialize fake list of partners,
             // customers and loans - all related
-            partners = new List<IPartner>
+            Partners = new List<IPartner>
             {
                 new CPartner
                 {
