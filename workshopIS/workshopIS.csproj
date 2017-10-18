@@ -172,6 +172,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\NHibernateHelper.cs" />
     <Compile Include="Models\CLoan.cs" />
     <Compile Include="Models\CPartner.cs" />
     <Compile Include="Models\ICustomer.cs" />
