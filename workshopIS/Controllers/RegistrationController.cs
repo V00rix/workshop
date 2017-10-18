@@ -16,16 +16,14 @@ namespace workshopIS.Controllers
     public class RegistrationController : ApiController
     {
         // GET: api/Registration
-        public IEnumerable<string> Get()
+        public List<CPartner> Get()
         {
-            return new string[] { "value1", "value2" };
+            ISession session = NHibernateHelper.GetCurrentSession();
+            var results = session.Query<CPartner>();
+
+            return results.ToList<CPartner>();
         }
 
-        // GET: api/Registration/5
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST: api/Registration
         public IHttpActionResult Post([FromBody]CPartner parner)
