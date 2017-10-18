@@ -15,8 +15,6 @@
 
     <property name="Email" />
 
-    <property name="Note" />
-
     <property name="State" />
 
     <property name="CreationDate" />
