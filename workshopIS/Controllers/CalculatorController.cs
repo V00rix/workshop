@@ -28,15 +28,7 @@ namespace workshopIS.Controllers
         [HttpPost]
         public HttpResponseMessage Post()
         {
-            // TODO
-            if (condition)
-            {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
-            else
-            {
-                return new HttpResponseMessage(HttpStatusCode.OK);
-            }
+
         }
 
 
