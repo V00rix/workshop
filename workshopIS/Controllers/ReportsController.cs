@@ -13,7 +13,7 @@ namespace workshopIS.Controllers
 {
     public class ReportsController : ApiController
     {
-        public List<CPartner> GetMessages()
+        public List<CPartner> Get()
         {
             ISession session = NHibernateHelper.GetCurrentSession();
 
@@ -23,7 +23,7 @@ namespace workshopIS.Controllers
             var results = session.Query<CPartner>();
 
             return results.ToList<CPartner>();
-            var a = 4;
+            //var a = 4;
 
         }
     }
