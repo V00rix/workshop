@@ -24,17 +24,24 @@ namespace workshopIS.Controllers
             }
         };
 
-        // Same for Partners, etc
-
+        // POST: api/calculator
         [HttpPost]
-        public void Post()
+        public HttpResponseMessage Post()
         {
-            // localhost:PORT/api/calculator
             // TODO
+            if (condition)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
         }
 
 
         // simple data test function
+        // GET: api/Calculator
         [HttpGet]
         public List<string> Get()
         {
