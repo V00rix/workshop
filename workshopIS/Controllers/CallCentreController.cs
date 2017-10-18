@@ -15,7 +15,7 @@ namespace workshopIS.Controllers
     {
         public ICallCentreRepository CallCentreRepository { get; set; }
 
-        public string Get()
+        public List<CCustomer> Get()
         {
             ISession session = NHibernateHelper.GetCurrentSession();
 
