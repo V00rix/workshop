@@ -13,9 +13,11 @@ namespace workshopIS.Models
         private decimal interest;
         private decimal monthlyCharge;
         private decimal annualCharge;
+        private int customerID;
 
         public int Id { get => id; set => id = value; }
         public int Duration { get => duration; set => duration = value; }
+        public int CustomerID { get => customerID; set => customerID = value; }
         public decimal Amount { get => amount; set => amount = value; }
         public decimal Interest { get => interest; set => interest = value; }
         public decimal MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
