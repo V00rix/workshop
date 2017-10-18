@@ -1,9 +1,15 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
+using System.Web;
 using System.Web.Http;
+using NHibernate.Linq;
+using workshopIS.Helpers;
+using workshopIS.Models;
 
 namespace workshopIS.Controllers
 {
@@ -22,21 +28,21 @@ namespace workshopIS.Controllers
         }
 
         // POST: api/Registration
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody]CPartner parner)
         {
 
-            string url = "http://";
+            ISession session = NHibernateHelper.GetCurrentSession();
+
+            ITransaction tx = session.BeginTransaction();
+            session.Save(parner);
+            tx.Commit();
 
             using (var webClient = new WebClient())
             {
 
-               
-
-
-
-
 
             }
+            return Ok();
         }
 
         // PUT: api/Registration/5
@@ -45,8 +51,35 @@ namespace workshopIS.Controllers
         }
 
         // DELETE: api/Registration/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
+            try
+            {
+                ISession session = NHibernateHelper.GetCurrentSession();
+
+                ITransaction tx = session.BeginTransaction();
+                var partner = session.Query<CPartner>().FirstOrDefault(x => x.Id.Equals(id));
+                if (partner == null)
+                {
+                    HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.BadRequest,
+                        "Bad request, partner wasnt deleted");
+                    return result;
+                }
+                else
+                {
+                    session.Delete(partner);
+                    tx.Commit();
+                    HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.OK, "Partner deleted");
+                    return result;
+                }
+            }
+            catch
+            {
+                HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.BadRequest);
+                return result;
+
+            }
+
         }
 
 
