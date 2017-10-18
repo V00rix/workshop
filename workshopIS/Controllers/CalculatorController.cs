@@ -26,20 +26,20 @@ namespace workshopIS.Controllers
         public string Post(int partnerId, decimal amount, int duration,
             string phone, string name = "", string surname = "", string email = "", string note = "")
         {
-            // 1. check if partners exist
+            // Check if partners exist
             IPartner partner;
             try
             {
                 partner = Data.Partners[partnerId];
             }
-            // if not found
+            // If not found
             catch
             {
                 // No Partner with such ID
                 return "No partner with id " + partnerId + " exists!";
             }
 
-            // 2. Check if customer exists
+            // Check if customer exists
             ICustomer customer;
             try
             {
@@ -50,23 +50,13 @@ namespace workshopIS.Controllers
             {
                 // customer with such phone number 
                 // is not found on selected partner
-                customer = new CCustomer
-                {
-                    // Id = 393218312 // Some Unique ID
-                    Name = name,
-                    Phone = phone,
-                    Loans = new List<ILoan> { }
-                };
+                customer = new CCustomer(-1, partnerId, phone);
                 partner.Customers.Add(customer);
             }
-            
-            customer.Loans.Add(new CLoan {
-                Amount = amount,
-                Duration = duration
-            });
+
+            customer.Loans.Add(new CLoan(amount, duration));
             return "Success!";
         }
-
 
         // simple data test function
         // GET: api/Calculator
@@ -79,7 +69,7 @@ namespace workshopIS.Controllers
                 partnersAndCustomers.Add("[P] " + partner.Name + ": ");
                 foreach (ICustomer customer in partner.Customers)
                 {
-                    partnersAndCustomers.Add("[C] " + customer.Name);
+                    partnersAndCustomers.Add("[C] " + customer.FirstName);
                 }
             }
             return partnersAndCustomers;

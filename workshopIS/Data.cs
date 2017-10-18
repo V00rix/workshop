@@ -29,7 +29,7 @@ namespace workshopIS
             //tx.Commit();
             var results = session.Query<CPartner>();
 
-            partners = results.ToList<IPartner>();
+            Partners = results.ToList<IPartner>();
             var a = 4;
 
         }
