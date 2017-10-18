@@ -75,7 +75,8 @@ namespace workshopIS.Controllers
             }
             catch
             {
-                throw new Exception();
+                HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.BadRequest);
+                return result;
 
             }
 
