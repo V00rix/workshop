@@ -14,6 +14,7 @@ namespace workshopIS.Models
         private int? duration;
         private decimal? amount;
         private decimal? percentage;
+        private ICustomer customer;
         // counted
         private decimal? monthlyCharge;
         private decimal? annualCharge;
@@ -21,16 +22,15 @@ namespace workshopIS.Models
         // optional
         private string note = null;
 
-        public virtual int? Id { get => id; set => id = value; }
+        public virtual int Id { get => id; set => id = value; }
         public virtual int? Duration { get => duration; set => duration = value; }
-        public virtual int? CustomerID { get => customerID; set => customerID = value; }
         public virtual decimal? Amount { get => amount; set => amount = value; }
-        public decimal Percentage { get => percentage; set => percentage = value; }
+        public decimal? Percentage { get => percentage; set => percentage = value; }
         public virtual decimal? Interest { get => interest; set => interest = value; }
         public virtual decimal? MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
         public virtual decimal? AnnualCharge { get => annualCharge; set => annualCharge = value; }
         public virtual string Note { get => note; set => note = value; }
-        public virtual CCustomer Customer { get; set; }
+        public virtual ICustomer Customer { get => customer; set => customer = value; }
 
         // constructors
         /// <summary>
@@ -39,9 +39,9 @@ namespace workshopIS.Models
         /// <param name="amount">Loan amount</param>
         /// <param name="duration">Loan duration</param>
         /// <param name="note">Note(s)</param>
-        public CLoan(int customerId, decimal amount, int duration, decimal percentage, string note = null)
+        public CLoan(CCustomer customer, decimal amount, int duration, decimal percentage, string note = null)
         {
-            this.customerId = customerId;
+            this.customer = customer;
             try { this.amount = amount; }
             catch { throw new Exception("Amount was not specified!"); }
 

@@ -34,7 +34,7 @@ namespace workshopIS.Controllers
             // check this
             try
             {
-                Data.Partners.Add(new CPartner(partner.Name, partner.ICO));
+                Data.Partners.Add(new CPartner(partner.Name, (partner.ICO ?? -1)));
             }
             catch (Exception ex)
             {

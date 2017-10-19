@@ -8,18 +8,18 @@ namespace workshopIS.Models
     public class CPartner : IPartner, IIsValid
     {
         // mandatory
-        private int? id;
+        private int id;
         private string name;
         private int? ico;
         // mandatory, generated on initializaton
         private DateTime? validFrom;
         // optional
-        private bool isActive;
+        private bool? isActive;
         private DateTime? validTo;
         private Byte[] fileData;
         private List<ICustomer> customers;
 
-        public virtual int? Id { get => id; set => id = value; }
+        public virtual int Id { get => id; set => id = value; }
         public virtual string Name { get => name; set => name = value; }
         public virtual int? ICO { get => ico; set => ico = value; }
         public virtual DateTime? ValidFrom { get => validFrom; set => validFrom = value; }
@@ -66,13 +66,13 @@ namespace workshopIS.Models
             this.customers = customers ?? new List<ICustomer>();
             // link each loan from list to this customer
             foreach (ICustomer customer in this.customers)
-                customer.PartnerId = this.id;
+                customer.Partner = this;
         }
 
         // Add new customer to list
         public virtual void AddCustomer(ICustomer customer)
         {
-            customer.PartnerId = this.id;
+            customer.Partner = this;
             customers.Add(customer);
         }
 

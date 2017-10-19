@@ -12,8 +12,8 @@ namespace workshopIS.Models
         // mandatory fields, set from constructor parameters
         private string phone;
         // mandatory, generated on initializaton
-        private DateTime creationDate;
-        private int partnerId;
+        private DateTime? creationDate;
+        private IPartner partner;
         // optional fields
         private string firstName = null;
         private string surname = null;
@@ -26,16 +26,15 @@ namespace workshopIS.Models
         // reference to customer related loans
         private List<ILoan> loans;
 
-        public virtual int? Id { get => id; set => id = value; }
+        public virtual int Id { get => id; set => id = value; }
         public virtual string Phone { get => phone; set => phone = value; }
         public virtual string FirstName { get => firstName; set => firstName = value; }
         public virtual string Surname { get => surname; set => surname = value; }
         public virtual string Email { get => email; set => email = value; }
         public virtual int? ContactState { get => contactState; set => contactState = value; }
-        public virtual int? PartnerId { get => partnerId; set => partnerId = value; }
-        public virtual DateTime CreationDate { get => creationDate; set => creationDate = value; }
+        public virtual DateTime? CreationDate { get => creationDate; set => creationDate = value; }
         public virtual List<ILoan> Loans { get => loans; set => loans = value; }
-        public virtual CPartner Partner { get; set; }
+        public virtual IPartner Partner { get => partner; set => partner = value; }
 
         // Constructors
         /// <summary>
@@ -46,11 +45,11 @@ namespace workshopIS.Models
         /// <param name="firstName">Customer's first name</param>
         /// <param name="surname">Customer's surname</param>
         /// <param name="email">Customer's e-mail adress</param>
-        public CCustomer(int partnerId, string phone, string firstName = null,
+        public CCustomer(IPartner partner, string phone, string firstName = null,
                         string surname = null, string email = null, 
                         List<ILoan> loans = null)
         {
-            this.partnerId = partnerId;
+            this.partner = partner;
             this.phone = phone;
             this.firstName = firstName;
             this.surname = surname;
@@ -73,14 +72,14 @@ namespace workshopIS.Models
             this.loans = loans ?? new List<ILoan>();
             // link each loan from list to this customer
             foreach (ILoan loan in this.loans)
-                loan.CustomerID = this.id;
+                loan.Customer = this;
         }
 
         // Add Loan to list
         public virtual void AddLoan(ILoan loan)
         {
             // Set child's id
-            loan.CustomerID = this.id;
+            loan.Customer = this;
             loans.Add(loan);
         }
 

@@ -37,13 +37,13 @@ namespace workshopIS.Controllers
             {
                 // if Customer doesn't exist
                 // Create new Customer... 
-                customer = new CCustomer(loanData.partnerId ?? 0, loanData.phone, 
+                customer = new CCustomer(partner, loanData.phone, 
                     loanData.firstName, loanData.surname, loanData.email);
                 // ... and customer to partner
                 partner.AddCustomer(customer);
             }
             // ...and new Loan
-            loan = new CLoan(customer.Id, loanData.amount, loanData.duration, loanData.percenatge, loanData.note);
+            loan = new CLoan(customer, loanData.amount, loanData.duration, loanData.percenatge, loanData.note);
             // add to customer
             customer.AddLoan(loan);
 

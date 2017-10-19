@@ -8,13 +8,13 @@ namespace workshopIS.Models
 {
     public interface ICustomer
     {
-        int? Id { get; set; }
+        int Id { get; set; }
         string Phone { get; set; }
         List<ILoan> Loans { get; set; }
 
         int? ContactState { get; set; }
-        int PartnerId { get; set; }
-        DateTime CreationDate { get; set; }
+        DateTime? CreationDate { get; set; }
+        IPartner Partner { get; set; }
 
         // optional fields
         string FirstName { get; set; }
