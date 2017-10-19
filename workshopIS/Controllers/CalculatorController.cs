@@ -43,7 +43,7 @@ namespace workshopIS.Controllers
                 partner.AddCustomer(customer);
             }
             // ...and new Loan
-            loan = new CLoan(customer.Id, loanData.amount, loanData.duration, loanData.note);
+            loan = new CLoan(customer.Id, loanData.amount, loanData.duration, loanData.percenatge, loanData.note);
             // add to customer
             customer.AddLoan(loan);
 
@@ -53,7 +53,7 @@ namespace workshopIS.Controllers
 
         // GET: api/calculator
         /// <summary>
-        /// Simple GET request to display all customers throughout all partners
+        /// Display all partners, their customers and their loan data
         /// </summary>
         /// <returns>List of list of customers.</returns>
         public List<IPartner> Get()
@@ -68,6 +68,7 @@ namespace workshopIS.Controllers
         public int? partnerId;
         public string phone;
         public decimal amount;
+        public decimal percenatge = 0;
         public int duration;
         public string firstName = null;
         public string surname = null;

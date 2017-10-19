@@ -14,10 +14,11 @@ namespace workshopIS.Models
         private int duration;
         private int customerId;
         private decimal amount;
-        private decimal? interest;
-        // set elsewhere
+        private decimal percentage;
+        // counted
         private decimal? monthlyCharge;
         private decimal? annualCharge;
+        private decimal? interest;
         // optional
         private string note = null;
 
@@ -25,11 +26,12 @@ namespace workshopIS.Models
         public virtual int Duration { get => duration; set => duration = value; }
         public virtual int CustomerID { get => customerId; set => customerId = value; }
         public virtual decimal Amount { get => amount; set => amount = value; }
+        public decimal Percentage { get => percentage; set => percentage = value; }
         public virtual decimal? Interest { get => interest; set => interest = value; }
         public virtual decimal? MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
         public virtual decimal? AnnualCharge { get => annualCharge; set => annualCharge = value; }
         public virtual string Note { get => note; set => note = value; }
-
+        
         // constructors
         /// <summary>
         /// Create new instance of CLoan
@@ -37,7 +39,7 @@ namespace workshopIS.Models
         /// <param name="amount">Loan amount</param>
         /// <param name="duration">Loan duration</param>
         /// <param name="note">Note(s)</param>
-        public CLoan(int customerId, decimal amount, int duration, string note = null)
+        public CLoan(int customerId, decimal amount, int duration, decimal percentage, string note = null)
         {
             this.customerId = customerId;
             try { this.amount = amount; }
@@ -45,7 +47,10 @@ namespace workshopIS.Models
 
             try { this.duration = duration; }
             catch { throw new Exception("Duration was not specified!"); }
-           
+
+            try { this.percentage = percentage; }
+            catch { throw new Exception("Percentage was not specified!"); }
+
             this.note = note;
             // check if fields are valid
             try
@@ -57,6 +62,9 @@ namespace workshopIS.Models
                 throw new Exception("Wrong values specified in new CLoan creation!",
                     ex);
             }
+            // count monthly charge, annual charge and interest
+            monthlyCharge = (amount / duration) * this.percentage;
+            // some formula for annualCharge 
             // save to DB and get id
             this.id = Data.SaveToDB(this);
         }

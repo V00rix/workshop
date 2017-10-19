@@ -12,6 +12,7 @@ namespace workshopIS.Models
         int Duration { get; set; }
         int CustomerID { get; set; }
         decimal Amount { get; set; }
+        decimal Percentage { get; set; }
         decimal? Interest { get; set; }
         decimal? MonthlyCharge { get; set; }
         decimal? AnnualCharge { get; set; }
