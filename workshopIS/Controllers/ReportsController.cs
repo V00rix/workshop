@@ -25,32 +25,60 @@ namespace workshopIS.Controllers
 
         [System.Web.Http.Route("api/reports/Loan")]
 
-        public IHttpActionResult Get()
+        public IHttpActionResult GetLoanInfo()
         {
             ISession session = NHibernateHelper.GetCurrentSession();
 
 
-            var results = session.Query<CLoan>().Select(c=>new {Loan = c, Customer = c.Customer}).ToList();
-            // var Customers = session.Query<CCustomer>().ToList();
-            // var partners = session.Query<CPartner>().ToList();
-
-            //var test= Customers.FirstOrDefault(x => x.Id == 1).Name;
-
-            // //var query =
-            // //    from customer in Customers
-            // //    from order in results
-            // //        .Where(o => customer.Id == o.CustomerID)
-            // //        .DefaultIfEmpty()
-            // //    select new { Customer = customer.Name, Order = order.Amount };
 
 
+            IList<CLoan> test = session.QueryOver<CLoan>()
+                                    .JoinQueryOver(l => l.Customer)
+                                    .JoinQueryOver(l => l.Partner).List();
+
+            var loanByPartner = test.GroupBy(t => t.Customer.Partner).Select(t => new {Partner = t.Key.Name, Cnt = t.Count()});
+
+            return Ok(loanByPartner);
+
+        }
+
+        [System.Web.Http.Route("api/reports/Loan/{dateFrom}/{dateTo}")]
+
+        public IHttpActionResult GetLoanInfoByDate(string dateFrom,string dateTo)
+        {
+            return Ok(dateFrom);
+        }
 
 
-            // //var vysledek = session.Query<CLoan>().GroupBy(x => x.CustomerID)
-            // //    .Where(t => t.Key.HasValue).Select(group => new { Customers.FirstOrDefault(x => x.Id==group.Key) , counter=group.Count() }).ToList();
+        [System.Web.Http.Route("api/reports/CallCentre")]
 
-            return Ok(results);
+        public IHttpActionResult GetCallCentrumInfo()
+        {
+            return Ok();
+        }
 
+
+
+        [System.Web.Http.Route("api/reports/Partner")]
+
+        public IHttpActionResult GetPartnerInfo()
+        {
+            return Ok();
+        }
+
+        [System.Web.Http.Route("api/reports/{partnerId:int}/Loan")]
+
+        public IHttpActionResult GetLoanByPartnerInfo(int partnerId)
+        {
+            ISession session = NHibernateHelper.GetCurrentSession();
+            IList<CLoan> test = session.QueryOver<CLoan>()
+                .JoinQueryOver(l => l.Customer)
+                .JoinQueryOver(l => l.Partner).List();
+
+            //var vysledek=test.Select(x => new {customer=x.Customer,loan=x});
+
+            var loanByPartner = test.GroupBy(t => t.Customer.Partner).Select(t => new { Partner = t.Key.Id, Cnt = t.Count() }).Where(x=>x.Partner==partnerId);
+            return Ok(loanByPartner);
         }
 
 

@@ -30,6 +30,7 @@ namespace workshopIS.Models
         public virtual string Name { get; }
         public virtual DateTime CreationDate { get => creationDate; set => creationDate = value; }
         public virtual List<ILoan> Loans { get => loans; set => loans = value; }
+        public virtual CPartner Partner { get; set; }
 
         public CCustomer() {
             id = GenerateId(); // Some Unique ID
