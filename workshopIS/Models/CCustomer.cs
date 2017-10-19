@@ -26,15 +26,16 @@ namespace workshopIS.Models
         // reference to customer related loans
         private List<ILoan> loans;
 
-        public virtual int Id { get => id; set => id = value; }
+        public virtual int? Id { get => id; set => id = value; }
         public virtual string Phone { get => phone; set => phone = value; }
         public virtual string FirstName { get => firstName; set => firstName = value; }
         public virtual string Surname { get => surname; set => surname = value; }
         public virtual string Email { get => email; set => email = value; }
         public virtual int? ContactState { get => contactState; set => contactState = value; }
-        public virtual int PartnerId { get => partnerId; set => partnerId = value; }
+        public virtual int? PartnerId { get => partnerId; set => partnerId = value; }
         public virtual DateTime CreationDate { get => creationDate; set => creationDate = value; }
         public virtual List<ILoan> Loans { get => loans; set => loans = value; }
+        public virtual CPartner Partner { get; set; }
 
         // Constructors
         /// <summary>
@@ -76,7 +77,7 @@ namespace workshopIS.Models
         }
 
         // Add Loan to list
-        public void AddLoan(ILoan loan)
+        public virtual void AddLoan(ILoan loan)
         {
             // Set child's id
             loan.CustomerID = this.id;

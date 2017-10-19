@@ -8,25 +8,25 @@ namespace workshopIS.Models
     public class CPartner : IPartner, IIsValid
     {
         // mandatory
-        private int id;
+        private int? id;
         private string name;
-        private int ico;
+        private int? ico;
         // mandatory, generated on initializaton
-        private DateTime validFrom;
+        private DateTime? validFrom;
         // optional
         private bool isActive;
         private DateTime? validTo;
         private Byte[] fileData;
         private List<ICustomer> customers;
 
-        public virtual int Id { get => id; set => id = value; }
+        public virtual int? Id { get => id; set => id = value; }
         public virtual string Name { get => name; set => name = value; }
-        public virtual int ICO { get => ico; set => ico = value; }
-        public virtual DateTime ValidFrom { get => validFrom; set => validFrom = value; }
+        public virtual int? ICO { get => ico; set => ico = value; }
+        public virtual DateTime? ValidFrom { get => validFrom; set => validFrom = value; }
         public virtual DateTime? ValidTo { get => validTo; set => validTo = value; }
         public virtual Byte[] FileData { get => fileData; set => fileData = value; }
         public virtual List<ICustomer> Customers { get => customers; set => customers = value; }
-        public virtual bool IsActive { get => isActive; set => isActive = value; }
+        public virtual bool? IsActive { get => isActive; set => isActive = value; }
 
         // constructors
         /// <summary>
@@ -70,7 +70,7 @@ namespace workshopIS.Models
         }
 
         // Add new customer to list
-        public void AddCustomer(ICustomer customer)
+        public virtual void AddCustomer(ICustomer customer)
         {
             customer.PartnerId = this.id;
             customers.Add(customer);

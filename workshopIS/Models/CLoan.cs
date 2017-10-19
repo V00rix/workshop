@@ -11,10 +11,9 @@ namespace workshopIS.Models
         // id is null by default, assigned when is saved to DB
         private int id;
         // mandatory fields
-        private int duration;
-        private int customerId;
-        private decimal amount;
-        private decimal percentage;
+        private int? duration;
+        private decimal? amount;
+        private decimal? percentage;
         // counted
         private decimal? monthlyCharge;
         private decimal? annualCharge;
@@ -22,16 +21,17 @@ namespace workshopIS.Models
         // optional
         private string note = null;
 
-        public virtual int Id { get => id; set => id = value; }
-        public virtual int Duration { get => duration; set => duration = value; }
-        public virtual int CustomerID { get => customerId; set => customerId = value; }
-        public virtual decimal Amount { get => amount; set => amount = value; }
+        public virtual int? Id { get => id; set => id = value; }
+        public virtual int? Duration { get => duration; set => duration = value; }
+        public virtual int? CustomerID { get => customerID; set => customerID = value; }
+        public virtual decimal? Amount { get => amount; set => amount = value; }
         public decimal Percentage { get => percentage; set => percentage = value; }
         public virtual decimal? Interest { get => interest; set => interest = value; }
         public virtual decimal? MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
         public virtual decimal? AnnualCharge { get => annualCharge; set => annualCharge = value; }
         public virtual string Note { get => note; set => note = value; }
-        
+        public virtual CCustomer Customer { get; set; }
+
         // constructors
         /// <summary>
         /// Create new instance of CLoan
