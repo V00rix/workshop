@@ -15,7 +15,7 @@
 
     <property name="Email" />
 
-    <property name="State" />
+    <property name="ContactState" />
 
     <property name="CreationDate" />
 
