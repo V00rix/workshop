@@ -50,11 +50,23 @@ namespace workshopIS.Controllers
         }
 
 
-        [System.Web.Http.Route("api/reports/CallCentre")]
+        [System.Web.Http.Route("api/reports/CallCentre/status")]
 
         public IHttpActionResult GetCallCentrumInfo()
         {
-            return Ok();
+            ISession session = NHibernateHelper.GetCurrentSession();
+            var result = session.Query<CCustomer>().GroupBy(x => x.State).Select(x => new {Status=x.Key, counter = x.Count()}).ToList();
+            return Ok(result);
+
+        }
+        [System.Web.Http.Route("api/reports/CallCentre/status/{id}")]
+
+        public IHttpActionResult GetCallCentrumInfoById(int id)
+        {
+            ISession session = NHibernateHelper.GetCurrentSession();
+            var result = session.Query<CCustomer>().GroupBy(x => x.State).Select(x => new { Status = x.Key, counter = x.Count() }).Where(x=>x.Status.Value==id).ToList();
+            return Ok(result);
+
         }
 
 
