@@ -15,11 +15,13 @@
 
     <property name="Email" />
 
-    <property name="State" />
+    <property name="ContactState" />
 
     <property name="CreationDate" />
 
-    <property name="PartnerId" />
+    <!--<property name="PartnerId" />-->
+
+    <property name="Note" />
 
     <many-to-one name="Partner" column="PartnerId" cascade="none"  />
 
