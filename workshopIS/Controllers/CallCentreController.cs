@@ -29,16 +29,16 @@ namespace workshopIS.Controllers
             //    .Fetch(t => t.Customer).Eager
             //    .List();
 
-            IList<CLoan> test = session.QueryOver<CLoan>()
+            IList<CLoan> query = session.QueryOver<CLoan>()
                         .JoinQueryOver(l => l.Customer)
                         .JoinQueryOver(l => l.Partner).List();
-            var xlsda = test.Select(x => new { loan = x, customer = x.Customer });
-            var loanByPartner = test.GroupBy(t => t.Customer.Partner).Select(t => new { Partner = t.Key.Name, Cnt = t.Count() });
+            var result = query.Select(x => new { loan = x, customer = x.Customer });
 
-            return Request.CreateResponse(HttpStatusCode.OK, xlsda);
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
-        public IHttpActionResult Put([FromBody]CCustomer customer)
+        public IHttpActionResult Put([FromBody]PutCustomer customer)
         {
             ISession session = NHibernateHelper.GetCurrentSession();
 
@@ -46,12 +46,23 @@ namespace workshopIS.Controllers
             {
                 try
                 {
-                    var selectedCustomer = session.QueryOver<CPartner>()
-                        .Where(p => p.Id == customer.Id);
+
+                    ITransaction tx = session.BeginTransaction();
+
+                    CCustomer customerToUpdate = session.Query<CCustomer>()
+                        .Where(p => p.Id == customer.Id).FirstOrDefault();
+
+                    customerToUpdate.State = customer.State;
+
+                    session.Update(customerToUpdate);
+
+                    tx.Commit();
+
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "chyba při komunikaci s databází"));
+                    throw new Exception("",e);
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
                 }
                 finally
                 {
@@ -63,24 +74,10 @@ namespace workshopIS.Controllers
                 return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "neplatně zadané id"));
 
             }
-
-            try
-            {
-                ITransaction tx = session.BeginTransaction();
-                session.Update(customer);
-                tx.Commit();
-            }
-            catch
-            {
-                //throw new Exception("{0} Exception caught.", e);
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "transakce neproběhla správně"));
-            }
-            finally
-            {
-                session.Close();
-            }
             return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, "změna proběhla v pořádku"));
-        }
 
+
+
+        }
     }
 }

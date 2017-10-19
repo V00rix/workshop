@@ -19,7 +19,9 @@
 
     <property name="CreationDate" />
 
-    <property name="PartnerId" />
+    <!--<property name="PartnerId" />-->
+
+    <property name="Note" />
 
     <many-to-one name="Partner" column="PartnerId" cascade="none"  />
 

@@ -50,7 +50,7 @@ namespace workshopIS.Controllers
             {
                 // customer with such phone number 
                 // is not found on selected partner
-                customer = new CCustomer(-1, partnerId, phone);
+                customer = new CCustomer(-1, null, phone);
                 partner.Customers.Add(customer);
             }
 
