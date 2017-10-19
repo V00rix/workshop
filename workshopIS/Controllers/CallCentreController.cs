@@ -15,54 +15,57 @@ namespace workshopIS.Controllers
     {
         public ICallCentreRepository CallCentreRepository { get; set; }
 
+        /// <summary>
+        /// Get all loans with joined custumers and parners
+        /// </summary>
+        /// <returns>HTTP response OK and Ilist of loans</returns>
         public HttpResponseMessage Get()
         {
-        
-            ISession session = NHibernateHelper.GetCurrentSession();
-            /*
-            var results = session.QueryOver<CCustomer>()
-                .Fetch(t => t.Partner).Eager
-                .List();
 
-            var result2 = results.GroupBy(c => c.Partner).Select(c => new { Partner = c.Key, Cnt = c.Count() });
-            session.Close();*/
-            //var result = session.QueryOver<CLoan>()
-            //    .Fetch(t => t.Customer).Eager
-            //    .List();
+            ISession session = NHibernateHelper.GetCurrentSession(); //open or get seasion
 
-            IList<CLoan> query = session.QueryOver<CLoan>()
-                        .JoinQueryOver(l => l.Customer)
-                        .JoinQueryOver(l => l.Partner).List();
+            IList<CLoan> query = session.QueryOver<CLoan>() //select from LOAN
+                        .JoinQueryOver(l => l.Customer) //join CUSTOMER
+                        .JoinQueryOver(l => l.Partner) //join PARTNER
+                        .List();
             var result = query.Select(x => new { loan = x, customer = x.Customer });
+            session.Close();
 
 
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
+        /// <summary>
+        /// Update Customer Contact State
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="ContactState">Contact State from 1 to 3</param>
+        /// <returns>HttpStatusCode</returns>
         public IHttpActionResult Put([FromBody]PutCustomer customer)
         {
-            ISession session = NHibernateHelper.GetCurrentSession();
 
-            if (customer.Id > 0) //verificate ID from put
+
+            if (customer.Id > 0 && customer.ContactState > 0 && customer.ContactState < 4) //verificate input data
             {
                 try
                 {
-
+                    ISession session = NHibernateHelper.GetCurrentSession();
                     ITransaction tx = session.BeginTransaction();
 
-                    CCustomer customerToUpdate = session.Query<CCustomer>()
-                        .Where(p => p.Id == customer.Id).FirstOrDefault();
+                    CCustomer customerToUpdate = session.Query<CCustomer>() //select current customer from DB
+                        .Where(p => p.Id == customer.Id)
+                        .FirstOrDefault();
 
-                    customerToUpdate.ContactState = customer.ContactState;
+                    customerToUpdate.ContactState = customer.ContactState; //set ContactState from PUT entity to DB entity
 
-                    session.Update(customerToUpdate);
+                    session.Update(customerToUpdate); //update customer
 
                     tx.Commit();
 
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("",e);
+                    //throw new Exception("",e);
                     return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
                 }
                 finally
@@ -72,7 +75,7 @@ namespace workshopIS.Controllers
             }
             else
             {
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "neplatně zadané id"));
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "neplatné parametry"));
 
             }
             return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, "změna proběhla v pořádku"));
