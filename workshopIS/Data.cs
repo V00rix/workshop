@@ -10,6 +10,10 @@ namespace workshopIS
     public static class Data
     {
         public static List<IPartner> Partners;
+        private const decimal MIN_LOAN_AMOUNT = 20000;
+        private const decimal MAX_LOAN_AMOUNT = 500000;
+        private const decimal MIN_LOAN_DURATION = 6;
+        private const decimal MAX_LOAN_DURATION = 96;
 
         // Runs on startup
         public static void Initialize()
@@ -28,10 +32,7 @@ namespace workshopIS
             //session.Save(new Message { Body = "dsfsdfsdf", CreationTime = DateTime.Now });
             //tx.Commit();
             var results = session.Query<CPartner>();
-
             Partners = results.ToList<IPartner>();
-            var a = 4;
-
         }
 
         // Fake DB
@@ -39,6 +40,8 @@ namespace workshopIS
         {
             // initialize fake list of partners,
             // customers and loans - all related
+            Partners = new List<IPartner>();
+            /*
             Partners = new List<IPartner>
             {
                 new CPartner
@@ -106,6 +109,29 @@ namespace workshopIS
                     }
                 }
             };
+            */
+        }
+
+        private static int counterP = 0;
+        private static int counterC = 0;
+        private static int counterL = 0;
+
+        internal static int SaveToDB(Object obj)
+        {
+            // not sure if this works
+            /*
+            ISession session = NHibernateHelper.GetCurrentSession();
+            ITransaction tx = session.BeginTransaction();
+            int index = (int)session.Save(obj);
+            tx.Commit();
+            */ // this doesnt work
+            if (obj.GetType() == typeof(CPartner))
+                return counterP++;
+            if (obj.GetType() == typeof(CCustomer))
+                return counterC++;
+            if (obj.GetType() == typeof(CLoan))
+                return counterL++;
+            return 0;
         }
 
         // Partners Methods

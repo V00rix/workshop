@@ -8,12 +8,14 @@ namespace workshopIS.Models
 {
     public interface ILoan
     {
-        int? Id { get; set; }
+        int Id { get; set; }
         int? Duration { get; set; }
         decimal? Amount { get; set; }
+        decimal? Percentage { get; set; }
         decimal? Interest { get; set; }
         decimal? MonthlyCharge { get; set; }
         decimal? AnnualCharge { get; set; }
         string Note { get; set; }
+        ICustomer Customer { get; set; }
     }
 }

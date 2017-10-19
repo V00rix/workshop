@@ -16,23 +16,35 @@ namespace workshopIS.Controllers
     public class RegistrationController : ApiController
     {
         // GET: api/Registration
-        public List<CPartner> Get()
+        public List<IPartner> Get()
         {
+            /* this should be done in Data.Read
             ISession session = NHibernateHelper.GetCurrentSession();
             var results = session.Query<CPartner>();
 
-            return results.ToList<CPartner>();
+            return results.ToList<CPartner>(); */
+
+            return Data.Partners;
         }
 
 
         // POST: api/Registration
-        public IHttpActionResult Post([FromBody]CPartner parner)
+        public IHttpActionResult Post([FromBody]CPartner partner)
         {
-
+            // check this
+            try
+            {
+                Data.Partners.Add(new CPartner(partner.Name, (partner.ICO ?? -1)));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Could not create new CPartner instance!", ex);
+            }
+            /*
             ISession session = NHibernateHelper.GetCurrentSession();
 
             ITransaction tx = session.BeginTransaction();
-            session.Save(parner);
+            session.Save(partner);
             tx.Commit();
 
             using (var webClient = new WebClient())
@@ -40,17 +52,28 @@ namespace workshopIS.Controllers
 
 
             }
+            */
             return Ok();
         }
+
+        //public IHttpActionResult Post([FromBody]int ICO)
+        //{
+        //    return Ok();
+        //}
+
+
 
         // PUT: api/Registration/5
         public void Put(int id, [FromBody]string value)
         {
+            // upade existing Partner
+            // Data.Update(); - not yet implemented
         }
 
         // DELETE: api/Registration/5
         public HttpResponseMessage Delete(int id)
         {
+            // that should also be done in Data.DeletePartner(); - not yet implemented
             try
             {
                 ISession session = NHibernateHelper.GetCurrentSession();
@@ -81,10 +104,10 @@ namespace workshopIS.Controllers
         }
 
 
-        static void GetPartner (int id)
-            {
+        static void GetPartner(int id)
+        {
             //ico of partner
-            }
+        }
 
 
     }

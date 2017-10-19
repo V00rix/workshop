@@ -12,13 +12,15 @@ namespace workshopIS.Models
         string Phone { get; set; }
         List<ILoan> Loans { get; set; }
 
-        int? State { get; set; }
+        int? ContactState { get; set; }
         DateTime? CreationDate { get; set; }
+        IPartner Partner { get; set; }
 
-
-        // optional
+        // optional fields
         string FirstName { get; set; }
         string Surname { get; set; }
         string Email { get; set; }
+
+        void AddLoan(ILoan loan);
     }
 }

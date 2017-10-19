@@ -56,7 +56,7 @@ namespace workshopIS.Controllers
         public IHttpActionResult GetCallCentrumInfo()
         {
             ISession session = NHibernateHelper.GetCurrentSession();
-            var result = session.Query<CCustomer>().GroupBy(x => x.State).Select(x => new {Status=x.Key, counter = x.Count()}).ToList();
+            var result = session.Query<CCustomer>().GroupBy(x => x.ContactState).Select(x => new {Status=x.Key, counter = x.Count()}).ToList();
             return Ok(result);
 
         }
@@ -67,7 +67,7 @@ namespace workshopIS.Controllers
             if (status == 1 || status == 2 || status == 3)
             {
                 ISession session = NHibernateHelper.GetCurrentSession();
-                var result = session.Query<CCustomer>().GroupBy(x => x.State).Select(x => new { Status = x.Key, counter = x.Count() }).Where(x => x.Status.Value == status).ToList();
+                var result = session.Query<CCustomer>().GroupBy(x => x.ContactState).Select(x => new { Status = x.Key, counter = x.Count() }).Where(x => x.Status.Value == status).ToList();
                 if (result.Count == 0)
                 {
                     return Ok("Loans with this status was not found");
