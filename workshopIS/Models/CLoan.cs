@@ -26,6 +26,7 @@ namespace workshopIS.Models
         public virtual decimal? MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
         public virtual decimal? AnnualCharge { get => annualCharge; set => annualCharge = value; }
         public virtual string Note { get => note; set => note = value; }
+        public virtual CCustomer Customer { get; set; }
 
         // constructors
         public CLoan() { }

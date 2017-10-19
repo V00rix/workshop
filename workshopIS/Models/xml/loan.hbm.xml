@@ -22,5 +22,7 @@
     
     <property name="AnnualCharge" />
 
+    <many-to-one name="Customer" column="CustomerID" cascade="none"  />
+
   </class>
 </hibernate-mapping>
