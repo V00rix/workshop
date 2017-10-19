@@ -10,11 +10,13 @@ namespace workshopIS.Models
     {
         int Id { get; set; }
         string Name { get; set; }
-        int? ICO { get; set; }
-        bool? IsActive { get; set; }
-        Byte[] FileData { get; set; }
-        DateTime? ValidFrom { get; set; }
+        int ICO { get; set; }
+        bool IsActive { get; set; }
+        DateTime ValidFrom { get; set; }
         DateTime? ValidTo { get; set; }
+        Byte[] FileData { get; set; }
         List<ICustomer> Customers { get; set; }
+
+        void AddCustomer(ICustomer customer);
     }
 }

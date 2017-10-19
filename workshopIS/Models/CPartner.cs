@@ -5,59 +5,89 @@ using System.Web;
 
 namespace workshopIS.Models
 {
-    public class CPartner : IPartner
+    public class CPartner : IPartner, IIsValid
     {
-        // unique ids container
-        private static List<int> ids = new List<int>();
-
+        // mandatory
         private int id;
         private string name;
-        private int? ico;
-        private DateTime? validFrom;
+        private int ico;
+        // mandatory, generated on initializaton
+        private DateTime validFrom;
+        // optional
+        private bool isActive;
         private DateTime? validTo;
-        private List<ICustomer> customers;
         private Byte[] fileData;
-        private bool? isActive;
+        private List<ICustomer> customers;
 
         public virtual int Id { get => id; set => id = value; }
         public virtual string Name { get => name; set => name = value; }
-        public virtual int? ICO { get => ico; set => ico = value; }
-        public virtual DateTime? ValidFrom { get => validFrom; set => validFrom = value; }
+        public virtual int ICO { get => ico; set => ico = value; }
+        public virtual DateTime ValidFrom { get => validFrom; set => validFrom = value; }
         public virtual DateTime? ValidTo { get => validTo; set => validTo = value; }
         public virtual Byte[] FileData { get => fileData; set => fileData = value; }
         public virtual List<ICustomer> Customers { get => customers; set => customers = value; }
-        public virtual bool? IsActive { get => isActive; set => isActive = value; }
+        public virtual bool IsActive { get => isActive; set => isActive = value; }
 
         // constructors
-        public CPartner() { }
-
-        public CPartner(int id, string name, int? ICO, 
-            DateTime validFrom, DateTime? validTo = null, bool? isActive = true, 
-            Byte[] fileData = null)
+        /// <summary>
+        /// Create new instance of CPartner
+        /// </summary>
+        /// <param name="name">Partner's name</param>
+        /// <param name="ICO">ICO</param>
+        /// <param name="validFrom">Date of validity start</param>
+        /// <param name="validTo">Date of validity end</param>
+        /// <param name="isActive">State of partner's validity</param>
+        /// <param name="fileData">da</param>
+        /// <param name="customers">Customers of the partner</param>
+        public CPartner(string name, int ICO, 
+            DateTime? validFrom = null, DateTime? validTo = null, bool isActive = true, 
+            Byte[] fileData = null, List<ICustomer> customers = null)
         {
-            if (ids.Contains(id))
-                throw new Exception("Partner with such id already exists!");
-            Id = id;
-            Name = name;
+            this.name = name;
             this.ICO = ICO;
-            ValidTo = validTo;
-            IsActive = isActive;
-            FileData = fileData;
+            this.validTo = validTo;
+            this.isActive = isActive;
+            this.fileData = fileData;
+            // check if fields are valid
+            try
+            {
+                IsValid();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Wrong values specified in new CPartner creation!",
+                    ex);
+            }
+            // set ValidFrom
+            this.validFrom = validFrom ?? DateTime.Now;
+            // save to DB and get id
+            this.id = Data.SaveToDB(this);
+            // create new list if argument is null
+            this.customers = customers ?? new List<ICustomer>();
+            // link each loan from list to this customer
+            foreach (ICustomer customer in this.customers)
+                customer.PartnerId = this.id;
         }
 
+        // Add new customer to list
         public void AddCustomer(ICustomer customer)
         {
+            customer.PartnerId = this.id;
             customers.Add(customer);
         }
 
-        // Unique ID generator
-        private int GenerateId()
+        // check for fields validity
+        public bool IsValid()
         {
-            int i = 1;
-            while (ids.Contains(i))
-                i++;
-            ids.Add(i);
-            return i;
+            // ICO check
+            /*
+            if (ICO  null)
+                throw new ArgumentNullException("Name is empty!");
+                */
+            if (Name == null)
+                throw new ArgumentNullException("Name is empty!");
+            // some file check
+            return true;
         }
     }
 }

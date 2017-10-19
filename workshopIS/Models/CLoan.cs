@@ -1,40 +1,92 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
 namespace workshopIS.Models
 {
-    public class CLoan : ILoan // , IComparable
+    public class CLoan : ILoan, IIsValid
     {
-        // unique ids container
-        private static List<int> ids = new List<int>();
+        // id is null by default, assigned when is saved to DB
         private int id;
-        private int? duration;
-        private int? customerID;
-        private decimal? amount;
+        // mandatory fields
+        private int duration;
+        private int customerId;
+        private decimal amount;
         private decimal? interest;
+        // set elsewhere
         private decimal? monthlyCharge;
         private decimal? annualCharge;
-        private string note;
+        // optional
+        private string note = null;
 
         public virtual int Id { get => id; set => id = value; }
-        public virtual int? Duration { get => duration; set => duration = value; }
-        public virtual int? CustomerID { get => customerID; set => customerID = value; }
-        public virtual decimal? Amount { get => amount; set => amount = value; }
+        public virtual int Duration { get => duration; set => duration = value; }
+        public virtual int CustomerID { get => customerId; set => customerId = value; }
+        public virtual decimal Amount { get => amount; set => amount = value; }
         public virtual decimal? Interest { get => interest; set => interest = value; }
         public virtual decimal? MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
         public virtual decimal? AnnualCharge { get => annualCharge; set => annualCharge = value; }
         public virtual string Note { get => note; set => note = value; }
 
         // constructors
-        public CLoan() { }
-
-        public CLoan(decimal amount, int duration, string note = "")
+        /// <summary>
+        /// Create new instance of CLoan
+        /// </summary>
+        /// <param name="amount">Loan amount</param>
+        /// <param name="duration">Loan duration</param>
+        /// <param name="note">Note(s)</param>
+        public CLoan(int customerId, decimal amount, int duration, string note = null)
         {
-            this.amount = amount;
-            this.duration = duration;
+            this.customerId = customerId;
+            try { this.amount = amount; }
+            catch { throw new Exception("Amount was not specified!"); }
+
+            try { this.duration = duration; }
+            catch { throw new Exception("Duration was not specified!"); }
+           
             this.note = note;
+            // check if fields are valid
+            try
+            {
+                IsValid();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Wrong values specified in new CLoan creation!",
+                    ex);
+            }
+            // save to DB and get id
+            this.id = Data.SaveToDB(this);
+        }
+
+        public bool IsValid()
+        {
+            // get constants from configuration
+            decimal minAmount = Decimal.Parse(ConfigurationManager.AppSettings.Get("LOAN_MIN_AMOUNT"));
+            decimal maxAmount = Decimal.Parse(ConfigurationManager.AppSettings.Get("LOAN_MAX_AMOUNT"));
+            decimal minDuration = Decimal.Parse(ConfigurationManager.AppSettings.Get("LOAN_MIN_DURATION"));
+            decimal maxDuration = Decimal.Parse(ConfigurationManager.AppSettings.Get("LOAN_MAX_DURATION"));
+
+            // amount check
+            if (Amount < minAmount)
+                throw new ArgumentException(
+                    "Loan amount is lower than " + minAmount + "!");
+            if (Amount > maxAmount)
+                throw new ArgumentException(
+                    "Loan amount is higher than " + maxAmount + "!");
+
+            // duration check
+            if (Duration < minDuration)
+                throw new ArgumentException(
+                    "Loan duration is lower than " + minDuration + " months!");
+            if (Duration > maxDuration)
+                throw new ArgumentException(
+                    "Loan duration is higher than " + maxDuration + " months!");
+
+            // everything OK
+            return true;
         }
     }
 }
