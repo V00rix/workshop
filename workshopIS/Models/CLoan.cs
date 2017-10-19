@@ -9,7 +9,7 @@ namespace workshopIS.Models
     {
         // unique ids container
         private static List<int> ids = new List<int>();
-        private int id;
+        private int? id;
         private int? duration;
         private int? customerID;
         private decimal? amount;
@@ -18,7 +18,7 @@ namespace workshopIS.Models
         private decimal? annualCharge;
         private string note;
 
-        public virtual int Id { get => id; set => id = value; }
+        public virtual int? Id { get => id; set => id = value; }
         public virtual int? Duration { get => duration; set => duration = value; }
         public virtual int? CustomerID { get => customerID; set => customerID = value; }
         public virtual decimal? Amount { get => amount; set => amount = value; }

@@ -8,7 +8,7 @@ namespace workshopIS.Models
 {
     public interface IPartner
     {
-        int Id { get; set; }
+        int? Id { get; set; }
         string Name { get; set; }
         int? ICO { get; set; }
         bool? IsActive { get; set; }

@@ -19,7 +19,7 @@ namespace workshopIS.Controllers
         {
             ISession session = NHibernateHelper.GetCurrentSession();
 
-            
+
             var results = session.Query<CCustomer>();
 
             return results.ToList<CCustomer>();
@@ -28,9 +28,28 @@ namespace workshopIS.Controllers
         public IHttpActionResult Put([FromBody]CCustomer customer)
         {
             ISession session = NHibernateHelper.GetCurrentSession();
-            if (customer.Id<1)
+
+            if (customer.Id < 1)
             {
-                //dopsat verifikaci
+                try
+                {
+                    ITransaction tx = session.BeginTransaction();
+                    session.Query<CCustomer>();
+                    tx.Commit();
+                }
+                catch (Exception)
+                {
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "chyba při komunikaci s databází"));
+                }
+                finally
+                {
+                    session.Close();
+                }
+            }
+            else
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "neplatně zadané id"));
+
             }
 
             try
@@ -45,9 +64,9 @@ namespace workshopIS.Controllers
             }
             finally
             {
-                //session.Close();
+                session.Close();
             }
-            return Ok();
+            return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, "změna proběhla v pořádku"));
         }
 
     }

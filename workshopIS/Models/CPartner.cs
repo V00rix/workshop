@@ -10,7 +10,7 @@ namespace workshopIS.Models
         // unique ids container
         private static List<int> ids = new List<int>();
 
-        private int id;
+        private int? id;
         private string name;
         private int? ico;
         private DateTime? validFrom;
@@ -19,7 +19,7 @@ namespace workshopIS.Models
         private Byte[] fileData;
         private bool? isActive;
 
-        public virtual int Id { get => id; set => id = value; }
+        public virtual int? Id { get => id; set => id = value; }
         public virtual string Name { get => name; set => name = value; }
         public virtual int? ICO { get => ico; set => ico = value; }
         public virtual DateTime? ValidFrom { get => validFrom; set => validFrom = value; }
@@ -45,7 +45,7 @@ namespace workshopIS.Models
             FileData = fileData;
         }
 
-        public void AddCustomer(ICustomer customer)
+        public virtual void AddCustomer(ICustomer customer)
         {
             customers.Add(customer);
         }
