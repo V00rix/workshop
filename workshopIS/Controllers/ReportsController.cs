@@ -23,7 +23,7 @@ namespace workshopIS.Controllers
     public class ReportsController : ApiController
     {
 
-        [System.Web.Http.Route("api/reports/Loan")]
+        [System.Web.Http.Route("api/reports/Loan/Partner")]
 
         public IHttpActionResult GetLoanInfo()
         {
@@ -46,6 +46,7 @@ namespace workshopIS.Controllers
 
         public IHttpActionResult GetLoanInfoByDate(string dateFrom,string dateTo)
         {
+            //dopsat
             return Ok(dateFrom);
         }
 
@@ -59,38 +60,154 @@ namespace workshopIS.Controllers
             return Ok(result);
 
         }
-        [System.Web.Http.Route("api/reports/CallCentre/status/{id}")]
+        [System.Web.Http.Route("api/reports/CallCentre/status/{status}")]
 
-        public IHttpActionResult GetCallCentrumInfoById(int id)
+        public IHttpActionResult GetCallCentrumInfoById(int status)
         {
-            ISession session = NHibernateHelper.GetCurrentSession();
-            var result = session.Query<CCustomer>().GroupBy(x => x.State).Select(x => new { Status = x.Key, counter = x.Count() }).Where(x=>x.Status.Value==id).ToList();
-            return Ok(result);
+            if (status == 1 || status == 2 || status == 3)
+            {
+                ISession session = NHibernateHelper.GetCurrentSession();
+                var result = session.Query<CCustomer>().GroupBy(x => x.State).Select(x => new { Status = x.Key, counter = x.Count() }).Where(x => x.Status.Value == status).ToList();
+                if (result.Count == 0)
+                {
+                    return Ok("Loans with this status was not found");
+                }
+                return Ok(result);
+
+            }
+            return BadRequest("Status doesnt exist");
 
         }
 
 
 
-        [System.Web.Http.Route("api/reports/Partner")]
+        [System.Web.Http.Route("api/reports/Partners")]
 
         public IHttpActionResult GetPartnerInfo()
         {
-            return Ok();
+            ISession session = NHibernateHelper.GetCurrentSession();
+            try
+            {
+
+                var result = session.Query<CPartner>().Select(x => new { Partners = x });
+
+
+
+                return Ok(result);
+            }
+
+                catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            finally
+            {
+                session.Close();
+            }
         }
 
-        [System.Web.Http.Route("api/reports/{partnerId:int}/Loan")]
+        [System.Web.Http.Route("api/reports/Partners/Count")]
+
+        public IHttpActionResult GetPartnerCount()
+        {
+            ISession session = NHibernateHelper.GetCurrentSession();
+            try
+            {
+
+                var result = session.Query<CPartner>().Select(x => new {Partners = x}).Count();
+                var vysledek = new {soucetPartneru = result};
+
+                return Ok(vysledek);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            finally
+            {
+                session.Close();
+            }
+
+        }
+
+        [System.Web.Http.Route("api/reports/Loan")]
+
+        public IHttpActionResult GetAllLoanInfo()
+        {
+            ISession session = NHibernateHelper.GetCurrentSession();
+            try
+            {
+                var result = session.Query<CLoan>().Select(x => new { Loan = x });
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            finally
+            {
+                session.Close();
+            }
+        }
+
+        [System.Web.Http.Route("api/reports/Loan/Count")]
+
+        public IHttpActionResult GetLoanCount()
+        {
+            ISession session = NHibernateHelper.GetCurrentSession();
+            try
+            {
+                var result = session.Query<CLoan>().Select(x => new {Loan = x}).Count();
+                var vysledek = new {soucetPujcek = result};
+
+                return Ok(vysledek);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            finally
+            {
+                session.Close();
+            }
+
+        }
+
+        [System.Web.Http.Route("api/reports/Loan/Partner/{partnerId:int}")]
 
         public IHttpActionResult GetLoanByPartnerInfo(int partnerId)
         {
             ISession session = NHibernateHelper.GetCurrentSession();
-            IList<CLoan> test = session.QueryOver<CLoan>()
-                .JoinQueryOver(l => l.Customer)
-                .JoinQueryOver(l => l.Partner).List();
+            try
+            {
+                IList<CLoan> test = session.QueryOver<CLoan>()
+                    .JoinQueryOver(l => l.Customer)
+                    .JoinQueryOver(l => l.Partner).List();
 
-            //var vysledek=test.Select(x => new {customer=x.Customer,loan=x});
+                //var vysledek=test.Select(x => new {customer=x.Customer,loan=x});
 
-            var loanByPartner = test.GroupBy(t => t.Customer.Partner).Select(t => new { Partner = t.Key.Id, Cnt = t.Count() }).Where(x=>x.Partner==partnerId);
-            return Ok(loanByPartner);
+                var loanByPartner = test.GroupBy(t => t.Customer.Partner)
+                    .Select(t => new {Partner = t.Key.Id, Cnt = t.Count()}).Where(x => x.Partner == partnerId);
+                if (loanByPartner.Count() == 0)
+                {
+                    return Ok("Selected partner doesnt exist");
+                }
+
+                return Ok(loanByPartner);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            finally
+            {
+                
+            }
+
         }
 
 
