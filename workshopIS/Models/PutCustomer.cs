@@ -9,12 +9,12 @@ namespace workshopIS.Models
     {
 
         private int? id;
-        private int? state;
+        private int? contactState;
 
 
         public virtual int? Id { get => id; set => id = value; }
 
-        public virtual int? State { get => state; set => state = value; }
+        public virtual int? ContactState { get => contactState; set => contactState = value; }
 
         
     }

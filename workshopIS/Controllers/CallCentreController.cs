@@ -52,7 +52,7 @@ namespace workshopIS.Controllers
                     CCustomer customerToUpdate = session.Query<CCustomer>()
                         .Where(p => p.Id == customer.Id).FirstOrDefault();
 
-                    customerToUpdate.State = customer.State;
+                    customerToUpdate.ContactState = customer.ContactState;
 
                     session.Update(customerToUpdate);
 
