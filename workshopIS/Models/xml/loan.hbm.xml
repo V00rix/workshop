@@ -12,8 +12,6 @@
 
     <property name="Duration" />
 
-    <property name="CustomerID" />
-
     <property name="Note" />
 
     <property name="Interest" />
