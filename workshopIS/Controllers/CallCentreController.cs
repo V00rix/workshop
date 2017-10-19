@@ -17,6 +17,7 @@ namespace workshopIS.Controllers
 
         public HttpResponseMessage Get()
         {
+        
             ISession session = NHibernateHelper.GetCurrentSession();
             /*
             var results = session.QueryOver<CCustomer>()
