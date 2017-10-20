@@ -18,13 +18,13 @@ namespace workshopIS
         // Runs on startup
         public static void Initialize()
         {
-            // ReadDataFromDatabase(); 
+            ReadDataFromDatabase(); 
 
-            FakeDatabase();
+            //FakeDatabase();
         }
 
         // DATABASE CODE BELOW
-        private static void ReadDataFromDatabase()
+        public static void ReadDataFromDatabase()
         {
             ISession session = NHibernateHelper.GetCurrentSession();
 
@@ -33,88 +33,17 @@ namespace workshopIS
             //tx.Commit();
             var results = session.Query<CPartner>();
             Partners = results.ToList<IPartner>();
-        }
-
-        // Fake DB
-        public static void FakeDatabase()
-        {
-            // initialize fake list of partners,
-            // customers and loans - all related
-            Partners = new List<IPartner>();
-            /*
-            Partners = new List<IPartner>
+            foreach (IPartner partner in Partners)
             {
-                new CPartner
+                partner.Customers = session.Query<CCustomer>().ToList<ICustomer>();
+                foreach (ICustomer customer in partner.Customers)
                 {
-                    Id = 1,
-                    Name = "Partner John",
-                    ICO = 7891,
-                    Customers = new List<ICustomer>
-                    {
-                        new CCustomer
-                        {
-                            Id = 1,
-                            FirstName = "Customer Bob",
-                            Loans = new List<ILoan>
-                            {
-                                new CLoan
-                                {
-                                    Id = 1,
-                                    Amount = 40000,
-                                    Duration = 10
-                                },
-                                new CLoan
-                                {
-                                    Id = 10,
-                                    Amount = 200000,
-                                    Duration = 50
-                                },
-                                new CLoan
-                                {
-                                    Id = 7,
-                                    Amount = 50000,
-                                    Duration = 960
-                                }
-                            }
-                        },
-                        new CCustomer
-                        {
-                            Id = 2,
-                            FirstName = "Customer Cob"
-                        },
-                        new CCustomer
-                        {
-                            Id = 3,
-                            FirstName = "Customer Hello World"
-                        }
-                    }
-                },
-                new CPartner
-                {
-                    Id = 2,
-                    Name = "Partner Lawn",
-                    ICO = 32213,
-                    Customers = new List<ICustomer>
-                    {
-                        new CCustomer
-                        {
-                            Id = 6,
-                            FirstName = "Second Partner Customer"
-                        },
-                        new CCustomer
-                        {
-                            Id = 13,
-                            FirstName = "Friday"
-                        }
-                    }
+                    customer.Loans = session.Query<CLoan>().ToList<ILoan>();
                 }
-            };
-            */
+            }
+            session.Close();
         }
 
-        private static int counterP = 0;
-        private static int counterC = 0;
-        private static int counterL = 0;
 
         /// <summary>
         /// save object into DB

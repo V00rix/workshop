@@ -31,6 +31,9 @@ namespace workshopIS.Controllers
             var result = query.Select(x => new { loan = x, customer = x.Customer });
             session.Close();
 
+            /*
+            Data.ReadDataFromDatabase();
+            var results = Data.Partners; */
 
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }

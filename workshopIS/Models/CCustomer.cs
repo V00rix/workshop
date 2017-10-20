@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -34,6 +35,7 @@ namespace workshopIS.Models
         public virtual int? ContactState { get => contactState; set => contactState = value; }
         public virtual DateTime? CreationDate { get => creationDate; set => creationDate = value; }
         public virtual List<ILoan> Loans { get => loans; set => loans = value; }
+        //[JsonIgnore]
         public virtual CPartner Partner { get => partner; set => partner = value; }
 
         // Constructors

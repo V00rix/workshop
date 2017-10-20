@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace workshopIS.Models
         public virtual decimal? MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
         public virtual decimal? AnnualCharge { get => annualCharge; set => annualCharge = value; }
         public virtual string Note { get => note; set => note = value; }
+        [JsonIgnore]
         public virtual CCustomer Customer { get => customer; set => customer = value; }
 
         // constructors
