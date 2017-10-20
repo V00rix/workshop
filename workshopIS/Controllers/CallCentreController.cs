@@ -32,7 +32,7 @@ namespace workshopIS.Controllers
             //session.Close();
 
             // and comment this out
-            Data.ReadDataFromDatabase();
+            Data.ReadDataFromDatabase(); //read data from DB
             List<IPartner> results = Data.Partners; 
             //
             return Request.CreateResponse(HttpStatusCode.OK, results);
