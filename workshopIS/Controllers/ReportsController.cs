@@ -34,7 +34,7 @@ namespace workshopIS.Controllers
                     {
                         Partner = t.Key.Id,
                         LoansByState = t.GroupBy(x => x.Customer.ContactState)
-                            .Select(x => new {ContactState = x.Key, Loans = x.ToList()})
+                            .Select(x => new {ContactState = x.Key, Loans = x.ToList().Count})
                     });
 
                 return Ok(loanByPartner);
@@ -69,7 +69,7 @@ namespace workshopIS.Controllers
                     {
                         Partner = t.Key.Id,
                         LoansByState = t.GroupBy(x => x.Customer.ContactState)
-                            .Select(x => new {ContactState = x.Key, Loans = x.ToList()})
+                            .Select(x => new {ContactState = x.Key, Loans = x.ToList().Count })
                     });
 
 
