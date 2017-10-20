@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using NHibernate.Util;
 using workshopIS.Helpers;
+using ServiceStack.Text;
 
 namespace workshopIS.Controllers
 {
@@ -69,19 +70,34 @@ namespace workshopIS.Controllers
         public IHttpActionResult GetLoanByCsv()
         {
             ISession session = NHibernateHelper.GetCurrentSession();
+            try
+            {
+                IList<CLoan> test = session.QueryOver<CLoan>()
+                    .JoinQueryOver(l => l.Customer)
+                    .JoinQueryOver(l => l.Partner).List();
 
-            IList<CLoan> test = session.QueryOver<CLoan>()
-                .JoinQueryOver(l => l.Customer)
-                .JoinQueryOver(l => l.Partner).List();
+                var loanByPartner = test.GroupBy(t => t.Customer.Partner)
+                    .Select(t => new
+                    {
+                        Partner = t.Key.Id,
+                        LoansByState = t.GroupBy(x => x.Customer.ContactState)
+                            .Select(x => new {ContactState = x.Key, Loans = x.ToList()})
+                    });
 
-            var loanByPartner = test.GroupBy(t => t.Customer.Partner)
-                .Select(t => new { Partner = t.Key.Id, LoansByState = t.GroupBy(x => x.Customer.ContactState).Select(x => new { ContactState = x.Key, Loans = x.ToList() }) });
 
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            string json = js.Serialize(loanByPartner);
-            JsonToCsv.jsonStringToCSV(json);
+                var report = CsvSerializer.SerializeToCsv(loanByPartner);
 
-            return Ok();
+                return BadRequest(report);
+
+            }
+            catch
+            {
+                return BadRequest("Proste fail");
+            }
+            finally
+            {
+                session.Close();
+            }
 
         }
         /// <summary>
@@ -104,8 +120,50 @@ namespace workshopIS.Controllers
                 IList<CLoan> test = session.QueryOver<CLoan>()
                     .JoinQueryOver(l => l.Customer)
                     .JoinQueryOver(l => l.Partner).List();
-                var query = test.Where(x => x.Customer.CreationDate >= DateFrom && x.Customer.CreationDate <= DateTo);
+                var query = test.Where(x => x.Customer.CreationDate >= DateFrom && x.Customer.CreationDate <= DateTo).ToList();
+                if (query.Count == 0)
+                {
+                    return BadRequest("Loans between these dates was not found");
+                }
                 return Ok(query);
+            }
+            catch
+            {
+                return BadRequest("bad request");
+            }
+            finally
+            {
+                session.Close();
+            }
+        }
+
+        /// <summary>
+        /// return loans by createdate in csv
+        /// </summary>
+        /// <param name="dateFrom">dateFrom for filter</param>
+        /// <param name="dateTo">dateTo for filter</param>
+        /// <returns></returns>
+        [System.Web.Http.Route("api/reports/Loan/Csv")]
+
+        public IHttpActionResult GetLoanInfoByDateCsv(string dateFrom, string dateTo)
+        {
+            ISession session = NHibernateHelper.GetCurrentSession();
+            try
+            {
+                DateTime DateFrom = DateTime.Parse(dateFrom);
+                DateTime DateTo = DateTime.Parse(dateTo);
+
+
+                IList<CLoan> test = session.QueryOver<CLoan>()
+                    .JoinQueryOver(l => l.Customer)
+                    .JoinQueryOver(l => l.Partner).List();
+                var query = test.Where(x => x.Customer.CreationDate >= DateFrom && x.Customer.CreationDate <= DateTo).ToList();
+                if (query.Count == 0)
+                {
+                    return BadRequest("Loans between these dates was not found");
+                }
+                var report = CsvSerializer.SerializeToCsv(query);
+                return Ok(report);
             }
             catch
             {
