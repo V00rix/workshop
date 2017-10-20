@@ -43,12 +43,19 @@ namespace workshopIS.Controllers
                 partner.AddCustomer(customer);
             }
             // ...and new Loan
-            loan = new CLoan(customer, loanData.amount, loanData.duration, loanData.percenatge, loanData.note);
+            loan = new CLoan(customer, loanData.amount, loanData.duration, loanData.interest, loanData.note);
             // add to customer
             customer.AddLoan(loan);
 
             // return status
-            return Ok();
+            return Ok("Added new loan to customer " + 
+                (customer.FirstName != null ? customer.FirstName + " " : "") +
+                (customer.Surname != null ? customer.Surname + " " : "") +
+                customer.Phone + ".\n" +
+                "\tLoan:\n" +
+                "\t\tAmount:" + loan.Amount + ". Duration: " + loan.Duration + ".\n" +
+                "\t\tMonthly charge: " + loan.MonthlyCharge + ".\n" +
+                "\t\tAnnual percentage rate:" + loan.APR + "." );
         }
 
         // GET: api/calculator
@@ -69,7 +76,7 @@ namespace workshopIS.Controllers
         public int? partnerId;
         public string phone;
         public decimal amount;
-        public decimal percenatge = 0;
+        public decimal interest = 0.1M;
         public int duration;
         public string firstName = null;
         public string surname = null;

@@ -14,11 +14,10 @@ namespace workshopIS.Models
         // mandatory fields
         private int? duration;
         private decimal? amount;
-        private decimal? percentage;
         private CCustomer customer;
         // counted
         private decimal? monthlyCharge;
-        private decimal? annualCharge;
+        private decimal? apr;
         private decimal? interest;
         // optional
         private string note = null;
@@ -26,10 +25,9 @@ namespace workshopIS.Models
         public virtual int Id { get => id; set => id = value; }
         public virtual int? Duration { get => duration; set => duration = value; }
         public virtual decimal? Amount { get => amount; set => amount = value; }
-        public virtual decimal? Percentage { get => percentage; set => percentage = value; }
         public virtual decimal? Interest { get => interest; set => interest = value; }
         public virtual decimal? MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
-        public virtual decimal? AnnualCharge { get => annualCharge; set => annualCharge = value; }
+        public virtual decimal? APR { get => apr; set => apr = value; }
         public virtual string Note { get => note; set => note = value; }
         [JsonIgnore]
         public virtual CCustomer Customer { get => customer; set => customer = value; }
@@ -43,7 +41,7 @@ namespace workshopIS.Models
         /// <param name="note">Note(s)</param>
 
         public CLoan() { }
-        public CLoan(CCustomer customer, decimal amount, int duration, decimal percentage, string note = null)
+        public CLoan(CCustomer customer, decimal amount, int duration, decimal interest, string note = null)
         {
             this.customer = customer;
             try { this.amount = amount; }
@@ -52,7 +50,7 @@ namespace workshopIS.Models
             try { this.duration = duration; }
             catch { throw new Exception("Duration was not specified!"); }
 
-            try { this.percentage = percentage; }
+            try { this.interest = interest; }
             catch { throw new Exception("Percentage was not specified!"); }
 
             this.note = note;
@@ -67,9 +65,10 @@ namespace workshopIS.Models
                     ex);
             }
             // count monthly charge, annual charge and interest
-            monthlyCharge = (amount / duration) * (1 + this.percentage);
-            // some formula for annualCharge 
-            interest = 
+            monthlyCharge = (amount / duration) * (1M + this.interest);
+            // some formula for annual percentage rate 
+            apr = (decimal)((double)(amount * interest * 12 * (decimal)Math.Pow((double)(1M + (this.interest ?? 0.1M)), duration)) /
+                (double)Math.Pow((double)(1 + interest), duration));
             // save to DB and get id
             this.id = Data.SaveToDB(this);
         }

@@ -18,15 +18,8 @@ namespace workshopIS.Controllers
         // GET: api/Registration
         public List<IPartner> Get()
         {
-            /* this should be done in Data.Read
-            ISession session = NHibernateHelper.GetCurrentSession();
-            var results = session.Query<CPartner>();
-
-            return results.ToList<CPartner>(); */
-
             return Data.Partners;
         }
-
 
         // POST: api/Registration
         public IHttpActionResult Post([FromBody]CPartner partner)
@@ -41,19 +34,10 @@ namespace workshopIS.Controllers
             catch 
             {
                 return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
-
             }
-
+            Data.Partners.Add(partner);
             return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, "úspěšně vloženo"));
-
         }
-
-        //public IHttpActionResult Post([FromBody]int ICO)
-        //{
-        //    return Ok();
-        //}
-
-
 
         // PUT: api/Registration/5
         public void Put(int id, [FromBody]string value)
@@ -98,10 +82,6 @@ namespace workshopIS.Controllers
                 return result;
 
             }
-
         }
-
-
-
     }
 }

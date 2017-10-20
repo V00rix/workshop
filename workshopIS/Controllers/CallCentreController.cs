@@ -28,12 +28,13 @@ namespace workshopIS.Controllers
             //            .JoinQueryOver(l => l.Customer) //join CUSTOMER
             //            .JoinQueryOver(l => l.Partner) //join PARTNER
             //            .List();
-            //var result = query.Select(x => new { loan = x, customer = x.Customer });
+            //var results = query.Select(x => new { loan = x, customer = x.Customer });
             //session.Close();
 
+            // and comment this out
             Data.ReadDataFromDatabase();
             List<IPartner> results = Data.Partners; 
-
+            //
             return Request.CreateResponse(HttpStatusCode.OK, results);
         }
 
@@ -45,8 +46,6 @@ namespace workshopIS.Controllers
         /// <returns>HttpStatusCode</returns>
         public IHttpActionResult Put([FromBody]PutCustomer customer)
         {
-
-
             if (customer.Id > 0 && customer.ContactState > 0 && customer.ContactState < 4) //verificate input data
             {
                 ISession session = NHibernateHelper.GetCurrentSession();
@@ -81,9 +80,6 @@ namespace workshopIS.Controllers
 
             }
             return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, "změna proběhla v pořádku"));
-
-
-
         }
     }
 }
