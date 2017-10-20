@@ -14,6 +14,9 @@ namespace workshopIS.Controllers
         /// Create new customer from post
         /// </summary>
         /// <param name="loanData">Requested data</param>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="500">Internal Server Error</response>
         /// <returns>Status</returns>
         public IHttpActionResult Post([FromBody]LoanData loanData)
         {
