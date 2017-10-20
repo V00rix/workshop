@@ -16,12 +16,28 @@ using workshopIS.Helpers;
 using workshopIS.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
+using NHibernate.Util;
 using workshopIS.Helpers;
 
 namespace workshopIS.Controllers
 {
     public class ReportsController : ApiController
     {
+
+        [System.Web.Http.Route("api/reports/Loan/Partner/pokus")]
+
+        public IHttpActionResult GetLoanInfX()
+        {
+            ISession session = NHibernateHelper.GetCurrentSession();
+            IList<CLoan> query = session.QueryOver<CLoan>() //select from LOAN
+                .JoinQueryOver(l => l.Customer) //join CUSTOMER
+                .JoinQueryOver(l => l.Partner) //join PARTNER
+                .List();
+
+
+            return Ok(query);
+        }
+
 
         [System.Web.Http.Route("api/reports/Loan/Partner")]
 
@@ -36,18 +52,36 @@ namespace workshopIS.Controllers
                                     .JoinQueryOver(l => l.Customer)
                                     .JoinQueryOver(l => l.Partner).List();
 
-            var loanByPartner = test.GroupBy(t => t.Customer.Partner).Select(t => new {Partner = t.Key.Name, Cnt = t.Count()});
+            var loanByPartner = test.GroupBy(t => t.Customer.Partner)
+                .Select(t => new {Partner = t.Key.Id, LoansByState = t.GroupBy(x=>x.Customer.ContactState).Select(x=>new {ContactState=x.Key,Loans=x.ToList()})});
+
+            //GroupBy(y=>y.loan.Select(x=>x.Customer.ContactState)).Select(x=>new {customerx=x.Key});
+
 
             return Ok(loanByPartner);
 
         }
 
-        [System.Web.Http.Route("api/reports/Loan/{dateFrom}/{dateTo}")]
+        [System.Web.Http.Route("api/reports/Loan")]
 
         public IHttpActionResult GetLoanInfoByDate(string dateFrom,string dateTo)
         {
+            DateTime DateFrom=DateTime.Parse(dateFrom);
+            DateTime DateTo = DateTime.Parse(dateTo);
+            ISession session = NHibernateHelper.GetCurrentSession();
+            //var test = session.QueryOver<CLoan>().JoinQueryOver(x=>x.Customer).IsBetween(X).List();
+            IList<CLoan> test = session.QueryOver<CLoan>()
+                .JoinQueryOver(l => l.Customer)
+                .JoinQueryOver(l => l.Partner).List();
+            var query=test.Where(x=>x.Customer.CreationDate>= DateFrom && x.Customer.CreationDate <= DateTo);
             //dopsat
-            return Ok(dateFrom);
+
+
+
+
+
+
+            return Ok(query);
         }
 
 
@@ -190,10 +224,11 @@ namespace workshopIS.Controllers
                 //var vysledek=test.Select(x => new {customer=x.Customer,loan=x});
 
                 var loanByPartner = test.GroupBy(t => t.Customer.Partner)
-                    .Select(t => new {Partner = t.Key.Id, Cnt = t.Count()}).Where(x => x.Partner == partnerId);
-                if (loanByPartner.Count() == 0)
+                    .Select(t => new {Partner = t.Key.Id, Cnt = t.Count()}).FirstOrDefault(x => x.Partner == partnerId);
+
+                if (loanByPartner==null)
                 {
-                    return Ok("Selected partner doesnt exist");
+                    return BadRequest("Selected partner doesnt exist");
                 }
 
                 return Ok(loanByPartner);
@@ -205,7 +240,8 @@ namespace workshopIS.Controllers
             }
             finally
             {
-                
+                session.Close();
+
             }
 
         }
