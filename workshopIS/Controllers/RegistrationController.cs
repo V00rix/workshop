@@ -64,6 +64,7 @@ namespace workshopIS.Controllers
                 {
                     ITransaction tx = session.BeginTransaction();
                     partner.IsActive = false;
+                    partner.ValidTo = DateTime.Now;
                     tx.Commit();
                     HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.OK, "Partner moved to inactive state");
                     return result;
