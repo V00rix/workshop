@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using workshopIS.Helpers;
 using workshopIS.Models;
 using System.Linq;
+using System.Net.Http;
+using System.Web.Http;
+using System.Net;
 
 namespace workshopIS
 {
@@ -14,6 +17,29 @@ namespace workshopIS
         private const decimal MAX_LOAN_AMOUNT = 500000;
         private const decimal MIN_LOAN_DURATION = 6;
         private const decimal MAX_LOAN_DURATION = 96;
+
+        internal static HttpResponseMessage GetCallCentreResults()
+        {
+            ISession session = NHibernateHelper.GetCurrentSession();
+            /*
+            var results = session.QueryOver<CCustomer>()
+                .Fetch(t => t.Partner).Eager
+                .List();
+
+            var result2 = results.GroupBy(c => c.Partner).Select(c => new { Partner = c.Key, Cnt = c.Count() });
+            session.Close();*/
+            //var result = session.QueryOver<CLoan>()
+            //    .Fetch(t => t.Customer).Eager
+            //    .List();
+
+            //IList<CLoan> query = session.QueryOver<CLoan>()
+            //            .JoinQueryOver(l => l.Customer)
+            //            .JoinQueryOver(l => l.Partner).List();
+            //var result = query.Select(x => new { loan = x, customer = x.Customer });
+
+            throw new NotImplementedException();
+            //return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
 
         // Runs on startup
         public static void Initialize()
