@@ -31,29 +31,21 @@ namespace workshopIS.Controllers
         // POST: api/Registration
         public IHttpActionResult Post([FromBody]CPartner partner)
         {
+            partner.IsActive = true;
+            partner.ValidFrom = DateTime.Now;
             // check this
             try
             {
-                Data.Partners.Add(new CPartner(/*partner.Name, (partner.ICO ?? -1)*/));
+                Data.SaveToDB(partner);
             }
-            catch (Exception ex)
+            catch 
             {
-                throw new Exception("Could not create new CPartner instance!", ex);
-            }
-            /*
-            ISession session = NHibernateHelper.GetCurrentSession();
-
-            ITransaction tx = session.BeginTransaction();
-            session.Save(partner);
-            tx.Commit();
-
-            using (var webClient = new WebClient())
-            {
-
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
 
             }
-            */
-            return Ok();
+
+            return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, "úspěšně vloženo"));
+
         }
 
         //public IHttpActionResult Post([FromBody]int ICO)

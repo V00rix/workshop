@@ -47,9 +47,9 @@ namespace workshopIS.Controllers
 
             if (customer.Id > 0 && customer.ContactState > 0 && customer.ContactState < 4) //verificate input data
             {
+                ISession session = NHibernateHelper.GetCurrentSession();
                 try
                 {
-                    ISession session = NHibernateHelper.GetCurrentSession();
                     ITransaction tx = session.BeginTransaction();
 
                     CCustomer customerToUpdate = session.Query<CCustomer>() //select current customer from DB
