@@ -45,7 +45,8 @@ namespace workshopIS.Models
         /// <param name="firstName">Customer's first name</param>
         /// <param name="surname">Customer's surname</param>
         /// <param name="email">Customer's e-mail adress</param>
-         /*
+        public CCustomer() { } 
+
         public CCustomer(CPartner partner, string phone, string firstName = null,
                         string surname = null, string email = null, 
                         List<ILoan> loans = null)
@@ -74,7 +75,7 @@ namespace workshopIS.Models
             // link each loan from list to this customer
             foreach (ILoan loan in this.loans)
                 loan.Customer = this;
-        }*/
+        }
 
         // Add Loan to list
         public virtual void AddLoan(ILoan loan)

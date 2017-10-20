@@ -39,7 +39,8 @@ namespace workshopIS.Models
         /// <param name="amount">Loan amount</param>
         /// <param name="duration">Loan duration</param>
         /// <param name="note">Note(s)</param>
-        /*
+
+        public CLoan() { }
         public CLoan(CCustomer customer, decimal amount, int duration, decimal percentage, string note = null)
         {
             this.customer = customer;
@@ -68,7 +69,7 @@ namespace workshopIS.Models
             // some formula for annualCharge 
             // save to DB and get id
             this.id = Data.SaveToDB(this);
-        }*/
+        }
 
         public virtual bool IsValid()
         {
