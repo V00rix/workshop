@@ -47,7 +47,9 @@ namespace workshopIS.Models
         /// <param name="firstName">Customer's first name</param>
         /// <param name="surname">Customer's surname</param>
         /// <param name="email">Customer's e-mail adress</param>
-        public CCustomer() { } 
+        public CCustomer() {
+            loans = new List<ILoan>();
+        } 
 
         public CCustomer(CPartner partner, string phone, string firstName = null,
                         string surname = null, string email = null, 

@@ -42,6 +42,7 @@ namespace workshopIS.Models
         /// <param name="customers">Customers of the partner</param>
 
         public CPartner() {
+            customers = new List<ICustomer>();
         }
         public CPartner(string name, int ICO, 
             DateTime? validFrom = null, DateTime? validTo = null, bool isActive = true, 
