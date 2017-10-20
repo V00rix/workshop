@@ -32,13 +32,13 @@ namespace workshopIS
             //    .Fetch(t => t.Customer).Eager
             //    .List();
 
-            IList<CLoan> query = session.QueryOver<CLoan>()
-                        .JoinQueryOver(l => l.Customer)
-                        .JoinQueryOver(l => l.Partner).List();
-            var result = query.Select(x => new { loan = x, customer = x.Customer });
+            //IList<CLoan> query = session.QueryOver<CLoan>()
+            //            .JoinQueryOver(l => l.Customer)
+            //            .JoinQueryOver(l => l.Partner).List();
+            //var result = query.Select(x => new { loan = x, customer = x.Customer });
 
-
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            throw new NotImplementedException();
+            //return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // Runs on startup
