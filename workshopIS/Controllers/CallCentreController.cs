@@ -21,21 +21,20 @@ namespace workshopIS.Controllers
         /// <returns>HTTP response OK and Ilist of loans</returns>
         public HttpResponseMessage Get()
         {
+            //uncoment when you need date in revert format and delete [JsonIgnore] from CCustomer
+            //ISession session = NHibernateHelper.GetCurrentSession(); //open or get seasion
 
-            ISession session = NHibernateHelper.GetCurrentSession(); //open or get seasion
+            //IList<CLoan> query = session.QueryOver<CLoan>() //select from LOAN
+            //            .JoinQueryOver(l => l.Customer) //join CUSTOMER
+            //            .JoinQueryOver(l => l.Partner) //join PARTNER
+            //            .List();
+            //var result = query.Select(x => new { loan = x, customer = x.Customer });
+            //session.Close();
 
-            IList<CLoan> query = session.QueryOver<CLoan>() //select from LOAN
-                        .JoinQueryOver(l => l.Customer) //join CUSTOMER
-                        .JoinQueryOver(l => l.Partner) //join PARTNER
-                        .List();
-            var result = query.Select(x => new { loan = x, customer = x.Customer });
-            session.Close();
-
-            /*
             Data.ReadDataFromDatabase();
-            var results = Data.Partners; */
+            List<IPartner> results = Data.Partners; 
 
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.OK, results);
         }
 
         /// <summary>

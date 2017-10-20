@@ -35,7 +35,7 @@ namespace workshopIS.Models
         public virtual int? ContactState { get => contactState; set => contactState = value; }
         public virtual DateTime? CreationDate { get => creationDate; set => creationDate = value; }
         public virtual List<ILoan> Loans { get => loans; set => loans = value; }
-        //[JsonIgnore]
+        [JsonIgnore]
         public virtual CPartner Partner { get => partner; set => partner = value; }
 
         // Constructors
