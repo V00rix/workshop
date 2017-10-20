@@ -67,8 +67,9 @@ namespace workshopIS.Models
                     ex);
             }
             // count monthly charge, annual charge and interest
-            monthlyCharge = (amount / duration) * this.percentage;
+            monthlyCharge = (amount / duration) * (1 + this.percentage);
             // some formula for annualCharge 
+            interest = 
             // save to DB and get id
             this.id = Data.SaveToDB(this);
         }
