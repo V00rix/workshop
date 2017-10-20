@@ -39,12 +39,6 @@ namespace workshopIS.Controllers
             return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, "úspěšně vloženo"));
         }
 
-        // PUT: api/Registration/5
-        public void Put(int id, [FromBody]string value)
-        {
-            // upade existing Partner
-            // Data.Update(); - not yet implemented
-        }
 
         // DELETE: api/Registration/5
         public HttpResponseMessage Delete(int id)

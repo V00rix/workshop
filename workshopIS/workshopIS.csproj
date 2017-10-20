@@ -192,7 +192,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CalculatorController.cs" />
     <Compile Include="Controllers\CallCentreController.cs" />
-    <Compile Include="Controllers\DataBaseTestController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Data.cs" />
