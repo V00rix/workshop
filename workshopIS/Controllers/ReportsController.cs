@@ -1,24 +1,10 @@
 ﻿using NHibernate;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using System.Xml;
-using System.Xml.Serialization;
-using NHibernate.Criterion;
 using workshopIS.Helpers;
 using workshopIS.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
-using NHibernate.Util;
-using workshopIS.Helpers;
 using ServiceStack.Text;
 
 namespace workshopIS.Controllers
