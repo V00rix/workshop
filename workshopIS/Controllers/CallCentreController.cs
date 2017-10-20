@@ -17,26 +17,7 @@ namespace workshopIS.Controllers
 
         public HttpResponseMessage Get()
         {
-        
-            ISession session = NHibernateHelper.GetCurrentSession();
-            /*
-            var results = session.QueryOver<CCustomer>()
-                .Fetch(t => t.Partner).Eager
-                .List();
-
-            var result2 = results.GroupBy(c => c.Partner).Select(c => new { Partner = c.Key, Cnt = c.Count() });
-            session.Close();*/
-            //var result = session.QueryOver<CLoan>()
-            //    .Fetch(t => t.Customer).Eager
-            //    .List();
-
-            IList<CLoan> query = session.QueryOver<CLoan>()
-                        .JoinQueryOver(l => l.Customer)
-                        .JoinQueryOver(l => l.Partner).List();
-            var result = query.Select(x => new { loan = x, customer = x.Customer });
-
-
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Data.GetCallCentreResults();
         }
 
         public IHttpActionResult Put([FromBody]PutCustomer customer)
