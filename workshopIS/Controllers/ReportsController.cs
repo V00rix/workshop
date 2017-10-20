@@ -8,7 +8,9 @@ using workshopIS.Models;
 using ServiceStack.Text;
 
 namespace workshopIS.Controllers
-{
+{/// <summary>
+/// Reports class
+/// </summary>
     public class ReportsController : ApiController
     {
 
@@ -16,7 +18,7 @@ namespace workshopIS.Controllers
         /// return all loans by partner grouped by state
         /// </summary>
         /// <returns>return all loans by partner grouped by state </returns>
-        [System.Web.Http.Route("api/reports/Loan/Partner")]
+        [System.Web.Http.Route("api/reports/loan/partner")]
         
         public IHttpActionResult GetLoanInfo()
         {
@@ -51,7 +53,7 @@ namespace workshopIS.Controllers
         /// return all loans by partner grouped by state, not works correctly
         /// </summary>
         /// <returns>return all loans by partner grouped by state in CSV</returns>
-        [System.Web.Http.Route("api/reports/Loan/Partner/Csv")]
+        [System.Web.Http.Route("api/reports/loan/partner/csv")]
 
         public IHttpActionResult GetLoanByCsv()
         {
@@ -92,7 +94,7 @@ namespace workshopIS.Controllers
         /// <param name="dateFrom">dateFrom for filter</param>
         /// <param name="dateTo">dateTo for filter</param>
         /// <returns></returns>
-        [System.Web.Http.Route("api/reports/Loan")]
+        [System.Web.Http.Route("api/reports/loan")]
 
         public IHttpActionResult GetLoanInfoByDate(string dateFrom,string dateTo)
         {
@@ -129,7 +131,7 @@ namespace workshopIS.Controllers
         /// <param name="dateFrom">dateFrom for filter</param>
         /// <param name="dateTo">dateTo for filter</param>
         /// <returns></returns>
-        [System.Web.Http.Route("api/reports/Loan/Csv")]
+        [System.Web.Http.Route("api/reports/loan/csv")]
 
         public IHttpActionResult GetLoanInfoByDateCsv(string dateFrom, string dateTo)
         {
@@ -165,7 +167,7 @@ namespace workshopIS.Controllers
         /// Count loans by statuses in callcentre
         /// </summary>
         /// <returns>return counter loans by statuses</returns>
-        [System.Web.Http.Route("api/reports/CallCentre/status")]
+        [System.Web.Http.Route("api/reports/callcentre/status")]
 
         public IHttpActionResult GetCallCentrumInfo()
         {
@@ -179,7 +181,7 @@ namespace workshopIS.Controllers
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        [System.Web.Http.Route("api/reports/CallCentre/status/{status}")]
+        [System.Web.Http.Route("api/reports/callcentre/status/{status}")]
 
         public IHttpActionResult GetCallCentrumInfoById(int status)
         {
@@ -216,7 +218,7 @@ namespace workshopIS.Controllers
         /// count all partners
         /// </summary>
         /// <returns>return counted partners</returns>
-        [System.Web.Http.Route("api/reports/Partners/Count")]
+        [System.Web.Http.Route("api/reports/partners/count")]
 
         public IHttpActionResult GetPartnerCount()
         {
@@ -244,7 +246,7 @@ namespace workshopIS.Controllers
         /// count all loans
         /// </summary>
         /// <returns>counted loans</returns>
-        [System.Web.Http.Route("api/reports/Loan/Count")]
+        [System.Web.Http.Route("api/reports/loan/count")]
 
         public IHttpActionResult GetLoanCount()
         {
@@ -272,7 +274,7 @@ namespace workshopIS.Controllers
         /// </summary>
         /// <param name="partnerId">partnerID</param>
         /// <returns>counted loans by partnerID</returns>
-        [System.Web.Http.Route("api/reports/Loan/Partner/{partnerId:int}")]
+        [System.Web.Http.Route("api/reports/loan/partner/{partnerId:int}")]
 
         public IHttpActionResult GetLoanByPartnerInfo(int partnerId)
         {
