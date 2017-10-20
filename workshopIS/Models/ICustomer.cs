@@ -14,7 +14,7 @@ namespace workshopIS.Models
 
         int? ContactState { get; set; }
         DateTime? CreationDate { get; set; }
-        IPartner Partner { get; set; }
+        CPartner Partner { get; set; }
 
         // optional fields
         string FirstName { get; set; }

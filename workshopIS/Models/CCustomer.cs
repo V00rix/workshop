@@ -13,7 +13,7 @@ namespace workshopIS.Models
         private string phone;
         // mandatory, generated on initializaton
         private DateTime? creationDate;
-        private IPartner partner;
+        private CPartner partner;
         // optional fields
         private string firstName = null;
         private string surname = null;
@@ -23,7 +23,7 @@ namespace workshopIS.Models
                                         // 1 - could not make contact       | N
                                         // 2 - contacted, confirmed         | U
                                         // 3 - contacted, rejected          | M
-        // reference to customer related loans
+                                        // reference to customer related loans
         private List<ILoan> loans;
 
         public virtual int Id { get => id; set => id = value; }
@@ -34,7 +34,7 @@ namespace workshopIS.Models
         public virtual int? ContactState { get => contactState; set => contactState = value; }
         public virtual DateTime? CreationDate { get => creationDate; set => creationDate = value; }
         public virtual List<ILoan> Loans { get => loans; set => loans = value; }
-        public virtual IPartner Partner { get => partner; set => partner = value; }
+        public virtual CPartner Partner { get => partner; set => partner = value; }
 
         // Constructors
         /// <summary>
@@ -45,7 +45,8 @@ namespace workshopIS.Models
         /// <param name="firstName">Customer's first name</param>
         /// <param name="surname">Customer's surname</param>
         /// <param name="email">Customer's e-mail adress</param>
-        public CCustomer(IPartner partner, string phone, string firstName = null,
+         /*
+        public CCustomer(CPartner partner, string phone, string firstName = null,
                         string surname = null, string email = null, 
                         List<ILoan> loans = null)
         {
@@ -73,7 +74,7 @@ namespace workshopIS.Models
             // link each loan from list to this customer
             foreach (ILoan loan in this.loans)
                 loan.Customer = this;
-        }
+        }*/
 
         // Add Loan to list
         public virtual void AddLoan(ILoan loan)
@@ -84,7 +85,7 @@ namespace workshopIS.Models
         }
 
         // check for fields validity
-        public bool IsValid()
+        public virtual bool IsValid()
         {
             // Phone
             // valid phone format ?

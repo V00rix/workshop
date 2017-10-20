@@ -16,6 +16,6 @@ namespace workshopIS.Models
         decimal? MonthlyCharge { get; set; }
         decimal? AnnualCharge { get; set; }
         string Note { get; set; }
-        ICustomer Customer { get; set; }
+        CCustomer Customer { get; set; }
     }
 }

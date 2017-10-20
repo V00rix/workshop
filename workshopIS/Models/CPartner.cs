@@ -39,6 +39,7 @@ namespace workshopIS.Models
         /// <param name="isActive">State of partner's validity</param>
         /// <param name="fileData">da</param>
         /// <param name="customers">Customers of the partner</param>
+        /*
         public CPartner(string name, int ICO, 
             DateTime? validFrom = null, DateTime? validTo = null, bool isActive = true, 
             Byte[] fileData = null, List<ICustomer> customers = null)
@@ -67,7 +68,7 @@ namespace workshopIS.Models
             // link each loan from list to this customer
             foreach (ICustomer customer in this.customers)
                 customer.Partner = this;
-        }
+        }*/
 
         // Add new customer to list
         public virtual void AddCustomer(ICustomer customer)
@@ -77,7 +78,7 @@ namespace workshopIS.Models
         }
 
         // check for fields validity
-        public bool IsValid()
+        public virtual bool IsValid()
         {
             // ICO check
             /*

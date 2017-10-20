@@ -14,7 +14,7 @@ namespace workshopIS.Models
         private int? duration;
         private decimal? amount;
         private decimal? percentage;
-        private ICustomer customer;
+        private CCustomer customer;
         // counted
         private decimal? monthlyCharge;
         private decimal? annualCharge;
@@ -25,12 +25,12 @@ namespace workshopIS.Models
         public virtual int Id { get => id; set => id = value; }
         public virtual int? Duration { get => duration; set => duration = value; }
         public virtual decimal? Amount { get => amount; set => amount = value; }
-        public decimal? Percentage { get => percentage; set => percentage = value; }
+        public virtual decimal? Percentage { get => percentage; set => percentage = value; }
         public virtual decimal? Interest { get => interest; set => interest = value; }
         public virtual decimal? MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
         public virtual decimal? AnnualCharge { get => annualCharge; set => annualCharge = value; }
         public virtual string Note { get => note; set => note = value; }
-        public virtual ICustomer Customer { get => customer; set => customer = value; }
+        public virtual CCustomer Customer { get => customer; set => customer = value; }
 
         // constructors
         /// <summary>
@@ -39,6 +39,7 @@ namespace workshopIS.Models
         /// <param name="amount">Loan amount</param>
         /// <param name="duration">Loan duration</param>
         /// <param name="note">Note(s)</param>
+        /*
         public CLoan(CCustomer customer, decimal amount, int duration, decimal percentage, string note = null)
         {
             this.customer = customer;
@@ -67,9 +68,9 @@ namespace workshopIS.Models
             // some formula for annualCharge 
             // save to DB and get id
             this.id = Data.SaveToDB(this);
-        }
+        }*/
 
-        public bool IsValid()
+        public virtual bool IsValid()
         {
             // get constants from configuration
             decimal minAmount = Decimal.Parse(ConfigurationManager.AppSettings.Get("LOAN_MIN_AMOUNT"));

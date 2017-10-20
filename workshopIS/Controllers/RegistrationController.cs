@@ -31,29 +31,21 @@ namespace workshopIS.Controllers
         // POST: api/Registration
         public IHttpActionResult Post([FromBody]CPartner partner)
         {
+            partner.IsActive = true;
+            partner.ValidFrom = DateTime.Now;
             // check this
             try
             {
-                Data.Partners.Add(new CPartner(partner.Name, (partner.ICO ?? -1)));
+                Data.SaveToDB(partner);
             }
-            catch (Exception ex)
+            catch 
             {
-                throw new Exception("Could not create new CPartner instance!", ex);
-            }
-            /*
-            ISession session = NHibernateHelper.GetCurrentSession();
-
-            ITransaction tx = session.BeginTransaction();
-            session.Save(partner);
-            tx.Commit();
-
-            using (var webClient = new WebClient())
-            {
-
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
 
             }
-            */
-            return Ok();
+
+            return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, "úspěšně vloženo"));
+
         }
 
         //public IHttpActionResult Post([FromBody]int ICO)
@@ -73,25 +65,31 @@ namespace workshopIS.Controllers
         // DELETE: api/Registration/5
         public HttpResponseMessage Delete(int id)
         {
-            // that should also be done in Data.DeletePartner(); - not yet implemented
             try
             {
                 ISession session = NHibernateHelper.GetCurrentSession();
 
-                ITransaction tx = session.BeginTransaction();
-                var partner = session.Query<CPartner>().FirstOrDefault(x => x.Id.Equals(id));
+                var partner = session.Query<CPartner>().FirstOrDefault(x => x.Id == id);
                 if (partner == null)
                 {
                     HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.BadRequest,
-                        "Bad request, partner wasnt deleted");
+                        "Bad request, partner wasnt found");
+                    return result;
+                }
+                else if (partner.IsActive == false)
+                {
+                    HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.BadRequest,
+                        "Bad request, partner is already innactive");
                     return result;
                 }
                 else
                 {
-                    session.Delete(partner);
+                    ITransaction tx = session.BeginTransaction();
+                    partner.IsActive = false;
                     tx.Commit();
-                    HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.OK, "Partner deleted");
+                    HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.OK, "Partner moved to inactive state");
                     return result;
+
                 }
             }
             catch
@@ -103,11 +101,6 @@ namespace workshopIS.Controllers
 
         }
 
-
-        static void GetPartner(int id)
-        {
-            //ico of partner
-        }
 
 
     }

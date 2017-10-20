@@ -142,22 +142,40 @@ namespace workshopIS
         private static int counterC = 0;
         private static int counterL = 0;
 
+        /// <summary>
+        /// save object into DB
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>id of saved object</returns>
         internal static int SaveToDB(Object obj)
         {
-            // not sure if this works
-            /*
             ISession session = NHibernateHelper.GetCurrentSession();
-            ITransaction tx = session.BeginTransaction();
-            int index = (int)session.Save(obj);
-            tx.Commit();
-            */ // this doesnt work
+            try
+            {
+                ITransaction tx = session.BeginTransaction();
+                int index = (int)session.Save(obj);
+                tx.Commit();
+                return index;
+            }
+            catch(Exception e)
+            {
+                throw new Exception("exeption: ",e);
+            }
+            finally
+            {
+                session.Close();
+            }
+
+
+
+            /*
             if (obj.GetType() == typeof(CPartner))
                 return counterP++;
             if (obj.GetType() == typeof(CCustomer))
                 return counterC++;
             if (obj.GetType() == typeof(CLoan))
-                return counterL++;
-            return 0;
+                return counterL++;*/
+
         }
 
         // Partners Methods
