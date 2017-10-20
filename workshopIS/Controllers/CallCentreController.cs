@@ -34,6 +34,9 @@ namespace workshopIS.Controllers
                         .JoinQueryOver(l => l.Partner).List();
             var result = query.Select(x => new { loan = x, customer = x.Customer });
 
+            /*
+            Data.ReadDataFromDatabase();
+            var results = Data.Partners; */
 
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace workshopIS.Models
         public virtual decimal? MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
         public virtual decimal? AnnualCharge { get => annualCharge; set => annualCharge = value; }
         public virtual string Note { get => note; set => note = value; }
+        [JsonIgnore]
         public virtual CCustomer Customer { get => customer; set => customer = value; }
 
         // constructors
@@ -39,7 +41,8 @@ namespace workshopIS.Models
         /// <param name="amount">Loan amount</param>
         /// <param name="duration">Loan duration</param>
         /// <param name="note">Note(s)</param>
-        /*
+
+        public CLoan() { }
         public CLoan(CCustomer customer, decimal amount, int duration, decimal percentage, string note = null)
         {
             this.customer = customer;
@@ -68,7 +71,7 @@ namespace workshopIS.Models
             // some formula for annualCharge 
             // save to DB and get id
             this.id = Data.SaveToDB(this);
-        }*/
+        }
 
         public virtual bool IsValid()
         {
