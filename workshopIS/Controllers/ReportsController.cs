@@ -15,7 +15,7 @@ namespace workshopIS.Controllers
     {
 
         /// <summary>
-        /// return all loans by partner grouped by state
+        /// return all loans count by partner grouped by state
         /// </summary>
         /// <returns>return all loans by partner grouped by state </returns>
         [System.Web.Http.Route("api/reports/loan/partner")]
@@ -34,7 +34,7 @@ namespace workshopIS.Controllers
                     {
                         Partner = t.Key.Id,
                         LoansByState = t.GroupBy(x => x.Customer.ContactState)
-                            .Select(x => new {ContactState = x.Key, Loans = x.ToList().Count})
+                            .Select(x => new {ContactState = x.Key, LoansCount = x.ToList().Count})
                     });
 
                 return Ok(loanByPartner);
