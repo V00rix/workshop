@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using workshopIS.Models;
 
 namespace workshopIS.Controllers
 {
     // Controller
-    public class CalculatorController : ApiController
+    public class CalculatorController : Controller
     {
         // POST: api/calculator
         /// <summary>
@@ -18,19 +20,21 @@ namespace workshopIS.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         /// <returns>Status</returns>
-        public IHttpActionResult Post([FromBody]LoanData loanData)
+        public ActionResult Post([FromBody]LoanData loanData)
         {
             CCustomer customer;
             CPartner partner;
             CLoan loan;
 
             if (loanData.partnerId == null)
-                return BadRequest("Partner's ID was empty!");
+                return View("sdasdas");
+                //return BadRequest("Partner's ID was empty!");
 
             // Check if partner exists
             if ((partner = (CPartner)Data.Partners.Find(p => p.Id == loanData.partnerId))
                     == null)
-                return BadRequest("Could not find selected partner!");
+                return View("Could not find selected partner!");
+                //return BadRequest("Could not find selected partner!");
 
             // Check if Customer already exists
             if ((customer = (CCustomer)partner.Customers
@@ -51,7 +55,7 @@ namespace workshopIS.Controllers
             customer.AddLoan(loan);
 
             // return status
-            return Ok("Added new loan to customer " + 
+            return View("Added new loan to customer " + 
                 (customer.FirstName != null ? customer.FirstName + " " : "") +
                 (customer.Surname != null ? customer.Surname + " " : "") +
                 customer.Phone + ".\n" +
@@ -59,6 +63,14 @@ namespace workshopIS.Controllers
                 "\t\tAmount:" + loan.Amount + ". Duration: " + loan.Duration + ".\n" +
                 "\t\tMonthly charge: " + loan.MonthlyCharge + ".\n" +
                 "\t\tAnnual percentage rate:" + loan.APR + "." );
+            //return Ok("Added new loan to customer " + 
+            //    (customer.FirstName != null ? customer.FirstName + " " : "") +
+            //    (customer.Surname != null ? customer.Surname + " " : "") +
+            //    customer.Phone + ".\n" +
+            //    "\tLoan:\n" +
+            //    "\t\tAmount:" + loan.Amount + ". Duration: " + loan.Duration + ".\n" +
+            //    "\t\tMonthly charge: " + loan.MonthlyCharge + ".\n" +
+            //    "\t\tAnnual percentage rate:" + loan.APR + "." );
         }
 
         // GET: api/calculator
@@ -66,10 +78,12 @@ namespace workshopIS.Controllers
         /// Display all partners, their customers and their loan data
         /// </summary>
         /// <returns>List of list of customers.</returns>
-        public List<IPartner> Get()
+        public ActionResult Index()
         {
             Data.ReadDataFromDatabase();
-            return Data.Partners.ToList();
+            return View("~/Views/index.cshtml", Data.Partners);
+            //return Data.ReadDataFromDatabase();
+            //return Data.Partners.ToList();
         }
     }
 

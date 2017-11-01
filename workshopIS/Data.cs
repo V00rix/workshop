@@ -17,7 +17,21 @@ namespace workshopIS
         // Runs on startup
         public static void Initialize()
         {
+            
+            //FakePartners();
             ReadDataFromDatabase();
+        }
+
+        private static void FakePartners()
+        {
+            Partners = new List<IPartner>
+            {
+                new CPartner("hello", 321, DateTime.Now, DateTime.MaxValue, true),
+                new CPartner("312", 320001, DateTime.Now, DateTime.MaxValue, true),
+                new CPartner("eqweqwe", 1321, DateTime.Now, DateTime.MaxValue, true),
+                new CPartner("qweeqwe", 32331, DateTime.Now, DateTime.MaxValue, true),
+                new CPartner("ewe", 312333, DateTime.Now, DateTime.MaxValue, true),
+            };
         }
 
         /// <summary>
