@@ -1,11 +1,33 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workshopIS", "workshopIS\workshopIS.csproj", "{86117BDE-A69C-42E2-9FAE-7CC2DB7ED039}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workshopIS.Tests", "workshopIS.Tests\workshopIS.Tests.csproj", "{8B5F3207-87BC-4829-AB5C-4524A11D3E2C}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebAngular", "..\..\WebSites\WebAngular\", "{9E94CD7D-B7BF-42A3-8ECE-EEC55EC79EA0}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_57135"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\WebSites\WebAngular\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_57135\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_57135"
+		Release.AspNetCompiler.PhysicalPath = "..\..\WebSites\WebAngular\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_57135\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "57135"
+		SlnRelativePath = "..\..\WebSites\WebAngular\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,9 +40,11 @@ Global
 		{86117BDE-A69C-42E2-9FAE-7CC2DB7ED039}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86117BDE-A69C-42E2-9FAE-7CC2DB7ED039}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8B5F3207-87BC-4829-AB5C-4524A11D3E2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B5F3207-87BC-4829-AB5C-4524A11D3E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B5F3207-87BC-4829-AB5C-4524A11D3E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B5F3207-87BC-4829-AB5C-4524A11D3E2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E94CD7D-B7BF-42A3-8ECE-EEC55EC79EA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E94CD7D-B7BF-42A3-8ECE-EEC55EC79EA0}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E94CD7D-B7BF-42A3-8ECE-EEC55EC79EA0}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

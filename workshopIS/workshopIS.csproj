@@ -193,8 +193,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\CalculatorController.cs" />
+    <Compile Include="Controllers\LoanController.cs" />
     <Compile Include="Controllers\CallCentreController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Data.cs" />
@@ -227,6 +228,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\xml\loan.hbm.xml" />
+    <Content Include="JS\Services\DataService.js" />
+    <Content Include="JS\Services\HttpService.js" />
+    <Content Include="JS\Shared\DataModel.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -260,6 +264,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Models\xml\partner.hbm.xml" />
+    <Content Include="JS\Controllers\MainController.js" />
+    <Content Include="JS\Controllers\PartnersController.js" />
+    <Content Include="JS\workshopIS.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -1022,6 +1029,20 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="JS\Controllers\LoanController.js" />
+    <Content Include="Views\Main\Loan\Loan.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Main\Loan\Loan.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Main\CallCentre.cshtml" />
+    <None Include="Views\Main\Index.cshtml">
+      <BrowseToURL>~/Home/Index</BrowseToURL>
+    </None>
+    <Content Include="Views\Main\Partners\Partners.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1032,15 +1053,14 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\index.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Main\Partners\Partners.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Main\Reports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Calculator\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

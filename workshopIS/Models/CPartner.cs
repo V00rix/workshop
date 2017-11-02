@@ -29,6 +29,11 @@ namespace workshopIS.Models
         public virtual List<ICustomer> Customers { get => customers; set => customers = value; }
         public virtual bool? IsActive { get => isActive; set => isActive = value; }
 
+        public CPartner()
+        {
+            customers = new List<ICustomer>();
+        }
+
         // constructors
         /// <summary>
         /// Create new instance of CPartner
@@ -40,10 +45,6 @@ namespace workshopIS.Models
         /// <param name="isActive">State of partner's validity</param>
         /// <param name="fileData">da</param>
         /// <param name="customers">Customers of the partner</param>
-
-        public CPartner() {
-            customers = new List<ICustomer>();
-        }
         public CPartner(string name, int ICO, 
             DateTime? validFrom = null, DateTime? validTo = null, bool isActive = true, 
             Byte[] fileData = null, List<ICustomer> customers = null)

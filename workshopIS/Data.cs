@@ -17,8 +17,13 @@ namespace workshopIS
         // Runs on startup
         public static void Initialize()
         {
-            
-            //FakePartners();
+
+            /* FakePartners();
+            foreach (var partner in Partners)
+            {
+
+                SaveToDB(partner);
+            } */
             ReadDataFromDatabase();
         }
 

@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using NHibernate.Linq;
 using workshopIS.Helpers;
 using workshopIS.Models;
@@ -31,7 +33,7 @@ namespace workshopIS.Controllers
             {
                 Data.SaveToDB(partner);
             }
-            catch 
+            catch
             {
                 return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
             }
@@ -41,7 +43,7 @@ namespace workshopIS.Controllers
 
 
         // DELETE: api/Registration/5
-        public HttpResponseMessage Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
             try
             {
@@ -50,15 +52,11 @@ namespace workshopIS.Controllers
                 var partner = session.Query<CPartner>().FirstOrDefault(x => x.Id == id);
                 if (partner == null)
                 {
-                    HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.BadRequest,
-                        "Bad request, partner wasnt found");
-                    return result;
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad request, partner wasnt found"));
                 }
                 else if (partner.IsActive == false)
                 {
-                    HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.BadRequest,
-                        "Bad request, partner is already innactive");
-                    return result;
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad request, partner is already innactive"));
                 }
                 else
                 {
@@ -66,16 +64,13 @@ namespace workshopIS.Controllers
                     partner.IsActive = false;
                     partner.ValidTo = DateTime.Now;
                     tx.Commit();
-                    HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.OK, "Partner moved to inactive state");
-                    return result;
-
+                    session.Close();
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Partner moved to inactive state"));
                 }
             }
             catch
             {
-                HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.BadRequest);
-                return result;
-
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error"));
             }
         }
     }
