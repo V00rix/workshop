@@ -1,5 +1,6 @@
 ﻿var workshopIS = angular.module("workshopIS", ["ngRoute"]);
 
+workshopIS.service('HttpService', HttpService);
 workshopIS.service('DataService', DataService);
 
 workshopIS.controller("MainController", MainController);

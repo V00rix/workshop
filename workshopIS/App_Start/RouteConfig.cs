@@ -12,19 +12,12 @@ namespace workshopIS
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
             routes.MapRoute(
                 name: "Default",
                 url: "{action}/{id}",
                 defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }
             );
-
-            routes.MapRoute(
-                "404-PageNotFound",
-                "{*url}",
-                new { controller = "Main", action = "NotFound" }
-            );
-
         }
     }
 }

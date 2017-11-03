@@ -1,9 +1,9 @@
-﻿var DataService = function () {
-    this.partners;
+﻿var DataService = function (HttpService) {
+    this.partners = new Array();
    
     this.init = function () {
         this.fakePartners();
-        // getPartners();
+        this.getPartners();
         window.console.log("Data service initialized!");
     }
 
@@ -17,7 +17,7 @@
             new Partner("my boi", 312, new Date(2013, 10, 12, 0, 0, 0, 0)),
         ];
         for (let partner of this.partners) {
-            window.console.log("adding customers to " + partner);
+            window.console.log("adding customers to " + partner.name);
             partner.customers = [
                 new Customer("333222111", new Date(2013, 10, 12, 0, 0, 0, 0), partner, "John", "Smith"),
                 new Customer("333222111", new Date(2013, 10, 12, 0, 0, 0, 0), partner, "ddsadn", "Smith"),
@@ -44,6 +44,7 @@
     this.getPartners = function () {
         // some code, then
         // myHttpService....
+        HttpService.getPartners(this.partners);
     }
 
     // remove partner by Id
@@ -82,3 +83,5 @@
 
     this.init();
 }
+
+DataService.$inject = ["HttpService"]; 
