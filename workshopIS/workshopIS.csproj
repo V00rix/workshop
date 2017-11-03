@@ -1043,6 +1043,7 @@
     <Content Include="Views\Main\Partners\Partners.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Views\Main\NotFound.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

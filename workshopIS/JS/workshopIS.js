@@ -15,8 +15,12 @@ var configFunction = function ($routeProvider) {
         .when("/partners",
             {
                 templateUrl: "Partners",
-                controller  : "PartnersController"
-            });
+                controller: "PartnersController"
+        })
+        .when("/:any*",
+        {
+            templateUrl: "NotFound"
+        });
 }
 configFunction.$inject = ["$routeProvider"];
 

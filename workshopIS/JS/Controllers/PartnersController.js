@@ -38,6 +38,18 @@
         $scope.closeEdit();
     }
 
+    $scope.onDeleteCustomer = function (cid) {
+        DataService.deleteCustomer($scope.editedPartner, cid);
+        DataService.updatePartner($scope.selectedPartnerId, $scope.editedPartner);
+        $scope.models.partners = DataService.partners;
+    }
+
+    $scope.onDeleteLoan = function (cid, lid) {
+        DataService.deleteLoan($scope.editedPartner, cid, lid);
+        DataService.updatePartner($scope.selectedPartnerId, $scope.editedPartner);
+        $scope.models.partners = DataService.partners;
+    }
+
     $scope.closeEdit = function () {
         $scope.editedPartner = null;
         $scope.selectedPartnerId = null;

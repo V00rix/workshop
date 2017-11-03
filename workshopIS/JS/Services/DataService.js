@@ -52,6 +52,18 @@
         // to server
     }
 
+    // remove customer by Id
+    this.deleteCustomer = function (partner, cid) {
+        partner.customers.splice(cid, 1);
+        // to server
+    }
+
+    // remove loan by Id
+    this.deleteLoan = function (partner, cid, lid) {
+        partner.customers[cid].loans.splice(lid, 1);
+        // to server
+    }
+
     this.updatePartner = function (id, partner) {
         this.partners[id] = partner;
         // to server

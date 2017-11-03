@@ -24,14 +24,11 @@ namespace workshopIS.Controllers
             return View("~/Views/Main/Partners/Partners.cshtml");
         }
 
-        public ActionResult Reports()
+
+        public ActionResult NotFound()
         {
-            return View();
+            return View("~/Views/Main/NotFound.cshtml");
         }
 
-        public ActionResult CallCentre()
-        {
-            return View();
-        }
     }
 }
