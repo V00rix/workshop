@@ -23,7 +23,7 @@ namespace workshopIS
             config.Routes.MapHttpRoute(
                 name: "Data",
                 routeTemplate: "data/{controller}/{action}/{id}",
-                defaults: new { controller = "loan", action = "get", id = RouteParameter.Optional }
+                defaults: new { id = RouteParameter.Optional }
             );
 
             var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");

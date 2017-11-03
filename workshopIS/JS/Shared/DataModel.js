@@ -1,4 +1,5 @@
-﻿function Loan(duration, amount, customer, monthlyCharge, apr, interest, note) {
+﻿function Loan(id, duration, amount, customer, monthlyCharge, apr, interest, note) {
+    this.id = id || null;
     this.duration = duration;
     this.amount = amount;
     this.customer = customer;
@@ -8,7 +9,8 @@
     this.note = note || null;
 }
 
-function Customer(phone, creationDate, partner, firstName, surname, email, contactState, loans) {
+function Customer(id, phone, creationDate, partner, firstName, surname, email, contactState, loans) {
+    this.id = id || null;
     this.phone = phone;
     this.creationDate = creationDate;
     this.partner = partner;
@@ -19,7 +21,8 @@ function Customer(phone, creationDate, partner, firstName, surname, email, conta
     this.loans = loans || [];
 }
 
-function Partner(name, ico, validFrom, validTo, fileData, customers) {
+function Partner(id, name, ico, validFrom, validTo, fileData, customers) {
+    this.id = id || null;
     this.name = name;
     this.ico = ico;
     this.validFrom = validFrom;

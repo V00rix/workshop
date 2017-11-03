@@ -1,6 +1,7 @@
 ﻿using NHibernate;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using workshopIS.Helpers;
 using workshopIS.Models;
 using System.Linq;
@@ -66,21 +67,37 @@ namespace workshopIS
         internal static int SaveToDB(Object obj)
         {
             ISession session = NHibernateHelper.GetCurrentSession();
+            int index = -1;
             try
             {
-                ITransaction tx = session.BeginTransaction();
-                int index = (int)session.Save(obj);
-                tx.Commit();
-                return index;
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    index = (int) session.Save(obj);
+                    transaction.Commit();
+                }
             }
-            catch(Exception e)
+            catch (Exception ex)
             {
-                throw new Exception("exeption: ",e);
+                if (session.Connection.State == ConnectionState.Closed)
+                {
+                    try
+                    {
+                        session.Connection.Open();
+                        ITransaction transaction = session.BeginTransaction();
+                        index = (int) session.Save(obj);
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("exeption: ", e);
+                    }
+                }
             }
             finally
             {
                 session.Close();
             }
+            return index;
         }
     }
 }

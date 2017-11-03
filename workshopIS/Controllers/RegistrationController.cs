@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using NHibernate.Linq;
 using workshopIS.Helpers;
@@ -18,59 +17,97 @@ namespace workshopIS.Controllers
     public class RegistrationController : ApiController
     {
         // GET: api/Registration
+        [Route("data/registration/")]
+        [HttpGet]
         public List<IPartner> Get()
         {
             return Data.Partners;
         }
 
         // POST: api/Registration
-        public IHttpActionResult Post([FromBody]CPartner partner)
+        [Route("data/registration/post")]
+        [HttpPost]
+        public IHttpActionResult Post([FromBody]List<CPartner> partners)
         {
-            partner.IsActive = true;
-            partner.ValidFrom = DateTime.Now;
+            //partner.IsActive = true;
+            //partner.ValidFrom = DateTime.Now;
             // check this
-            try
+
+            foreach (CPartner partner in partners)
             {
-                Data.SaveToDB(partner);
+                try
+                {
+                    Data.SaveToDB(partner);
+                }
+                catch
+                {
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not write to DB"));
+                }
+                Data.Partners.Add(partner);
             }
-            catch
-            {
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
-            }
-            Data.Partners.Add(partner);
             return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, "úspěšně vloženo"));
+        }
+
+        // PUT: api/Registration
+        [Route("data/registration/put")]
+        [HttpPut]
+        public IHttpActionResult Put([FromBody] CPartner partner)
+        {
+            int pid;
+            // update data if partner exists (id)
+            if ((pid = Data.Partners.FindIndex(p => p.Id == partner.Id)) >= 0)
+                Data.Partners[pid] = partner;
+            else
+                try
+                {
+                    Data.Partners.Add(new CPartner(partner));
+                }
+                catch
+                {
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
+                }
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "úspěšně vloženo"));
         }
 
 
         // DELETE: api/Registration/5
-        public IHttpActionResult Delete(int id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("data/registration/delete")]
+        [HttpPut]
+        public IHttpActionResult Delete([FromBody]int id)
         {
+
             try
             {
                 ISession session = NHibernateHelper.GetCurrentSession();
 
-                var partner = session.Query<CPartner>().FirstOrDefault(x => x.Id == id);
+                var partner = session.Query<CPartner>().First(x => x.Id == id);
                 if (partner == null)
                 {
-                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad request, partner wasnt found"));
+                    return BadRequest("Partner (id) wasn't found!");
                 }
-                else if (partner.IsActive == false)
-                {
-                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bad request, partner is already innactive"));
-                }
-                else
-                {
-                    ITransaction tx = session.BeginTransaction();
-                    partner.IsActive = false;
-                    partner.ValidTo = DateTime.Now;
-                    tx.Commit();
-                    session.Close();
-                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Partner moved to inactive state"));
-                }
+                Data.Partners.RemoveAt(Data.Partners.FindIndex(p => p.Id == id));
+                //if (partner.IsActive == false)
+                //{
+                //    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Partner is already inactive"));
+                //}
+                //ITransaction tx = session.BeginTransaction();
+                // DATA.DELETEPARTNERS
+                session.Delete(session.Get<CPartner>(id));
+                session.Flush();
+                //partner.IsActive = false;
+                //partner.ValidTo = DateTime.Now;
+                //tx.Commit();
+                session.Close();
+                return Ok("Partner removed");
             }
-            catch
+            catch (Exception e)
             {
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error"));
+                return BadRequest(e.Message);
             }
         }
     }

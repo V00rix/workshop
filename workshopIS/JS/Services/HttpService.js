@@ -3,32 +3,36 @@
     this.baseUrl = "http://localhost:53911";
 
     this.getPartners = function (partners) {
+        window.console.log(partners);
         window.console.log("Attempting to get partners!");
-        $http.get(this.baseUrl + '/data/registration').then(
-            (res) => {
-                window.console.log("Success!", res);
-                partners = new Array(res.data.length);
-                //partners = res.data;
-                for (i = 0; i < res.data.length; i++) {
-                    var p = res.data[i];
-                    //partners[i] = new Partner(p.Name, p.ICO, p.ValidFrom);
-                }
-                window.console.log(partners);
-            },
-            (res) => {
-                window.console.log("Error!", res);
-            });
-
+        return $http.get(this.baseUrl + "/data/registration/");
     }
 
     this.postPartners = function (partners) {
-        $http.post(this.baseUrl + '/data/registration', partners).then(
+        window.console.log("Trying to post..", JSON.stringify(partners));
+        return $http.post(this.baseUrl + "/data/registration/post", JSON.stringify(partners)).then(
             (res) => {
-                window.console.log("Success!", res);
+                window.console.log("Successs!", res);
             },
             (res) => {
                 window.console.log("Error!", res);
             });
+    }
+
+    this.putPartner = function (partner) {
+        window.console.log("Trying to put/update..", JSON.stringify(partner));
+        return $http.put(this.baseUrl + "/data/registration/put", JSON.stringify(partner)).then(
+            (res) => {
+                window.console.log("Successs!", res);
+            },
+            (res) => {
+                window.console.log("Error!", res);
+            });
+    }
+
+    this.deletePartner = function (id) {
+        window.console.log("Trying to delete..", JSON.stringify(id));
+        return $http.put(this.baseUrl + "/data/registration/delete", JSON.stringify(id));
     }
 }
 

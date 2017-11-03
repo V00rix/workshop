@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using workshopIS.Models;
 
@@ -20,6 +19,8 @@ namespace workshopIS.Controllers
         /// <response code="400">Bad request</response>
         /// <response code="500">Internal Server Error</response>
         /// <returns>Status</returns>
+        [Route("data/loan/post")]
+        [HttpPost]
         public IHttpActionResult Post([FromBody]LoanData loanData)
         {
             CCustomer customer;
@@ -68,6 +69,8 @@ namespace workshopIS.Controllers
         /// Display all partners, their customers and their loan data
         /// </summary>
         /// <returns>List of list of customers.</returns>
+        [Route("data/loan/get")]
+        [HttpPost]
         public List<IPartner> Get()
         {
             Data.ReadDataFromDatabase();

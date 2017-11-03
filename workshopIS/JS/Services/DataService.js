@@ -1,10 +1,10 @@
 ﻿var DataService = function (HttpService) {
     this.partners = new Array();
-   
+
     this.init = function () {
+        window.console.log("Data service initialized!");
         this.fakePartners();
         this.getPartners();
-        window.console.log("Data service initialized!");
     }
 
     // create test partners
@@ -37,20 +37,36 @@
                 }
             }
         };
-        window.console.log(this.partners);
+        window.console.log("Fake partners created.", this.partners);
     }
 
     // GET request to server
     this.getPartners = function () {
-        // some code, then
-        // myHttpService....
-        HttpService.getPartners(this.partners);
+        return HttpService.getPartners().then(
+            (res) => {
+                window.console.log("Success!", res);
+                this.partners = new Array(res.data.length);
+                for (var i = 0; i < res.data.length; i++) {
+                    var p = angular.copy(res.data)[i];
+                    this.partners[i] = new Partner(p.Id, p.Name, p.ICO, new Date(p.ValidFrom), new Date(p.ValidTo), p.FileData, p.Customers);
+                }
+                window.console.log("Changed partners: ", this.partners);
+            },
+            (res) => {
+                window.console.log("Error!", res);
+            });
     }
 
-    // remove partner by Id
-    this.deletePartner = function (id) {
-        this.partners.splice(id, 1);
+
+    // remove loan by Id
+    this.deleteLoan = function (partner, cid, lid) {
+        partner.customers[cid].loans.splice(lid, 1);
         // to server
+    }
+
+    // adds new customer
+    this.addCustomer = function (pid, customer) {
+        this.partners[pid].customers.push(customer);
     }
 
     // remove customer by Id
@@ -59,27 +75,35 @@
         // to server
     }
 
-    // remove loan by Id
-    this.deleteLoan = function (partner, cid, lid) {
-        partner.customers[cid].loans.splice(lid, 1);
-        // to server
-    }
-
-    this.updatePartner = function (id, partner) {
-        this.partners[id] = partner;
-        // to server
-    }
-
+    // PARTNER: ADD
     this.addPartner = function (partner) {
-        // check if unique
+        // check if unique (ICO?)
         this.partners.push(partner);
         // to server
+        return HttpService.putPartner(partner);
     }
 
-    // adds new customer
-    this.addCustomer = function (pid, customer) {
-        this.partners[pid].customers.push(customer);
+    // PARTNER: UPDATE
+    this.updatePartner = function (id, partner) {
+        window.console.log(partner.Id);
+        this.partners[id] = partner;
+        // to server
+        return HttpService.putPartner(partner);
     }
+
+    // PARTNER: DELETE
+    this.deletePartner = function (id) {
+        // to server
+        HttpService.deletePartner(this.partners[id].id).then(
+            (res) => {
+                window.console.log("Successs!", res);
+                this.partners.splice(id, 1);
+            },
+            (res) => {
+                window.console.log("Error!", res);
+            });
+    }
+
 
     this.init();
 }
