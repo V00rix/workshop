@@ -66,7 +66,7 @@ namespace workshopIS.Controllers
                 {
                     return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
                 }
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "úspěšně vloženo"));
+            return Content(HttpStatusCode.OK, Data.Partners[Data.Partners.Count - 1].Id);
         }
 
 

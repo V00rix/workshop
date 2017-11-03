@@ -58,7 +58,6 @@
 
     $scope.onInit = function () {
         window.console.log("Partners initialized!");
-        window.console.log($scope.models.partners);
         DataService.getPartners().then(() => {
             $scope.models.partners = DataService.partners;
         });

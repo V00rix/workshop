@@ -2,8 +2,8 @@
     this.partners = new Array();
 
     this.init = function () {
-        window.console.log("Data service initialized!");
-        this.fakePartners();
+        window.console.log("Data service initialized.");
+        // this.fakePartners();
         this.getPartners();
     }
 
@@ -40,23 +40,17 @@
         window.console.log("Fake partners created.", this.partners);
     }
 
-    // GET request to server
-    this.getPartners = function () {
-        return HttpService.getPartners().then(
+    // LOAN: POST
+    this.addLoan = function(loanData) {
+        return HttpService.postLoan(loanData).then(
             (res) => {
-                window.console.log("Success!", res);
-                this.partners = new Array(res.data.length);
-                for (var i = 0; i < res.data.length; i++) {
-                    var p = angular.copy(res.data)[i];
-                    this.partners[i] = new Partner(p.Id, p.Name, p.ICO, new Date(p.ValidFrom), new Date(p.ValidTo), p.FileData, p.Customers);
-                }
-                window.console.log("Changed partners: ", this.partners);
+                DataService.getPartners();
+                window.console.log("Successs!", res);
             },
             (res) => {
                 window.console.log("Error!", res);
             });
     }
-
 
     // remove loan by Id
     this.deleteLoan = function (partner, cid, lid) {
@@ -75,20 +69,48 @@
         // to server
     }
 
+    // PARTNERS: GET
+    this.getPartners = function () {
+        return HttpService.getPartners().then(
+            (res) => {
+                window.console.log("Success.", res);
+                this.partners = new Array(res.data.length);
+                for (var i = 0; i < res.data.length; i++) {
+                    var p = angular.copy(res.data)[i];
+                    this.partners[i] = new Partner(p.Id, p.Name, p.ICO, new Date(p.ValidFrom), new Date(p.ValidTo), p.FileData, p.Customers);
+                }
+            },
+            (res) => {
+                window.console.log("Error!", res);
+            });
+    }
+
     // PARTNER: ADD
     this.addPartner = function (partner) {
-        // check if unique (ICO?)
-        this.partners.push(partner);
+        window.console.log(partner);
         // to server
-        return HttpService.putPartner(partner);
+        return HttpService.putPartner(partner).then(
+            (res) => {
+                partner.id = res.data;
+                this.partners.push(partner);
+                window.console.log("Successs!", res);
+            },
+            (res) => {
+                window.console.log("Error!", res);
+            });
     }
 
     // PARTNER: UPDATE
     this.updatePartner = function (id, partner) {
-        window.console.log(partner.Id);
-        this.partners[id] = partner;
         // to server
-        return HttpService.putPartner(partner);
+        return HttpService.putPartner(partner).then(
+            (res) => {
+                this.partners[id] = partner;
+                window.console.log("Successs!", res);
+            },
+            (res) => {
+                window.console.log("Error!", res);
+            });
     }
 
     // PARTNER: DELETE

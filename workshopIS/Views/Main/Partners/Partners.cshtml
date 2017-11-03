@@ -7,8 +7,8 @@
             <!-- Parters list -->
             <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4" style="max-height: 75vh; overflow-y: scroll">
                 <div ng-repeat="partner in models.partners" class="list-group-item clearfix" ng-click="onPartnerSelected($index)">
-                    <div class="pull-left">
-                        <h3 class="list-group-item-heading">{{ partner.name }}</h3>
+                    <div class="pull-left" >
+                        <h3 class="list-group-item-heading"  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">{{ partner.name }}</h3>
                         <p class="list-group-item-text">ICO: {{partner.ico}}</p>
                         <p class="list-group-item-text">Valid From: {{partner.validFrom | date:'mediumDate'}}</p>
                         <p class="list-group-item-text">Valid To: {{partner.validTo || '∞' | date:'mediumDate'}}</p>
@@ -22,7 +22,7 @@
                 <div ng-if="inEditMode">
                     <form ng-submit="onEditConfirmed()">
                         <div class="form-group">
-                            <label for="nameInput">Name: </label>
+                            <label for="nameInput">Name:</label>
                             <input type="text" class="form-control" id="nameInput" ng-model="editedPartner.name" />
                         </div>
                         <div class="form-group">
@@ -43,24 +43,25 @@
                                 <div class="pull-left">
                                     <h3 class="list-group-item-heading">{{ customer.firstName }} {{ customer.surname }}</h3>
                                     <p class="list-group-item-text">Phone: {{customer.phone}}</p>
-                                    <p class="list-group-item-text">Loans:
+                                    <p class="list-group-item-text">
+                                        Loans:
                                         <div class="form-group" ng-repeat="loan in customer.loans">
-                                            <p class="pull-left list-group-item-text">Amount: {{loan.amount}}. Duration: {{loan.duration}}</p>
-                                            <div class="pull-right" style="color: crimson; cursor: pointer" ng-click="onDeleteLoan($parent.$index, $index)">Delete</div>
-                                        </div>
-                                    </p>
+                                    <p class="pull-left list-group-item-text">Amount: {{loan.amount}}. Duration: {{loan.duration}}</p>
+                                    <div class="pull-right" style="color: crimson; cursor: pointer" ng-click="onDeleteLoan($parent.$index, $index)">Delete</div>
                                 </div>
-                                <div class="pull-right" style="color: crimson; cursor: pointer" ng-click="onDeleteCustomer($index)">Delete</div>
+                                </p>
                             </div>
+                            <div class="pull-right" style="color: crimson; cursor: pointer" ng-click="onDeleteCustomer($index)">Delete</div>
                         </div>
-                        <button type="submit" class="btn btn-success" style="width: calc(50% - 2px);">Confirm</button>
-                        <button type="button" class="btn btn-primary" ng-click="onEditCanceled()" style="width: calc(50% - 2px);">Cancel</button>
-                        <hr/>
-                        <button type="button" class="btn btn-danger" ng-click="onDeletePartner()" style="width: 100%;">Delete Partner</button>
-                    </form>
                 </div>
+                <button type="submit" class="btn btn-success" style="width: calc(50% - 2px);">Confirm</button>
+                <button type="button" class="btn btn-primary" ng-click="onEditCanceled()" style="width: calc(50% - 2px);">Cancel</button>
+                <hr />
+                <button type="button" class="btn btn-danger" ng-click="onDeletePartner()" style="width: 100%;">Delete Partner</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 </div>

@@ -15,7 +15,6 @@
     $scope.currentLoan = new Loan();
     $scope.currentLoan.interest = .1;
     $scope.selectedPartner = null;
-    $scope.selectedPartnerId = null;
 
     $scope.onPartnerSelected = function (partner) {
         $scope.selectedPartner = $scope.models.partners.find((p) => {
@@ -27,24 +26,22 @@
     $scope.onCreateLoan = function () {
         if ($scope.dataValid()) {
             window.console.log("Data valid. Creating new loan...");
-            var res = $scope.selectedPartner.customers.find((c) => {
-                return (c.name === $scope.editedCustomer.name
-                    && c.surname === $scope.editedCustomer.surname
-                    && c.phone === $scope.editedCustomer.phone);
-            });
-            if (!res) {
-                window.console.log("Creating new customer, adding new loan...");
-                $scope.editedCustomer.loans.push(angular.copy($scope.currentLoan));
-                $scope.selectedPartner.customers.push(angular.copy($scope.editedCustomer));
-            } else {
-                window.console.log("Customer exists, adding new loan...");
-                $scope.editedCustomer.loans.push(angular.copy($scope.currentLoan));
-                res.loans.push(angular.copy($scope.editedCustomer));
-            }
-        } else {
+            DataService.addLoan({
+                amount: $scope.currentLoan.amount,
+                duration: $scope.currentLoan.duration,
+                interest: $scope.currentLoan.interest,
+                partnerId: $scope.selectedPartner.id,
+                phone: $scope.editedCustomer.phone,
+                firstName: $scope.editedCustomer.firstName,
+                surname: $scope.editedCustomer.surname,
+                email: $scope.editedCustomer.email,
+                note: $scope.editedCustomer.note
+            }).then($scope.models.partners = DataService.partners);
+        }
+        else {
             window.console.log("Invalid data! Could not create loan.");
         }
-        
+
     }
 
     $scope.dataValid = function () {
@@ -89,7 +86,7 @@
         if (!$scope.regexs.find(r => r.key === 'name').reg.test($scope.editedCustomer.firstName)) {
             warn.push("Invalid first name!");
         }
-        if (!$scope.editedCustomer.surname|| $scope.regexs.find(r => r.key === 'empty').reg.test($scope.editedCustomer.surname)) {
+        if (!$scope.editedCustomer.surname || $scope.regexs.find(r => r.key === 'empty').reg.test($scope.editedCustomer.surname)) {
             warn.push("Surname is empty!");
         }
         if (!$scope.regexs.find(r => r.key === 'name').reg.test($scope.editedCustomer.surname)) {
@@ -124,18 +121,15 @@
         return res;
     }
 
-    $scope.onInit = function (partners) {
-        $scope.partners = partners || "No partners!";
-        window.console.log($scope.partners);
-    }
-
     $scope.logPartners = function () {
         window.console.log($scope.partners);
     }
 
     $scope.onInit = function () {
-        $scope.models.partners = DataService.partners;
-        window.console.log("Loans initialized!");
+        DataService.getPartners().then(() => {
+            window.console.log("Loans initialized.");
+            $scope.models.partners = DataService.partners;
+        });
     }
 }
 
