@@ -20,13 +20,21 @@ namespace workshopIS.Models
         private Byte[] fileData;
         private List<ICustomer> customers;
 
+        [JsonProperty("id")]
         public virtual int Id { get => id; set => id = value; }
+        [JsonProperty("name")]
         public virtual string Name { get => name; set => name = value; }
+        [JsonProperty("ico")]
         public virtual int? ICO { get => ico; set => ico = value; }
+        [JsonProperty("validFrom")]
         public virtual DateTime? ValidFrom { get => validFrom; set => validFrom = value; }
+        [JsonProperty("validTo")]
         public virtual DateTime? ValidTo { get => validTo; set => validTo = value; }
+        [JsonProperty("fileData")]
         public virtual Byte[] FileData { get => fileData; set => fileData = value; }
+        [JsonProperty("customers")]
         public virtual List<ICustomer> Customers { get => customers; set => customers = value; }
+        [JsonProperty("isActive")]
         public virtual bool? IsActive { get => isActive; set => isActive = value; }
 
         public CPartner()

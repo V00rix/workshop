@@ -7,8 +7,8 @@
             <!-- Parters list -->
             <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4" style="max-height: 75vh; overflow-y: scroll">
                 <div ng-repeat="partner in models.partners" class="list-group-item clearfix" ng-click="onPartnerSelected($index)">
-                    <div class="pull-left" >
-                        <h3 class="list-group-item-heading"  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">{{ partner.name }}</h3>
+                    <div class="pull-left">
+                        <h3 class="list-group-item-heading" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">{{ partner.name }}</h3>
                         <p class="list-group-item-text">ICO: {{partner.ico}}</p>
                         <p class="list-group-item-text">Valid From: {{partner.validFrom | date:'mediumDate'}}</p>
                         <p class="list-group-item-text">Valid To: {{partner.validTo || '∞' | date:'mediumDate'}}</p>
@@ -31,11 +31,13 @@
                         </div>
                         <div class="form-group">
                             <label for="validFInput">Valid from: </label>
-                            <input type="date" class="form-control" id="validFInput" ng-model="editedPartner.validFrom" />
+                            <input type="date" class="form-control" id="validFInput" name="input" ng-model="editedPartner.validFrom" ng-change="editedPartner.validFrom=editedPartner.validFrom.toISOString()"
+                                   placeholder="yyyy-MM-dd" required />
                         </div>
                         <div class="form-group">
                             <label for="validTInput">Valid to: </label>
-                            <input type="date" class="form-control" id="validTInput" ng-model="editedPartner.validTo" />
+                            <input type="date" class="form-control" id="validTInput" name="input" ng-model="editedPartner.validTo"
+                                   placeholder="yyyy-MM-dd" required />
                         </div>
                         <div class="form-group">
                             <label ng-if="editedPartner.customers.length > 0">Customers: </label>
@@ -47,7 +49,7 @@
                                         Loans:
                                         <div class="form-group" ng-repeat="loan in customer.loans">
                                     <p class="pull-left list-group-item-text">Amount: {{loan.amount}}. Duration: {{loan.duration}}</p>
-                                    <div class="pull-right" style="color: crimson; cursor: pointer" ng-click="onDeleteLoan($parent.$index, $index)">Delete</div>
+                                    <div class="pull-right" style="color: crimson; cursor: pointer" ng-click="onDeleteLoan($parent.$index, $index)"> Delete</div>
                                 </div>
                                 </p>
                             </div>

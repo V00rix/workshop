@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.UI.WebControls;
+using NHibernate;
+using workshopIS.Helpers;
 using workshopIS.Models;
 
 namespace workshopIS.Controllers
@@ -52,6 +54,9 @@ namespace workshopIS.Controllers
             loan = new CLoan(customer, loanData.amount, loanData.duration, loanData.interest, loanData.note);
             // add to customer
             customer.AddLoan(loan);
+
+            ISession session = NHibernateHelper.GetCurrentSession();
+            session.Close();
 
             // return status
             return Ok("Added new loan to customer " +

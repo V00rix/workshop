@@ -10,6 +10,7 @@
         $scope.selectedPartnerId = pid;
         $scope.editedPartner = angular.copy($scope.models.partners[pid]);
         $scope.inEditMode = true;
+        window.console.log("Selected: ", $scope.editedPartner);
     }
 
     $scope.onEditConfirmed = function () {
@@ -45,6 +46,7 @@
     }
 
     $scope.onDeleteLoan = function (cid, lid) {
+        window.console.log(cid, lid);
         DataService.deleteLoan($scope.editedPartner, cid, lid);
         DataService.updatePartner($scope.selectedPartnerId, $scope.editedPartner);
         $scope.models.partners = DataService.partners;
@@ -57,9 +59,10 @@
     }
 
     $scope.onInit = function () {
-        window.console.log("Partners initialized!");
+        window.console.log("Partners controller initialized!");
         DataService.getPartners().then(() => {
             $scope.models.partners = DataService.partners;
+            window.console.log($scope.models.partners);
         });
     }
 }

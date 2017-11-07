@@ -27,13 +27,21 @@ namespace workshopIS.Models
                                         // reference to customer related loans
         private List<ILoan> loans;
 
+        [JsonProperty("id")]
         public virtual int Id { get => id; set => id = value; }
+        [JsonProperty("phone")]
         public virtual string Phone { get => phone; set => phone = value; }
+        [JsonProperty("firstName")]
         public virtual string FirstName { get => firstName; set => firstName = value; }
+        [JsonProperty("surname")]
         public virtual string Surname { get => surname; set => surname = value; }
+        [JsonProperty("email")]
         public virtual string Email { get => email; set => email = value; }
+        [JsonProperty("contactState")]
         public virtual int? ContactState { get => contactState; set => contactState = value; }
+        [JsonProperty("creationDate")]
         public virtual DateTime? CreationDate { get => creationDate; set => creationDate = value; }
+        [JsonProperty("loans")]
         public virtual List<ILoan> Loans { get => loans; set => loans = value; }
         [JsonIgnore]
         public virtual CPartner Partner { get => partner; set => partner = value; }

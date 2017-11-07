@@ -223,11 +223,13 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\site.css" />
     <EmbeddedResource Include="Models\xml\customer.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\xml\loan.hbm.xml" />
+    <Content Include="JS\Controllers\CallCentreController.js" />
+    <Content Include="JS\Controllers\ReportsController.js" />
     <Content Include="JS\Services\DataService.js" />
     <Content Include="JS\Services\HttpService.js" />
     <Content Include="JS\Shared\DataModel.js" />
@@ -1037,6 +1039,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Main\CallCentre.cshtml" />
+    <Content Include="Views\Main\CallCentre\CallCentre.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Views\Main\Index.cshtml">
       <BrowseToURL>~/Home/Index</BrowseToURL>
     </None>
@@ -1059,6 +1064,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Main\Reports.cshtml" />
+    <Content Include="Views\Main\Reports\Reports.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

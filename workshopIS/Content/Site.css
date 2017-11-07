@@ -22,3 +22,59 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.leftscrollbar {
+    overflow: auto;
+    transform: scaleX(-1);
+}
+
+    .leftscrollbar > div {
+        transform: scaleX(-1);
+    }
+
+.inp-msg-err {
+    color: #ca0000;
+}
+
+.inp-msg-warn {
+    color: #f4a460;
+}
+
+
+input {
+    width: 100%;
+}
+
+.partners {
+    margin-top: 30px;
+}
+
+*::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #483d8b;
+}
+
+@media screen and (max-width: 768px) {
+    .selector {
+        margin-top: 20px
+    }
+}
+
+@media screen and (min-width: 768px) {
+
+    .loan-data {
+        max-height: 75vh;
+        overflow-y: scroll;
+    }
+}

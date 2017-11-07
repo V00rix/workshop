@@ -51,21 +51,27 @@ namespace workshopIS.Controllers
         // PUT: api/Registration
         [Route("data/registration/put")]
         [HttpPut]
-        public IHttpActionResult Put([FromBody] CPartner partner)
+        public IHttpActionResult Put([FromBody] CCustomer cus)
         {
-            int pid;
-            // update data if partner exists (id)
-            if ((pid = Data.Partners.FindIndex(p => p.Id == partner.Id)) >= 0)
-                Data.Partners[pid] = partner;
-            else
-                try
-                {
-                    Data.Partners.Add(new CPartner(partner));
-                }
-                catch
-                {
-                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
-                }
+            CCustomer c = new CCustomer(null, "333-444-555", "Name", "surname", "email", new List<ILoan>());
+            c.Loans.Add(new CLoan(null, 30000, 30, 0.1M, "note"));
+            c.Loans.Add(new CLoan(null, 30000, 30, 0.1M, "note"));
+            c.Loans.Add(new CLoan(null, 30000, 30, 0.1M, "note"));
+            return Content(HttpStatusCode.OK, c);
+
+            //int pid;
+            //// update data if partner exists (id)
+            //if ((pid = Data.Partners.FindIndex(p => p.Id == partner.Id)) >= 0)
+            //    Data.Partners[pid] = partner;
+            //else
+            //    try
+            //    {
+            //        Data.Partners.Add(new CPartner(partner));
+            //    }
+            //    catch
+            //    {
+            //        return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "špatné parametry"));
+            //    }
             return Content(HttpStatusCode.OK, Data.Partners[Data.Partners.Count - 1].Id);
         }
 
@@ -85,20 +91,38 @@ namespace workshopIS.Controllers
             {
                 ISession session = NHibernateHelper.GetCurrentSession();
 
-                var partner = session.Query<CPartner>().First(x => x.Id == id);
-                if (partner == null)
+                var pid = Data.Partners.FindIndex(p => p.Id == id);
+                var cids = Data.Partners[pid].Customers.Select(c => c.Id).ToList();
+                foreach (var t in cids)
                 {
-                    return BadRequest("Partner (id) wasn't found!");
+                    var lids = Data.Partners[pid].Customers[t].Loans
+                        .Select(l => l.Id).ToList();
+                    foreach (var k in lids)
+                    {
+                        session.Delete(session.Get<CCustomer>(k));
+                        session.Flush();
+                    }
+                    session.Delete(session.Get<CCustomer>(t));
+                    session.Flush();
                 }
                 Data.Partners.RemoveAt(Data.Partners.FindIndex(p => p.Id == id));
+                session.Delete(session.Get<CPartner>(id));
+                session.Flush();
+
+                //var partner = session.Query<CPartner>().First(x => x.Id == id);
+                //if (partner == null)
+                //{
+                //    return BadRequest("Partner (id) wasn't found!");
+                //}
+                //Data.Partners.RemoveAt(Data.Partners.FindIndex(p => p.Id == id));
                 //if (partner.IsActive == false)
                 //{
                 //    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Partner is already inactive"));
                 //}
                 //ITransaction tx = session.BeginTransaction();
-                // DATA.DELETEPARTNERS
-                session.Delete(session.Get<CPartner>(id));
-                session.Flush();
+                //// DATA.DELETEPARTNERS
+                //session.Delete(session.Get<CPartner>(id));
+
                 //partner.IsActive = false;
                 //partner.ValidTo = DateTime.Now;
                 //tx.Commit();

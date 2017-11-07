@@ -95,7 +95,7 @@ namespace workshopIS
             }
             finally
             {
-                session.Close();
+                //session.Close();
             }
             return index;
         }

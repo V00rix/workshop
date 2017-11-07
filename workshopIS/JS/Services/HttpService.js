@@ -7,7 +7,7 @@
         return $http.post(this.baseUrl + "/data/loan/post", loanData);
     }
 
-    this.getPartners = function (partners) {
+    this.getPartners = function () {
         window.console.log("Attempting to get partners...");
         return $http.get(this.baseUrl + "/data/registration/");
     }
@@ -18,6 +18,7 @@
     }
 
     this.putPartner = function (partner) {
+        window.console.log(partner);
         window.console.log("Trying to put/update..", JSON.stringify(partner));
         return $http.put(this.baseUrl + "/data/registration/put", JSON.stringify(partner));
     }

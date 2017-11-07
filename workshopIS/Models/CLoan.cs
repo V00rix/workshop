@@ -22,12 +22,19 @@ namespace workshopIS.Models
         // optional
         private string note = null;
 
+        [JsonProperty("id")]
         public virtual int Id { get => id; set => id = value; }
+        [JsonProperty("duration")]
         public virtual int? Duration { get => duration; set => duration = value; }
+        [JsonProperty("amount")]
         public virtual decimal? Amount { get => amount; set => amount = value; }
+        [JsonProperty("interest")]
         public virtual decimal? Interest { get => interest; set => interest = value; }
+        [JsonProperty("monthlyCharge")]
         public virtual decimal? MonthlyCharge { get => monthlyCharge; set => monthlyCharge = value; }
+        [JsonProperty("apr")]
         public virtual decimal? APR { get => apr; set => apr = value; }
+        [JsonProperty("note")]
         public virtual string Note { get => note; set => note = value; }
         [JsonIgnore]
         public virtual CCustomer Customer { get => customer; set => customer = value; }

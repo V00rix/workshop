@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace workshopIS.Models
 {
@@ -14,6 +15,7 @@ namespace workshopIS.Models
 
         int? ContactState { get; set; }
         DateTime? CreationDate { get; set; }
+        [JsonIgnore]
         CPartner Partner { get; set; }
 
         // optional fields
