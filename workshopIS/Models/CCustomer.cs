@@ -25,7 +25,7 @@ namespace workshopIS.Models
                                         // 2 - contacted, confirmed         | U
                                         // 3 - contacted, rejected          | M
                                         // reference to customer related loans
-        private List<ILoan> loans;
+        private List<CLoan> loans;
 
         [JsonProperty("id")]
         public virtual int Id { get => id; set => id = value; }
@@ -42,7 +42,7 @@ namespace workshopIS.Models
         [JsonProperty("creationDate")]
         public virtual DateTime? CreationDate { get => creationDate; set => creationDate = value; }
         [JsonProperty("loans")]
-        public virtual List<ILoan> Loans { get => loans; set => loans = value; }
+        public virtual List<CLoan> Loans { get => loans; set => loans = value; }
         [JsonIgnore]
         public virtual CPartner Partner { get => partner; set => partner = value; }
 
@@ -56,12 +56,12 @@ namespace workshopIS.Models
         /// <param name="surname">Customer's surname</param>
         /// <param name="email">Customer's e-mail adress</param>
         public CCustomer() {
-            loans = new List<ILoan>();
+            loans = new List<CLoan>();
         } 
 
         public CCustomer(CPartner partner, string phone, string firstName = null,
                         string surname = null, string email = null, 
-                        List<ILoan> loans = null)
+                        List<CLoan> loans = null)
         {
             this.partner = partner;
             this.phone = phone;
@@ -83,14 +83,14 @@ namespace workshopIS.Models
             // save to DB and get id
             this.id = Data.SaveToDB(this);
             // create new list if argument is null
-            this.loans = loans ?? new List<ILoan>();
+            this.loans = loans ?? new List<CLoan>();
             // link each loan from list to this customer
-            foreach (ILoan loan in this.loans)
+            foreach (CLoan loan in this.loans)
                 loan.Customer = this;
         }
 
         // Add Loan to list
-        public virtual void AddLoan(ILoan loan)
+        public virtual void AddLoan(CLoan loan)
         {
             // Set child's id
             loan.Customer = this;

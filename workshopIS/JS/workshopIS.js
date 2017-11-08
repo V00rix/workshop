@@ -1,8 +1,8 @@
 ﻿var workshopIS = angular.module("workshopIS", ["ngRoute"]);
 
-workshopIS.directive('tester',function () {
+workshopIS.directive("tester",function () {
         return {
-            require: 'ngModel',
+            require: "ngModel",
             link: function (scope, elm, attrs, ctrl) {
                 ctrl.$validators.tester = function (modelValue) {
                     this.regexs = [
@@ -16,21 +16,20 @@ workshopIS.directive('tester',function () {
                     if (ctrl.$isEmpty(modelValue)) {
                         return true;
                     }
-                    window.console.log(modelValue);
 
                     switch (attrs.tester) {
-                        case 'amount':
+                        case "amount":
                             return (modelValue >= 20000 && modelValue <= 500000 );
-                        case 'duration':
+                        case "duration":
                             return (modelValue >= 6 && modelValue <= 96);
-                        case 'interest':
+                        case "interest":
                             return (modelValue >= 0 && modelValue < 1);
-                        case 'phone':
+                        case "phone":
                             window.console.log(this.regexs.find(r => r.key === "phone"));
                             return this.regexs.find(r => r.key === "phone").reg.test(modelValue);
-                        case 'email':
+                        case "email":
                             return this.regexs.find(r => r.key === "email").reg.test(modelValue);
-                        case 'name':
+                        case "name":
                             return this.regexs.find(r => r.key === "name").reg.test(modelValue);
                         default:
                             return false;
@@ -38,10 +37,37 @@ workshopIS.directive('tester',function () {
                 }
             }
         }
+});
+
+workshopIS.filter("state",
+    function() {
+        return function(input) {
+            input = input || "0";
+            var out;
+            window.console.log(input);
+            switch (input) {
+                case "0":
+                    out = "Not yet contacted";
+                    break;
+                case "1":
+                    out = "Could not make contact";
+                    break;
+                case "2":
+                    out = "Contacted, confirmed";
+                    break;
+                case "3":
+                    out = "Contacted, accepted";
+                    break;
+                default:
+                    out = "Invalid contact state";
+                    break;
+            }
+            return out;
+        };
     });
 
-workshopIS.service('HttpService', HttpService);
-workshopIS.service('DataService', DataService);
+workshopIS.service("HttpService", HttpService);
+workshopIS.service("DataService", DataService);
 
 workshopIS.controller("MainController", MainController);
 workshopIS.controller("LoanController", LoanController);

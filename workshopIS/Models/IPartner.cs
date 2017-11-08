@@ -15,8 +15,8 @@ namespace workshopIS.Models
         DateTime? ValidFrom { get; set; }
         DateTime? ValidTo { get; set; }
         Byte[] FileData { get; set; }
-        List<ICustomer> Customers { get; set; }
+        List<CCustomer> Customers { get; set; }
 
-        void AddCustomer(ICustomer customer);
+        void AddCustomer(CCustomer customer);
     }
 }

@@ -1,0 +1,14 @@
+{
+  "name": "ws",
+  "homepage": "https://github.com/V00rix/workshop",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

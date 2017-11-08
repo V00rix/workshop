@@ -21,7 +21,7 @@
 
     <!--<property name="PartnerId" />-->
 
-    <many-to-one name="Partner" column="PartnerId" cascade="none"  />
+    <many-to-one name="Partner" column="PartnerId" cascade="save-update"  />
 
   </class>
 </hibernate-mapping>

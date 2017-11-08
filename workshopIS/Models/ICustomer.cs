@@ -11,7 +11,8 @@ namespace workshopIS.Models
     {
         int Id { get; set; }
         string Phone { get; set; }
-        List<ILoan> Loans { get; set; }
+
+        List<CLoan> Loans { get; set; }
 
         int? ContactState { get; set; }
         DateTime? CreationDate { get; set; }
@@ -23,6 +24,6 @@ namespace workshopIS.Models
         string Surname { get; set; }
         string Email { get; set; }
 
-        void AddLoan(ILoan loan);
+        void AddLoan(CLoan loan);
     }
 }

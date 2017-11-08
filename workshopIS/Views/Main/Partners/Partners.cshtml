@@ -1,6 +1,6 @@
 ﻿<div ng-app="workshopIS" ng-controller="PartnersController" ng-init="onInit()">
-    <div class="container">
-        <div class="row">
+    <div class="container my-container">
+        <div class="row my-row ">
             <div class="col-xs-12">
                 <h1>Partners</h1>
             </div>
@@ -23,11 +23,11 @@
                     <form ng-submit="onEditConfirmed()">
                         <div class="form-group">
                             <label for="nameInput">Name:</label>
-                            <input type="text" class="form-control" id="nameInput" ng-model="editedPartner.name" />
+                            <input type="text" class="form-control" id="nameInput" ng-model="editedPartner.name" minlength="1" maxlength="20" requierd/>
                         </div>
                         <div class="form-group">
                             <label for="icoInput">ICO: </label>
-                            <input type="text" class="form-control" id="icoInput" ng-model="editedPartner.ico" />
+                            <input type="text" class="form-control" id="icoInput" ng-model="editedPartner.ico" maxlength="8" minlength="8" requierd/>
                         </div>
                         <div class="form-group">
                             <label for="validFInput">Valid from: </label>
@@ -38,6 +38,10 @@
                             <label for="validTInput">Valid to: </label>
                             <input type="date" class="form-control" id="validTInput" name="input" ng-model="editedPartner.validTo"
                                    placeholder="yyyy-MM-dd" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="file" name="file" multiple onchange="angular.element(this).scope().appendFile(this.files)" />
+                            @*<input ng-if="selectedPartnerId == null || selectedPartnerId == undefined" type="file" name="file" onchange="angular.element(this).scope().appendFile(this.files)" />*@
                         </div>
                         <div class="form-group">
                             <label ng-if="editedPartner.customers.length > 0">Customers: </label>

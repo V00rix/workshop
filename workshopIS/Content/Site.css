@@ -1,6 +1,30 @@
-﻿body {
+﻿html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100%;
     padding-top: 50px;
     padding-bottom: 20px;
+     /*background: linear-gradient(121deg, rgba(105,250,255,1) 0%, rgba(36,29,128,1) 100%);*/
+    background: #23A6D5;
+    background: linear-gradient(-45deg, #ef9377, #d19acf, #23A6D5, #23D5AB);
+    background-size: 200% 200%;
+    background-repeat: no-repeat;
+    background-position: 52% 52%;
+    animation: Gradient 15s ease-in-out infinite;
+}
+
+@keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -40,29 +64,76 @@ textarea {
     color: #f4a460;
 }
 
-
-input {
-    width: 100%;
+.my-row {
+    padding: 0 25px;
 }
 
+.my-contact-state {
+    background-color: #ef9377;
+}
+
+.my-navbar {
+    box-shadow: 0px 0px 20px 0px;
+    color: rgb(255, 255, 255);
+    background: #4e4e4e;
+    font: arial, sans-serif;
+    font-kerning: sans-serif;
+    border: none;
+    box-shadow: 0px -7px 12px 8px rgba(0, 0, 0, 0.65);
+}
+
+.my-container {
+    box-shadow: 0px 0px 10px;
+    background-color: #efefef;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    overflow: hidden;
+}
+
+.my-big-header {
+    margin: 0;
+    color: #efefef !important;
+    font: italic 600 small-caps normal 1.2em Arial, Helvetica, sans-serif;
+    text-shadow: 0 1px 10px #5a5a5a;
+    cursor: default;
+}
+
+.fixed-col {
+    overflow-y: scroll;
+    /* padding-top: 20px; */
+    /* padding-bottom: 20px; */
+    padding: 50px 30px 10px;
+    margin-top: -20px;
+    margin-left: -25px;
+    margin-bottom: -20px;
+}
+
+.my-valid {
+    color: rgb(53, 162, 128);
+}
+
+.my-invalid {
+    color: rgb(207, 60, 60);
+}
 .partners {
     margin-top: 30px;
 }
 
 *::-webkit-scrollbar-track {
-    border-radius: 10px;
     background-color: transparent;
 }
 
 *::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
+    height: 5px;
     background-color: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: #483d8b;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.68);
 }
 
 @media screen and (max-width: 768px) {
@@ -72,6 +143,9 @@ input {
 }
 
 @media screen and (min-width: 768px) {
+    .fixed-col {
+        max-height: 83vh;
+    }
 
     .loan-data {
         max-height: 75vh;

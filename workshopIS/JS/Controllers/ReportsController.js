@@ -18,11 +18,8 @@
             for (let p of $scope.models.partners) {
                 p.totalIncome = $scope.countIncome(p);
             }
-            $scope.allCustomers = $scope.models.partners.map(p => p.customers).reduce((acc, val) => {
-                return val.concat(acc);
-            }, []);
+            $scope.allCustomers = $scope.models.partners.map(p => p.customers).reduce((acc, val) => val.concat(acc), []);
         });
-
     }
 
     $scope.countIncome = function (partner) {

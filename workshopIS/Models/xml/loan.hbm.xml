@@ -20,7 +20,7 @@
     
     <property name="APR" />
 
-    <many-to-one name="Customer" column="CustomerID" cascade="none"  />
+    <many-to-one name="Customer" column="CustomerID" cascade="save-update"  />
 
   </class>
 </hibernate-mapping>

@@ -1,13 +1,13 @@
 ﻿<div ng-app="workshopIS" ng-controller="ReportsController" ng-init="onInit()">
-    <div class="container">
-        <div class="row">
+    <div class="container my-container">
+        <div class="row my-row">
             <div class="col-xs-12 col-sm-6">
                 <h2>Partners</h2>
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <div class="form-group">
                         <div class="col-sm-10 selector">
-                            <label for="singleSelect">Sort </label>
-                            <select name="singleSelect" ng-model="fromHighest">
+                            <label for="sortPartners">Sort </label>
+                            <select name="sortPartners" id="sortPartners" ng-model="fromHighest">
                                 <option ng-value="true">From Highest</option>
                                 <option ng-value="false">From Lowest</option>
                             </select><br>
@@ -23,25 +23,33 @@
             </div>
             <div class="col-xs-12 col-sm-6">
                 <h2>Clients</h2>
-                <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12">
                     <div class="form-group">
                         <div class="col-sm-10 selector">
-                            <label for="singleSelect">Sort by </label>
-                            <select name="singleSelect" ng-model="sortCustomers">
+                            <label for="sortCustomers">Sort by </label>
+                            <select name="sortCustomers" id="sortCustomers" ng-model="sortCustomers">
                                 <option ng-value="'name'">By name</option>
                                 <option ng-value="'state'">By contact state</option>
                             </select><br>
-                            
+
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-12 partners">
                     <ul class="list-group">
                         <li ng-if="sortCustomers === 'name'" class="list-group-item" ng-repeat="customer in allCustomers | orderBy: ['firstName', 'surname']">
-                            <p>{{customer.firstName}} {{customer.surname}}</p><p>Partner ID: {{customer.partnerId}}. State: {{customer.contactState}}</p>
+                            <p>{{customer.firstName}} {{customer.surname}}</p>
+                            <p>
+                                Partner ID: {{customer.partnerId}}.
+                                <br />State: {{customer.contactState | state}}
+                            </p>
                         </li>
                         <li ng-if="sortCustomers === 'state'" class="list-group-item" ng-repeat="customer in allCustomers | orderBy: 'contactState'">
-                            <p>{{customer.firstName}} {{customer.surname}}</p><p>Partner ID: {{customer.partnerId}}. State: {{customer.contactState}}</p>
+                            <p>{{customer.firstName}} {{customer.surname}}</p>
+                            <p>
+                                Partner ID: {{customer.partnerId}}.
+                                <br />State: {{customer.contactState | state}}
+                            </p>
                         </li>
                         @*<li ng-if="fromHighest" class="list-group-item" ng-repeat="partner in models.partners | orderBy:'-totalIncome'">{{partner.name}}<span class="badge">{{ partner.totalIncome | currency:'' }} Kč</span></li>*@
                     </ul>

@@ -18,7 +18,7 @@ namespace workshopIS.Models
         private bool? isActive;
         private DateTime? validTo;
         private Byte[] fileData;
-        private List<ICustomer> customers;
+        private List<CCustomer> customers;
 
         [JsonProperty("id")]
         public virtual int Id { get => id; set => id = value; }
@@ -30,16 +30,16 @@ namespace workshopIS.Models
         public virtual DateTime? ValidFrom { get => validFrom; set => validFrom = value; }
         [JsonProperty("validTo")]
         public virtual DateTime? ValidTo { get => validTo; set => validTo = value; }
-        [JsonProperty("fileData")]
+        [JsonIgnore]
         public virtual Byte[] FileData { get => fileData; set => fileData = value; }
         [JsonProperty("customers")]
-        public virtual List<ICustomer> Customers { get => customers; set => customers = value; }
+        public virtual List<CCustomer> Customers { get => customers; set => customers = value; }
         [JsonProperty("isActive")]
         public virtual bool? IsActive { get => isActive; set => isActive = value; }
 
         public CPartner()
         {
-            customers = new List<ICustomer>();
+            customers = new List<CCustomer>();
         }
 
         // constructors
@@ -55,7 +55,7 @@ namespace workshopIS.Models
         /// <param name="customers">Customers of the partner</param>
         public CPartner(string name, int ICO,
             DateTime? validFrom = null, DateTime? validTo = null, bool isActive = true,
-            Byte[] fileData = null, List<ICustomer> customers = null)
+            Byte[] fileData = null, List<CCustomer> customers = null)
         {
             this.name = name;
             this.ICO = ICO;
@@ -77,9 +77,9 @@ namespace workshopIS.Models
             // save to DB and get id
             this.id = Data.SaveToDB(this);
             // create new list if argument is null
-            this.customers = customers ?? new List<ICustomer>();
+            this.customers = customers ?? new List<CCustomer>();
             // link each loan from list to this customer
-            foreach (ICustomer customer in this.customers)
+            foreach (CCustomer customer in this.customers)
                 customer.Partner = this;
         }
 
@@ -109,14 +109,14 @@ namespace workshopIS.Models
             // save to DB and get id
             this.id = Data.SaveToDB(this);
             // create new list if argument is null
-            this.customers = p.customers ?? new List<ICustomer>();
+            this.customers = p.customers ?? new List<CCustomer>();
             // link each loan from list to this customer
-            foreach (ICustomer customer in this.customers)
+            foreach (CCustomer customer in this.customers)
                 customer.Partner = this;
         }
 
         // Add new customer to list
-        public virtual void AddCustomer(ICustomer customer)
+        public virtual void AddCustomer(CCustomer customer)
         {
             customer.Partner = this;
             customers.Add(customer);

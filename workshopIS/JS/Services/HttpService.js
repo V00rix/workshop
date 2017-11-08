@@ -20,12 +20,23 @@
     this.putPartner = function (partner) {
         window.console.log(partner);
         window.console.log("Trying to put/update..", JSON.stringify(partner));
-        return $http.put(this.baseUrl + "/data/registration/put", JSON.stringify(partner));
+        return $http.put(this.baseUrl + "/data/registration/put", JSON.stringify(partner, (key, value) => {
+            if (key === "fileData")
+                return undefined;
+            else return value;
+        }));
     }
 
     this.deletePartner = function (id) {
         window.console.log("Trying to delete..", JSON.stringify(id));
         return $http.put(this.baseUrl + "/data/registration/delete", JSON.stringify(id));
+    }
+
+    this.postFile = function (data) {
+        return $http.post(this.baseUrl + "/data/registration/file", data, {
+                transformRequest: angular.identity,
+                headers: { 'Content-Type': undefined }
+            });
     }
 }
 

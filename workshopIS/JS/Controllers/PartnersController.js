@@ -5,6 +5,7 @@
     $scope.inEditMode = false;
     $scope.selectedPartnerId = null;
     $scope.editedPartner = null;
+    $scope.formData = null;
 
     $scope.onPartnerSelected = function (pid) {
         $scope.selectedPartnerId = pid;
@@ -14,15 +15,28 @@
     }
 
     $scope.onEditConfirmed = function () {
-        window.console.log("Edited partner: ", $scope.editedPartner, $scope.selectedPartnerId);
+        window.console.log("Edited partner: ", $scope.editedPartner, $scope.editedPartner.id);
         // not null -> editing existing
-        if ($scope.selectedPartnerId != null)
-            DataService.updatePartner($scope.selectedPartnerId, $scope.editedPartner);
-        else
-            DataService.addPartner($scope.editedPartner);
+        if ($scope.selectedPartnerId !== null) {
+            if ($scope.formData)
+                $scope.formData.append("id", $scope.editedPartner.id);
+            DataService.updatePartner($scope.selectedPartnerId, $scope.editedPartner, $scope.formData).then(() => {
+                    $scope.formData = null;
+                });
+        }
+        else {
+            DataService.addPartner($scope.editedPartner, $scope.formData).then(() => {
+                $scope.formData = null;
+            });
+        }
         $scope.models.partners = DataService.partners;
         $scope.closeEdit();
     }
+
+    $scope.appendFile = function (files) {
+        $scope.formData = new FormData();
+        $scope.formData.append("file", files[0]);
+    };
 
     $scope.newPartner = function () {
         $scope.editedPartner = new Partner();
@@ -34,22 +48,17 @@
     }
 
     $scope.onDeletePartner = function () {
-        if ($scope.selectedPartnerId != null)
+        if ($scope.selectedPartnerId !== null)
             DataService.deletePartner($scope.selectedPartnerId);
         $scope.closeEdit();
     }
 
     $scope.onDeleteCustomer = function (cid) {
         DataService.deleteCustomer($scope.editedPartner, cid);
-        DataService.updatePartner($scope.selectedPartnerId, $scope.editedPartner);
-        $scope.models.partners = DataService.partners;
     }
 
     $scope.onDeleteLoan = function (cid, lid) {
-        window.console.log(cid, lid);
         DataService.deleteLoan($scope.editedPartner, cid, lid);
-        DataService.updatePartner($scope.selectedPartnerId, $scope.editedPartner);
-        $scope.models.partners = DataService.partners;
     }
 
     $scope.closeEdit = function () {

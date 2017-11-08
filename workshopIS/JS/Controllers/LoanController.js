@@ -92,7 +92,7 @@
             $scope.errors.lAmount.err.push("Loan amount not in range!");
             err.push("Loan amount not in range!");
             res = false;
-        }
+        }``
         if (!$scope.currentLoan.duration) {
             $scope.errors.lDuration.err.push("Loan duration wasn't entered!");
             err.push("Loan duration wasn't entered!");
@@ -135,8 +135,8 @@
             warn.push("Invalid email!");
         }
         if (!$scope.currentLoan.interest) {
-            $scope.errors.uName.warn.push("Loan duration wasn't entered - setting to .1");
-            warn.push("Loan duration wasn't entered - setting to .1");
+            $scope.errors.uName.warn.push("Interest wasn't entered - setting to .1");
+            warn.push("Interest wasn't entered - setting to .1");
         }
 
         if (err.length < 1 && warn.length < 1)
