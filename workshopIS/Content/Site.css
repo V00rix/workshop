@@ -150,7 +150,7 @@ textarea {
     background-color: transparent;
     width: 50%;
     height: 50%;
-    border: 1px solid black;
+    border: 1px solid rgba(0,0,0,.09);
     float: left;
     transition: background-color .3s ease-in;
 }
@@ -174,6 +174,7 @@ textarea {
 
 
 .my-section-link {
+    line-height: 10rem;
     font-size: 10rem;
     text-decoration: none;
     display: block;
@@ -182,6 +183,7 @@ textarea {
     color: rgba(0, 0, 0, 0.39);
     text-decoration: none;
     transition: color .3s ease-in, text-shadow .5s ease-in;
+    padding: 15px;
 }
 
 .my-section-link:hover {
@@ -192,6 +194,7 @@ textarea {
 
 .my-4th-section:hover {
     background-color: rgba(107, 36, 88, 0.32);
+
 }
 
 

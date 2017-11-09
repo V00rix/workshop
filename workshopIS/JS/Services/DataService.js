@@ -2,13 +2,6 @@
     // partners model
     this.partners = null;
 
-    // On Initialize
-    this.init = function () {
-        window.console.log("Data service initialized.");
-        // this.fakePartners();
-        this.getPartners();
-    }
-
     // MOCKING function form basic functionality
     this.fakePartners = function () {
         this.partners = [
@@ -168,9 +161,6 @@
     this.updateState = function (pid, cid, contactState) {
         HttpService.updateState(pid, cid, contactState);
     }
-
-    // initialize service
-    this.init();
 }
 
 DataService.$inject = ["HttpService"]; 
