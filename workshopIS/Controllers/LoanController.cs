@@ -53,14 +53,7 @@ namespace workshopIS.Controllers
             Data.CloseSession();
 
             // return status
-            return Ok("Added new loan to customer " +
-                (customer.FirstName != null ? customer.FirstName + " " : "") +
-                (customer.Surname != null ? customer.Surname + " " : "") +
-                customer.Phone + ".\n" +
-                "\tLoan:\n" +
-                "\t\tAmount:" + loan.Amount + ". Duration: " + loan.Duration + ".\n" +
-                "\t\tMonthly charge: " + loan.MonthlyCharge + ".\n" +
-                "\t\tAnnual percentage rate:" + loan.APR + ".");
+            return Ok(customer);
         }
 
         // GET: api/calculator

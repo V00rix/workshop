@@ -25,7 +25,6 @@ workshopIS.directive("tester",function () {
                         case "interest":
                             return (modelValue >= 0 && modelValue < 1);
                         case "phone":
-                            window.console.log(this.regexs.find(r => r.key === "phone"));
                             return this.regexs.find(r => r.key === "phone").reg.test(modelValue);
                         case "email":
                             return this.regexs.find(r => r.key === "email").reg.test(modelValue);
@@ -42,20 +41,19 @@ workshopIS.directive("tester",function () {
 workshopIS.filter("state",
     function() {
         return function(input) {
-            input = input || "0";
+            input = input || 0;
             var out;
-            window.console.log(input);
-            switch (input) {
-                case "0":
-                    out = "Not yet contacted";
+            switch (parseInt(input)) {
+                case 0:
+                    out = "Not contacted yet";
                     break;
-                case "1":
+                case 1:
                     out = "Could not make contact";
                     break;
-                case "2":
+                case 2:
                     out = "Contacted, confirmed";
                     break;
-                case "3":
+                case 3:
                     out = "Contacted, accepted";
                     break;
                 default:

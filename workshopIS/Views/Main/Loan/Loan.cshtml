@@ -3,18 +3,16 @@
         <div class="row text-center my-row">
             <div class="col-xs-12 col-sm-6 col-md-6 fixed-col leftscrollbar">
                 <div>
-                    <form name="form" ng-submit="onCreateLoan()" novalidate>
+                    <form name="form" ng-submit="onCreateLoan((form.partnerInput.$valid || form.partnerInput2.$valid) && form.lAmount.$valid && form.lDuration.$valid && form.lInterest.$valid && form.uPhone.$valid)" novalidate>
                         <div class="text-left">
                             <div class="hidden-lg hidden-md hidden-sm form-group">
                                 <div calss="form-control">
                                     <label for="partnerInput" ng-style="selectedPartner ? {'color': '#202020'} :
                             {'color': 'rgb(199, 80, 24)'}">Partner</label>
-                                    <select id="partnerInput" name="partnerInput" class="form-control" ng-model="selectedPartner">
-                                        <option ng-value="null" selected>
-                                            Please select a partner
-                                        </option>
+                                    <select id="partnerInput" name="partnerInput" class="form-control" ng-model="selectedPartner" required>
                                         <option ng-repeat="partner in models.partners" ng-value="partner">{{partner.name}}</option>
                                     </select>
+                                    <div class="inp-msg-err" ng-show="form.partnerInput2.$error.required">Please select a partner.</div>
                                 </div>
                                 <div class="list-group-item clearfix text-left" ng-if="selectedPartner" style="margin-top: 10px;">
                                     <div class="pull-left">
@@ -65,8 +63,6 @@
                                 <div ng-show="form.$submitted || form.uPhone.$touched">
                                     <div class="inp-msg-err" ng-show="form.uPhone.$error.tester">Not valid phone format.</div>
                                     <div class="inp-msg-err" ng-show="form.uPhone.$error.required">Phone number is required.</div>
-                                    @*<div ng-repeat="err in errors.uPhone.err" ng-show="form.uPhone.$error.required" class="inp-err-msg">{{ err }}</div>*@
-                                    @*<div ng-repeat="warn in errors.uPhone.warn" ng-show="form.uPhone.$error.required" class="inp-err-msg">{{ warn }}</div>*@
                                 </div>
                             </div>
                             <hr />
@@ -95,8 +91,10 @@
                                     <input type="text" class="form-control" id="noteInput" ng-model="editedCustomer.note" />
                                 </div>
 
-                                <button type="submit" class="btn btn-success">Confirm</button>
-                                <button type="button" class="btn btn-primary" ng-click="onEditCanceled()">Cancel</button>
+                                <button type="submit" class="btn btn-success" ng-class="{'disabled': !(
+                                        (form.partnerInput.$valid || form.partnerInput2.$valid) 
+                                        && form.lAmount.$valid && form.lDuration.$valid && form.lInterest.$valid && form.uPhone.$valid)}">Confirm</button>
+                                <button type="button" class="btn btn-primary" ng-click="clearForm(form)">Clear</button>
                             </div>
                         </div>
                     </form>
@@ -104,14 +102,12 @@
             </div>
             <div class="hidden-xs col-sm-6 col-md-6 text-left fixed-col" name="p">
                 <div calss="form-control">
-                    <label for="partnerInput" ng-style="selectedPartner ? {'color': '#202020'} :
+                    <label for="partnerInput2" ng-style="selectedPartner ? {'color': '#202020'} :
                             {'color': 'rgb(199, 80, 24)'}">Partner</label>
-                    <select id="partnerInput" name="partnerInput" class="form-control" ng-model="selectedPartner">
-                        <option ng-value="null" selected>
-                            Please select a partner
-                        </option>
+                    <select id="partnerInput2" name="partnerInput2" class="form-control" ng-model="selectedPartner" required>
                         <option ng-repeat="partner in models.partners" ng-value="partner">{{partner.name}}</option>
                     </select>
+                    <div class="inp-msg-err" ng-show="form.partnerInput2.$error.required">Please select a partner.</div>
                 </div>
                 <div class="list-group-item clearfix text-left" ng-if="selectedPartner" style="margin-top: 10px;">
                     <div class="pull-left">

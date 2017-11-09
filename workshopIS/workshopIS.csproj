@@ -1032,6 +1032,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="JS\Controllers\LoanController.js" />
+    <Content Include="Views\Main\CallCentre\CallCentre.css" />
     <Content Include="Views\Main\Loan\Loan.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1049,6 +1050,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Views\Main\NotFound.cshtml" />
+    <Content Include="Views\Main\Reports\Reports.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

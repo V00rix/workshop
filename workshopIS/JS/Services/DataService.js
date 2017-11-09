@@ -1,13 +1,15 @@
 ﻿var DataService = function (HttpService) {
-    this.partners = new Array();
+    // partners model
+    this.partners = null;
 
+    // On Initialize
     this.init = function () {
         window.console.log("Data service initialized.");
         // this.fakePartners();
         this.getPartners();
     }
 
-    // create test partners
+    // MOCKING function form basic functionality
     this.fakePartners = function () {
         this.partners = [
             new Partner("my boi", 312, new Date(2013, 10, 12, 0, 0, 0, 0)),
@@ -40,18 +42,6 @@
         window.console.log("Fake partners created.", this.partners);
     }
 
-    // LOAN: POST
-    this.addLoan = function (loanData) {
-        return HttpService.postLoan(loanData).then(
-            (res) => {
-                this.getPartners();
-                window.console.log("Successs!", res);
-            },
-            (res) => {
-                window.console.log("Error!", res);
-            });
-    }
-
     // remove loan by Id
     this.deleteLoan = function (partner, cid, lid) {
         partner.customers[cid].loans.splice(lid, 1);
@@ -67,8 +57,27 @@
         partner.customers.splice(cid, 1);
     }
 
+    // LOAN: POST
+    this.addLoan = function (loanData) {
+        window.console.log("Adding new loan...");
+        // to server
+        return HttpService.postLoan(loanData).then(
+            (res) => {
+                window.console.log("Success!", res);
+                var p, c;
+                if ((p = this.partners.find(p => p.partnerId === loanData.partnerId) != null)
+                    && (c = p.customers.find(c => c.id === res.id)) != null)
+                    c = res;
+            },
+            (res) => {
+                window.console.log("Error!", res);
+            });
+    }
+
     // PARTNERS: GET
     this.getPartners = function () {
+        window.console.log("Getting partners...");
+        // to server
         return HttpService.getPartners().then(
             (res) => {
                 window.console.log("Success.", res.data);
@@ -91,6 +100,7 @@
 
     // PARTNER: ADD
     this.addPartner = function (partner, formData) {
+        window.console.log("Adding new partner...");
         // to server
         return HttpService.putPartner(partner).then(
             (res) => {
@@ -107,6 +117,7 @@
 
     // PARTNER: UPDATE
     this.updatePartner = function (id, partner, formData) {
+        window.console.log("Updating partner " + id + "...");
         // to server
         return HttpService.putPartner(angular.copy(partner)).then(
             (res) => {
@@ -128,6 +139,7 @@
 
     // PARTNER: DELETE
     this.deletePartner = function (id) {
+        window.console.log("Deleting partner " + id + "...");
         // to server
         HttpService.deletePartner(this.partners[id].id).then(
             (res) => {
@@ -139,9 +151,10 @@
             });
     }
 
-    // POST FILE 
+    // POST FILE of a partner
     this.postFile = function (data) {
         window.console.log("Posting file data...");
+        // to server
         HttpService.postFile(data).then(
             (res) => {
                 window.console.log("Successs!", res);
@@ -151,6 +164,12 @@
             });
     }
 
+    // UPDATE STATE of a customer 
+    this.updateState = function (pid, cid, contactState) {
+        HttpService.updateState(pid, cid, contactState);
+    }
+
+    // initialize service
     this.init();
 }
 

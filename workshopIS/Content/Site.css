@@ -2,6 +2,27 @@
     min-height: 100%;
 }
 
+.my-contact-state {
+    padding: 5px;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.my-contact-state-could-not {
+    background-color: #dbb9af;
+}
+
+.my-contact-state-rejected {
+    background-color: #a4a8ad;
+}
+
+.my-contact-state-accepted {
+    background-color: #aed3a3;
+}
+.my-contact-state-not-yet {
+    background-color: #f4e7c5;
+}
+
 body {
     min-height: 100%;
     padding-top: 50px;
@@ -12,7 +33,7 @@ body {
     background-size: 200% 200%;
     background-repeat: no-repeat;
     background-position: 52% 52%;
-    animation: Gradient 15s ease-in-out infinite;
+    /*animation: Gradient 15s ease-in-out infinite;*/
 }
 
 @keyframes Gradient {
@@ -66,10 +87,6 @@ textarea {
 
 .my-row {
     padding: 0 25px;
-}
-
-.my-contact-state {
-    background-color: #ef9377;
 }
 
 .my-navbar {

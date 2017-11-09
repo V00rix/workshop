@@ -109,6 +109,10 @@ namespace workshopIS
             session.Flush();
         }
 
+        /// <summary>
+        /// Erase selected partner from database
+        /// </summary>
+        /// <param name="pid">Partner's id</param>
         public static void RemovePartner(int pid)
         {
             RemoveFromDb(Partners[pid]);
@@ -116,8 +120,11 @@ namespace workshopIS
             Partners.RemoveAt(pid);
         }
 
-
-
+        /// <summary>
+        /// Update database entity of selected partner
+        /// </summary>
+        /// <param name="pid">Id of a partner</param>
+        /// <param name="partner">New value</param>
         public static void UpdatePartner(int pid, CPartner partner)
         {
             byte[] tempFile = Partners[pid].FileData;
@@ -149,12 +156,15 @@ namespace workshopIS
             tx.Commit();
         }
 
+        /// <summary>
+        /// Close session
+        /// </summary>
         public static void CloseSession()
         {
             ISession session = NHibernateHelper.GetCurrentSession();
             session.Close();
         }
-          
+
         /// <summary>
         /// Appends File to specified partner, or last if none was specified.
         /// <para>Second use in case of creating new partner.</para>
@@ -180,6 +190,35 @@ namespace workshopIS
             {
                 session.Close();
             }
+        }
+
+        /// <summary>
+        /// Update contact state of the selected customer
+        /// </summary>
+        /// <param name="pid">Partner's id</param>
+        /// <param name="cid">Customer's id</param>
+        /// <param name="state">New state value</param>
+        public static void UpdateState(int pid, int cid, int state)
+        {
+            ISession session = NHibernateHelper.GetCurrentSession();
+            ITransaction tx = session.BeginTransaction();
+            Partners[pid].Customers[cid].ContactState = state;
+            session.Update(Partners[pid].Customers[cid]);
+            tx.Commit();
+        }
+
+        /// <summary>
+        /// Update contact state of the selected customer
+        /// </summary>
+        /// <param name="customer">Selected customer</param>
+        /// <param name="state">New state value</param>
+        public static void UpdateState(CCustomer customer, int state)
+        {
+            ISession session = NHibernateHelper.GetCurrentSession();
+            ITransaction tx = session.BeginTransaction();
+            customer.ContactState = state;
+            session.Update(customer);
+            tx.Commit();
         }
     }
 }

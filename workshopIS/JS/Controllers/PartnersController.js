@@ -21,8 +21,8 @@
             if ($scope.formData)
                 $scope.formData.append("id", $scope.editedPartner.id);
             DataService.updatePartner($scope.selectedPartnerId, $scope.editedPartner, $scope.formData).then(() => {
-                    $scope.formData = null;
-                });
+                $scope.formData = null;
+            });
         }
         else {
             DataService.addPartner($scope.editedPartner, $scope.formData).then(() => {
@@ -67,11 +67,15 @@
         $scope.inEditMode = false;
     }
 
+    // Initialization
     $scope.onInit = function () {
-        window.console.log("Partners controller initialized!");
-        DataService.getPartners().then(() => {
+        if (DataService.partners) {
             $scope.models.partners = DataService.partners;
-            window.console.log($scope.models.partners);
+            window.console.log("Partners controller initialized!");
+        }
+        else DataService.getPartners().then(() => {
+            $scope.models.partners = DataService.partners;
+            window.console.log("Partners controller initialized!");
         });
     }
 }

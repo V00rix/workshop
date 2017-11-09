@@ -2,6 +2,7 @@
     window.console.log("Http service initialized.");
     this.baseUrl = "http://localhost:53911";
 
+
     this.postLoan = function(loanData) {
         window.console.log("Attempting to post loanData...");
         return $http.post(this.baseUrl + "/data/loan/post", loanData);
@@ -37,6 +38,18 @@
                 transformRequest: angular.identity,
                 headers: { 'Content-Type': undefined }
             });
+    }
+
+    this.updateState = function (pid, cid, state) {
+        var obj = {
+            pid: pid,
+            cid: cid,
+            state: state
+        }
+        window.console.log(obj);
+        window.console.log("Fine", pid, cid, state);
+        return $http.post(this.baseUrl + "/data/callcentre/state",
+            JSON.stringify(obj));
     }
 }
 

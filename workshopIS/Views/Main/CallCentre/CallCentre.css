@@ -1,0 +1,21 @@
+﻿.my-contact-state {
+    padding: 5px;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.my-contact-state-could-not {
+    background-color: #dbb9af;
+}
+
+.my-contact-state-rejected {
+    background-color: #a4a8ad;
+}
+
+.my-contact-state-accepted {
+    background-color: #aed3a3;
+}
+
+.my-contact-state-not-yet {
+    background-color: #f4e7c5;
+}

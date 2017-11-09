@@ -17,8 +17,6 @@
         uPhone: $scope.ErrMsg([], [])
     }
 
-
-
     $scope.regexs = [
         { reg: /^(([a-z -'`A-Z]*)|([а-я -'`А-Я]*)|([a-z -'`A-ZěščřžýáíéúůĚŠČŘŽÝÁÍÉÚŮ]*))$/, key: "name" },
         { reg: /^((\+[0-9][0-9][0-9][ -]?)?[0-9][0-9][0-9][ -]?[0-9][0-9][0-9][ -]?[0-9][0-9][0-9])$/, key: "phone" },
@@ -39,8 +37,10 @@
         $scope.editedCustomer.partner = $scope.selectedPartner;
     }
 
-    $scope.onCreateLoan = function () {
-        if ($scope.dataValid()) {
+    // Send form to server and create loan on success
+    $scope.onCreateLoan = function (valid) {
+        window.console.log(valid);
+        if (valid) {
             window.console.log("Data valid. Creating new loan...");
             DataService.addLoan({
                 amount: $scope.currentLoan.amount,
@@ -52,7 +52,7 @@
                 surname: $scope.editedCustomer.surname,
                 email: $scope.editedCustomer.email,
                 note: $scope.editedCustomer.note
-            }).then($scope.models.partners = DataService.partners);
+            });
         }
         else {
             window.console.log("Invalid data! Could not create loan.");
@@ -60,7 +60,27 @@
 
     }
 
+    $scope.clearForm = function (form) {
+        // reset values
+        $scope.editedCustomer = new Customer();
+        $scope.currentLoan = new Loan();
+        $scope.currentLoan.interest = .1;
+        $scope.selectedPartner = null;
+        window.console.log("Clearing form...");
+        // reset form
+        var controlNames = Object.keys(form).filter(key => key.indexOf('$') !== 0);
+        for (var name of controlNames) {
+            if (form[name].control)
+                form[name].control.$modelValue = null;
+        }
+        form.$setPristine();
+        form.$setUntouched();
+    }
+
+    // Data validation on form submit [prb. erase]
     $scope.dataValid = function () {
+
+        window.console.log($scope.currentLoan);
         for (let prop in $scope.errors) {
             $scope.errors[prop] = new $scope.ErrMsg([], []);
         }
@@ -72,6 +92,7 @@
         var res = true;
 
         // Errors
+
         if (!$scope.selectedPartner) {
             $scope.errors.partner.err.push("No partner selected!");
             err.push("No partner selected!");
@@ -84,16 +105,18 @@
             res = false;
         }
         if (!$scope.currentLoan.amount) {
+            window.console.log($scope.currentLoan.amount);
             $scope.errors.lAmount.err.push("Loan amount wasn't entered!");
             err.push("Loan amount wasn't entered!");
             res = false;
         }
-        if ($scope.currentLoan.amount > 50000 || $scope.currentLoan.amount < 20000) {
+        if ($scope.currentLoan.amount > 500000 || $scope.currentLoan.amount < 20000) {
             $scope.errors.lAmount.err.push("Loan amount not in range!");
             err.push("Loan amount not in range!");
             res = false;
-        }``
+        }
         if (!$scope.currentLoan.duration) {
+            window.console.log($scope.currentLoan.duration);
             $scope.errors.lDuration.err.push("Loan duration wasn't entered!");
             err.push("Loan duration wasn't entered!");
             res = false;
@@ -159,14 +182,15 @@
         return res;
     }
 
-    $scope.logPartners = function () {
-        window.console.log($scope.partners);
-    }
-
+    // Initialization
     $scope.onInit = function () {
-        DataService.getPartners().then(() => {
-            window.console.log("Loans controller initialized.");
+        if (DataService.partners) {
             $scope.models.partners = DataService.partners;
+            window.console.log("Loans controller initialized.");
+        }
+        else DataService.getPartners().then(() => {
+            $scope.models.partners = DataService.partners;
+            window.console.log("Loans controller initialized.");
         });
     }
 }

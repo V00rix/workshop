@@ -33,7 +33,7 @@ namespace workshopIS.Controllers
 
             // and comment this out
             Data.ReadDataFromDatabase(); //read data from DB
-            List<IPartner> results = Data.Partners; 
+            List<IPartner> results = Data.Partners;
             //
             return Request.CreateResponse(HttpStatusCode.OK, results);
         }
@@ -44,7 +44,7 @@ namespace workshopIS.Controllers
         /// <param name="id">id</param>
         /// <param name="ContactState">Contact State from 1 to 3</param>
         /// <returns>HttpStatusCode</returns>
-        public IHttpActionResult Put([FromBody]PutCustomer customer)
+        public IHttpActionResult Put([FromBody] PutCustomer customer)
         {
             if (customer.Id > 0 && customer.ContactState > 0 && customer.ContactState < 4) //verificate input data
             {
@@ -57,7 +57,8 @@ namespace workshopIS.Controllers
                         .Where(p => p.Id == customer.Id)
                         .FirstOrDefault();
 
-                    customerToUpdate.ContactState = customer.ContactState; //set ContactState from PUT entity to DB entity
+                    customerToUpdate.ContactState =
+                        customer.ContactState; //set ContactState from PUT entity to DB entity
 
                     session.Update(customerToUpdate); //update customer
 
@@ -81,5 +82,39 @@ namespace workshopIS.Controllers
             }
             return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, "změna proběhla v pořádku"));
         }
+
+        // POST: api/Registration
+        [Route("data/callcentre/state")]
+        [HttpPost]
+        public IHttpActionResult Put([FromBody] StateData stateData)
+        {
+            // validation
+            if (stateData.state < 0 || stateData.state > 4)
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "State is out of boundaries!"));
+
+            int pid;
+            int cid;
+            if ((pid = Data.Partners.FindIndex(p => p.Id == stateData.pid)) < 0)
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "No partner found with such ID!"));
+            if ((cid = Data.Partners[pid].Customers.FindIndex(c => c.Id == stateData.cid)) < 0)
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "No customer found with such ID!"));
+
+            // all checks passed - update customer's state
+            Data.UpdateState(Data.Partners[pid].Customers[cid], stateData.state);
+            Data.CloseSession();
+
+            return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.OK, 
+                string.Format("Set '{1}'\'s '{0}'\'s contact state to '{2}'", 
+                Data.Partners[pid].Customers[cid].FirstName + " " + Data.Partners[pid].Customers[cid].Surname, 
+                Data.Partners[pid].Name,
+                Data.Partners[pid].Customers[cid].ContactState)));
+        }
+    }
+
+    public class StateData
+    {
+        public int pid;
+        public int cid;
+        public int state;
     }
 }
