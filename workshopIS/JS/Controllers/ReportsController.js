@@ -1,25 +1,24 @@
 ﻿var ReportsController = function ($scope, DataService) {
     $scope.models = {
-        partners: []
+        partners: [],
+        allCustomers: []
     }
 
-    $scope.fromHighest = false;
-    $scope.sortCustomers = 'name';
-    $scope.allCustomers = [];
-
-    // Filtering, sorting
-    $scope.onSelectChange = function (val) {
-        $scope.fromHighest = val;
+    // Controlelr states
+    $scope.state = {
+        fromHighest: false,
+        sortCustomers: "name"
     }
 
     // Initialization
     $scope.onInit = function () {
+        // if data from server has already been fetched
         if (DataService.partners) {
             $scope.models.partners = DataService.partners;
             for (let p of $scope.models.partners) {
                 p.totalIncome = $scope.countIncome(p);
             }
-            $scope.allCustomers = $scope.models.partners.map(p => p.customers).reduce((acc, val) => val.concat(acc), []);
+            $scope.models.allCustomers = $scope.models.partners.map(p => p.customers).reduce((acc, val) => val.concat(acc), []);
             $scope.models.partners.forEach(p => {
                 if (p.customers)
                     p.customers.forEach(c => c.partnerId = p.id);
@@ -27,18 +26,24 @@
             window.console.log("Reports controller initialized!");
         }
         else
+            // fetch data
             DataService.getPartners().then(() => {
                 $scope.models.partners = DataService.partners;
                 for (let p of $scope.models.partners) {
                     p.totalIncome = $scope.countIncome(p);
                 }
-                $scope.allCustomers = $scope.models.partners.map(p => p.customers).reduce((acc, val) => val.concat(acc), []);
+                $scope.models.allCustomers = $scope.models.partners.map(p => p.customers).reduce((acc, val) => val.concat(acc), []);
                 $scope.models.partners.forEach(p => {
                     if (p.customers)
                         p.customers.forEach(c => c.partnerId = p.id);
                 });
                 window.console.log("Reports controller initialized!");
             });
+    }
+
+    // Filtering, sorting
+    $scope.onSelectChange = function (val) {
+        $scope.state.fromHighest = val;
     }
 
     // Summ ammounts throughout all loans throughout all customers for each partner
@@ -50,7 +55,5 @@
             .reduce((acc, val) => acc + val, 0);
     }
 }
-
-angular.module("workshopIS", []).controller("ReportsController", ReportsController);
 
 ReportsController.$inject = ["$scope", "DataService"]; 

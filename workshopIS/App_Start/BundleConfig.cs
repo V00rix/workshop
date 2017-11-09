@@ -15,10 +15,12 @@ namespace workshopIS
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/workshopIS")
-                .IncludeDirectory("~/JS/Controllers", "*.js")
+                .IncludeDirectory("~/JS/Directives", "*.js")
+                .IncludeDirectory("~/JS/Filters", "*.js")
+                .IncludeDirectory("~/JS/Shared", "*.js")
                 .IncludeDirectory("~/JS/Services", "*.js")
-                .IncludeDirectory("~/JS/Shared", "*.js").Include(
-                    "~/JS/workshopIS.js"));
+                .IncludeDirectory("~/JS/Controllers", "*.js")
+                .Include("~/JS/workshopIS.js"));
 
                 // Use the development version of Modernizr to develop with and learn from. Then, when you're
                 // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.

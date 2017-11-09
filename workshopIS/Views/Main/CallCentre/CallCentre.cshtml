@@ -3,7 +3,7 @@
         <div class="row my-row">
             <div class="col-xs-12">
                 <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="customer in allCustomers | orderBy: ['firstName', 'surname']">
+                    <li class="list-group-item" ng-repeat="customer in models.allCustomers | orderBy: ['firstName', 'surname']">
                         <div class="row">
                             <div class="col-xs-12 col-md-2">
 
@@ -59,7 +59,7 @@
 
                         </div>
                     </li>
-                    @*<li ng-if="sortCustomers === 'state'" class="list-group-item" ng-repeat="customer in allCustomers | orderBy: 'contactState'">
+                    @*<li ng-if="sortCustomers === 'state'" class="list-group-item" ng-repeat="customer in models.allCustomers | orderBy: 'contactState'">
                             <p>{{customer.firstName}} {{customer.surname}}</p>
                             <p>
                                 Partner ID: {{customer.partnerId}}.

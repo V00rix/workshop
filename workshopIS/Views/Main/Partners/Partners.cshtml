@@ -16,27 +16,27 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8" style="max-height: 75vh; overflow-y: scroll">
-                <div ng-if="!inEditMode">
+                <div ng-if="!state.inEditMode">
                     <button type="button" class="btn btn-primary" ng-click="newPartner()">Add new partner</button>
                 </div>
-                <div ng-if="inEditMode">
+                <div ng-if="state.inEditMode">
                     <form ng-submit="onEditConfirmed()">
                         <div class="form-group">
                             <label for="nameInput">Name:</label>
-                            <input type="text" class="form-control" id="nameInput" ng-model="editedPartner.name" minlength="1" maxlength="20" requierd/>
+                            <input type="text" class="form-control" id="nameInput" ng-model="models.editedPartner.name" minlength="1" maxlength="20" requierd/>
                         </div>
                         <div class="form-group">
                             <label for="icoInput">ICO: </label>
-                            <input type="text" class="form-control" id="icoInput" ng-model="editedPartner.ico" maxlength="8" minlength="8" requierd/>
+                            <input type="text" class="form-control" id="icoInput" ng-model="models.editedPartner.ico" maxlength="8" minlength="8" requierd/>
                         </div>
                         <div class="form-group">
                             <label for="validFInput">Valid from: </label>
-                            <input type="date" class="form-control" id="validFInput" name="input" ng-model="editedPartner.validFrom" ng-change="editedPartner.validFrom=editedPartner.validFrom.toISOString()"
+                            <input type="date" class="form-control" id="validFInput" name="input" ng-model="models.editedPartner.validFrom" ng-change="models.editedPartner.validFrom=models.editedPartner.validFrom.toISOString()"
                                    placeholder="yyyy-MM-dd" required />
                         </div>
                         <div class="form-group">
                             <label for="validTInput">Valid to: </label>
-                            <input type="date" class="form-control" id="validTInput" name="input" ng-model="editedPartner.validTo"
+                            <input type="date" class="form-control" id="validTInput" name="input" ng-model="models.editedPartner.validTo"
                                    placeholder="yyyy-MM-dd" required />
                         </div>
                         <div class="form-group">
@@ -44,8 +44,8 @@
                             @*<input ng-if="selectedPartnerId == null || selectedPartnerId == undefined" type="file" name="file" onchange="angular.element(this).scope().appendFile(this.files)" />*@
                         </div>
                         <div class="form-group">
-                            <label ng-if="editedPartner.customers.length > 0">Customers: </label>
-                            <div ng-repeat="customer in editedPartner.customers" class="list-group-item clearfix">
+                            <label ng-if="models.editedPartner.customers.length > 0">Customers: </label>
+                            <div ng-repeat="customer in models.editedPartner.customers" class="list-group-item clearfix">
                                 <div class="pull-left">
                                     <h3 class="list-group-item-heading">{{ customer.firstName }} {{ customer.surname }}</h3>
                                     <p class="list-group-item-text">Phone: {{customer.phone}}</p>

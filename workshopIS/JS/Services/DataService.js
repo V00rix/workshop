@@ -58,9 +58,15 @@
             (res) => {
                 window.console.log("Success!", res);
                 var p, c;
-                if ((p = this.partners.find(p => p.partnerId === loanData.partnerId) != null)
-                    && (c = p.customers.find(c => c.id === res.id)) != null)
-                    c = res;
+                // on successfull response find patner of a customer
+                if ((p = this.partners.find(p => p.partnerId === loanData.partnerId) != null))
+                    // if partner contains this customer alreaty, then...
+                    if ((c = p.customers.find(c => c.id === res.id)) != null)
+                        // update id
+                        c = res;
+                    else
+                        // else push new to lsit
+                        p.customers.push(c);
             },
             (res) => {
                 window.console.log("Error!", res);

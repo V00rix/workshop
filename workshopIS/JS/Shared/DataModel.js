@@ -1,7 +1,7 @@
 ﻿function Loan(id, duration, amount, customerId, monthlyCharge, apr, interest, note) {
     this.id = id || null;
-    this.duration = duration;
-    this.amount = amount;
+    this.duration = duration || 0;
+    this.amount = amount || 0;
     this.customerId = customerId;
     this.monthlyCharge = monthlyCharge || null;
     this.apr = apr || null;

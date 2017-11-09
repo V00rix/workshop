@@ -230,6 +230,8 @@
     <EmbeddedResource Include="Models\xml\loan.hbm.xml" />
     <Content Include="JS\Controllers\CallCentreController.js" />
     <Content Include="JS\Controllers\ReportsController.js" />
+    <Content Include="JS\Directives\TesterDirective.js" />
+    <Content Include="JS\Filters\StateFilter.js" />
     <Content Include="JS\Services\DataService.js" />
     <Content Include="JS\Services\HttpService.js" />
     <Content Include="JS\Shared\DataModel.js" />

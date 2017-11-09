@@ -7,7 +7,7 @@
                     <div class="form-group">
                         <div class="col-sm-10 selector">
                             <label for="sortPartners">Sort </label>
-                            <select name="sortPartners" id="sortPartners" ng-model="fromHighest">
+                            <select name="sortPartners" id="sortPartners" ng-model="state.fromHighest">
                                 <option ng-value="true">From Highest</option>
                                 <option ng-value="false">From Lowest</option>
                             </select><br>
@@ -16,8 +16,8 @@
                 </div>
                 <div class="col-xs-12 partners">
                     <ul class="list-group">
-                        <li ng-if="!fromHighest" class="list-group-item" ng-repeat="partner in models.partners | orderBy:'totalIncome'">{{partner.name}}<span class="badge">{{ partner.totalIncome | currency:'' }} Kč</span></li>
-                        <li ng-if="fromHighest" class="list-group-item" ng-repeat="partner in models.partners | orderBy:'-totalIncome'">{{partner.name}}<span class="badge">{{ partner.totalIncome | currency:'' }} Kč</span></li>
+                        <li ng-if="!state.fromHighest" class="list-group-item" ng-repeat="partner in models.partners | orderBy:'totalIncome'">{{partner.name}}<span class="badge">{{ partner.totalIncome | currency:'' }} Kč</span></li>
+                        <li ng-if="state.fromHighest" class="list-group-item" ng-repeat="partner in models.partners | orderBy:'-totalIncome'">{{partner.name}}<span class="badge">{{ partner.totalIncome | currency:'' }} Kč</span></li>
                     </ul>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <div class="col-sm-10 selector">
                             <label for="sortCustomers">Sort by </label>
-                            <select name="sortCustomers" id="sortCustomers" ng-model="sortCustomers">
+                            <select name="sortCustomers" id="sortCustomers" ng-model="state.sortCustomers">
                                 <option ng-value="'name'">By name</option>
                                 <option ng-value="'state'">By contact state</option>
                             </select><br>
@@ -37,21 +37,21 @@
                 </div>
                 <div class="col-xs-12 partners">
                     <ul class="list-group">
-                        <li ng-if="sortCustomers === 'name'" class="list-group-item" ng-repeat="customer in allCustomers | orderBy: ['firstName', 'surname']">
+                        <li ng-if="state.sortCustomers === 'name'" class="list-group-item" ng-repeat="customer in models.allCustomers | orderBy: ['firstName', 'surname']">
                             <p>{{customer.firstName}} {{customer.surname}}</p>
                             <p>
                                 Partner ID: {{customer.partnerId}}.
                                 <br />State: {{customer.contactState | state}}
                             </p>
                         </li>
-                        <li ng-if="sortCustomers === 'state'" class="list-group-item" ng-repeat="customer in allCustomers | orderBy: 'contactState'">
+                        <li ng-if="state.sortCustomers === 'state'" class="list-group-item" ng-repeat="customer in models.allCustomers | orderBy: 'contactState'">
                             <p>{{customer.firstName}} {{customer.surname}}</p>
                             <p>
                                 Partner ID: {{customer.partnerId}}.
                                 <br />State: {{customer.contactState | state}}
                             </p>
                         </li>
-                        @*<li ng-if="fromHighest" class="list-group-item" ng-repeat="partner in models.partners | orderBy:'-totalIncome'">{{partner.name}}<span class="badge">{{ partner.totalIncome | currency:'' }} Kč</span></li>*@
+                        @*<li ng-if="state.fromHighest" class="list-group-item" ng-repeat="partner in models.partners | orderBy:'-totalIncome'">{{partner.name}}<span class="badge">{{ partner.totalIncome | currency:'' }} Kč</span></li>*@
                     </ul>
                 </div>
             </div>

@@ -7,53 +7,59 @@
                         <div class="text-left">
                             <div class="hidden-lg hidden-md hidden-sm form-group">
                                 <div calss="form-control">
-                                    <label for="partnerInput" ng-style="selectedPartner ? {'color': '#202020'} :
+                                    <label for="partnerInput" ng-style="models.selectedPartner ? {'color': '#202020'} :
                             {'color': 'rgb(199, 80, 24)'}">Partner</label>
-                                    <select id="partnerInput" name="partnerInput" class="form-control" ng-model="selectedPartner" required>
+                                    <select id="partnerInput" name="partnerInput" class="form-control" ng-model="models.selectedPartner" required>
                                         <option ng-repeat="partner in models.partners" ng-value="partner">{{partner.name}}</option>
                                     </select>
                                     <div class="inp-msg-err" ng-show="form.partnerInput2.$error.required">Please select a partner.</div>
                                 </div>
-                                <div class="list-group-item clearfix text-left" ng-if="selectedPartner" style="margin-top: 10px;">
+                                <div class="list-group-item clearfix text-left" ng-if="models.selectedPartner" style="margin-top: 10px;">
                                     <div class="pull-left">
-                                        <h3 class="list-group-item-heading">{{ selectedPartner.name }}</h3>
-                                        <p class="list-group-item-text">ICO: {{selectedPartner.ico}}</p>
-                                        <p class="list-group-item-text">Valid From: {{selectedPartner.validFrom | date:'mediumDate'}}</p>
-                                        <p class="list-group-item-text">Valid To: {{selectedPartner.validTo || '∞' | date:'mediumDate'}}</p>
+                                        <h3 class="list-group-item-heading">{{ models.selectedPartner.name }}</h3>
+                                        <p class="list-group-item-text">ICO: {{models.selectedPartner.ico}}</p>
+                                        <p class="list-group-item-text">Valid From: {{models.selectedPartner.validFrom | date:'mediumDate'}}</p>
+                                        <p class="list-group-item-text">Valid To: {{models.selectedPartner.validTo || '∞' | date:'mediumDate'}}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="icoInput">Loan amount</label>
                                 <input type="number" class="form-control" id="icoInput" min="20000" step="100" max="500000"
-                                       ng-model="currentLoan.amount" name="lAmount" required="" tester="amount" />
+                                       ng-model="models.currentLoan.amount" name="lAmount" required="" tester="amount" />
                                 <div ng-show="form.$submitted || form.lAmount.$touched">
                                     <div class="inp-msg-err" ng-show="form.lAmount.$error.tester">Amount should be between 20,000 and 500,000 CZK.</div>
                                     <div class="inp-msg-err" ng-show="form.lAmount.$error.required">Amount is required.</div>
-                                  </div>
+                                    @*<div ng-repeat="err in errors.lAmount.err" ng-show="form.lAmount.$error.required" class="inp-err-msg">{{ err }}</div>*@
+                                    @*<div ng-repeat="warn in errors.lAmount.warn" ng-show="form.lAmount.$error.required" class="inp-err-msg">{{ warn }}</div>*@
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="validFInput">Loan duration (months)</label>
                                 <input type="number" class="form-control" id="validFInput" min="6" step="2" max="96"
-                                       ng-model="currentLoan.duration" name="lDuration" required tester="duration" />
+                                       ng-model="models.currentLoan.duration" name="lDuration" required tester="duration" />
                                 <div ng-show="form.$submitted || form.lDuration.$touched">
                                     <div class="inp-msg-err" ng-show="form.lDuration.$error.tester">Duration should be between 6 and 96 months.</div>
                                     <div class="inp-msg-err" ng-show="form.lDuration.$error.required">Duration is required.</div>
+                                    @*<div ng-repeat="err in errors.lDuration.err" ng-show="form.lDuration.$error.required" class="inp-err-msg">{{ err }}</div>*@
+                                    @*<div ng-repeat="warn in errors.lDuration.warn" ng-show="form.lDuration.$error.required" class="inp-err-msg">{{ warn }}</div>*@
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="interestInput">Interest</label>
                                 <input type="text" class="form-control" id="interestInput" min="0" step="0.05" max="1"
-                                       ng-model="currentLoan.interest" name="lInterest" required tester="interest" />
+                                       ng-model="models.currentLoan.interest" name="lInterest" required tester="interest" />
                                 <div ng-show="form.$submitted || form.lInterest.$touched">
                                     <div class="inp-msg-err" ng-show="form.lInterest.$error.tester">Interest should be between 0 and 1.</div>
                                     <div class="inp-msg-warn" ng-show="form.lInterest.$error.required">Interest will be set to 0.1</div>
+                                    @*<div ng-repeat="err in errors.lInterest.err" ng-show="form.lInterest.$error.required" class="inp-err-msg">{{ err }}</div>
+                                        <div ng-repeat="warn in errors.lInterest.warn" ng-show="form.lInterest.$error.required" class="inp-err-msg">{{ warn }}</div>*@
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="nameInput">Phone number</label>
                                 <input type="text" class="form-control" id="nameInput"
-                                       ng-model="editedCustomer.phone" name="uPhone" required tester="phone" />
+                                       ng-model="models.editedCustomer.phone" name="uPhone" required tester="phone" />
                                 <div ng-show="form.$submitted || form.uPhone.$touched">
                                     <div class="inp-msg-err" ng-show="form.uPhone.$error.tester">Not valid phone format.</div>
                                     <div class="inp-msg-err" ng-show="form.uPhone.$error.required">Phone number is required.</div>
@@ -62,34 +68,31 @@
                             <hr />
                             <div class="form-group">
                                 <label for="fnameInput">First name</label>
-                                <input type="text" class="form-control" id="fnameInput" name="uName" ng-model="editedCustomer.firstName" tester="name" />
+                                <input type="text" class="form-control" id="fnameInput" name="uName" ng-model="models.editedCustomer.firstName" tester="name" />
                                 <div ng-show="form.$submitted || form.uName.$touched">
                                     <div class="inp-msg-warn" ng-show="form.uName.$error.tester">Name isn't valid.</div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="snameInput">Surname</label>
-                                <input type="text" class="form-control" id="snameInput" name="uSurname" ng-model="editedCustomer.surname" tester="name" />
+                                <input type="text" class="form-control" id="snameInput" name="uSurname" ng-model="models.editedCustomer.surname" tester="name" />
                                 <div ng-show="form.$submitted || form.uSurname.$touched">
                                     <div class="inp-msg-warn" ng-show="form.uSurname.$error.tester">Surname isn't valid.</div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="emailInput">Email</label>
-                                <input type="text" class="form-control" id="emailInput" name="uEmail" ng-model="editedCustomer.email" tester="email" />
+                                <input type="text" class="form-control" id="emailInput" name="uEmail" ng-model="models.editedCustomer.email" tester="email" />
                                 <div ng-show="form.$submitted || form.uEmail.$touched">
                                     <div class="inp-msg-warn" ng-show="form.uEmail.$error.tester">Invalid email.</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="noteInput">Note</label>
-                                    <input type="text" class="form-control" id="noteInput" ng-model="editedCustomer.note" />
+                                    <input type="text" class="form-control" id="noteInput" ng-model="models.editedCustomer.note" />
                                 </div>
-                                <button type="submit" class="btn btn-success" ng-class="{'disabled': !(
-                                        (form.partnerInput.$valid || form.partnerInput2.$valid)
-                                        && form.lAmount.$valid && form.lDuration.$valid && form.lInterest.$valid && form.uPhone.$valid)}">
-                                    Confirm
-                                </button>
-                                <button type="button" class="btn btn-primary" ng-click="clearForm(form)">Clear</button>
+
+                                <button type="submit" class="btn btn-success" ng-class="">Confirm</button>
+                                <button type="button" class="btn btn-primary" ng-click="onEditCanceled()">Cancel</button>
                             </div>
                         </div>
                     </form>
@@ -97,19 +100,19 @@
             </div>
             <div class="hidden-xs col-sm-6 col-md-6 text-left fixed-col" name="p">
                 <div calss="form-control">
-                    <label for="partnerInput2" ng-style="selectedPartner ? {'color': '#202020'} :
+                    <label for="partnerInput2" ng-style="models.selectedPartner ? {'color': '#202020'} :
                             {'color': 'rgb(199, 80, 24)'}">Partner</label>
-                    <select id="partnerInput2" name="partnerInput2" class="form-control" ng-model="selectedPartner" required>
+                    <select id="partnerInput2" name="partnerInput2" class="form-control" ng-model="models.selectedPartner" required>
                         <option ng-repeat="partner in models.partners" ng-value="partner">{{partner.name}}</option>
                     </select>
                     <div class="inp-msg-err" ng-show="form.partnerInput2.$error.required">Please select a partner.</div>
                 </div>
-                <div class="list-group-item clearfix text-left" ng-if="selectedPartner" style="margin-top: 10px;">
+                <div class="list-group-item clearfix text-left" ng-if="models.selectedPartner" style="margin-top: 10px;">
                     <div class="pull-left">
-                        <h3 class="list-group-item-heading">{{ selectedPartner.name }}</h3>
-                        <p class="list-group-item-text">ICO: {{selectedPartner.ico}}</p>
-                        <p class="list-group-item-text">Valid From: {{selectedPartner.validFrom | date:'mediumDate'}}</p>
-                        <p class="list-group-item-text">Valid To: {{selectedPartner.validTo || '∞' | date:'mediumDate'}}</p>
+                        <h3 class="list-group-item-heading">{{ models.selectedPartner.name }}</h3>
+                        <p class="list-group-item-text">ICO: {{models.selectedPartner.ico}}</p>
+                        <p class="list-group-item-text">Valid From: {{models.selectedPartner.validFrom | date:'mediumDate'}}</p>
+                        <p class="list-group-item-text">Valid To: {{models.selectedPartner.validTo || '∞' | date:'mediumDate'}}</p>
                     </div>
                 </div>
             </div>
