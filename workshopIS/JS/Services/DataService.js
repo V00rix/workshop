@@ -52,21 +52,23 @@
 
     // LOAN: POST
     this.addLoan = function (loanData) {
-        window.console.log("Adding new loan...");
+        window.console.log("Adding new loan...", loanData);
         // to server
         return HttpService.postLoan(loanData).then(
             (res) => {
                 window.console.log("Success!", res);
                 var p, c;
                 // on successfull response find patner of a customer
-                if ((p = this.partners.find(p => p.partnerId === loanData.partnerId) != null))
-                    // if partner contains this customer alreaty, then...
-                    if ((c = p.customers.find(c => c.id === res.id)) != null)
-                        // update id
-                        c = res;
-                    else
+                if ((p = this.partners.find(par => par.id === loanData.partnerId)) != null) {
+                    // if partner contains this customer already, then...
+                    if ((c = p.customers.find(cus => cus.id === res.data.id)) != null) {
+                        // update it
+                        c.copy(res.data);
+                    } else {
                         // else push new to lsit
-                        p.customers.push(c);
+                        p.customers.push(new Customer.From(res.data));
+                    }
+                }
             },
             (res) => {
                 window.console.log("Error!", res);
@@ -80,17 +82,10 @@
         return HttpService.getPartners().then(
             (res) => {
                 window.console.log("Success.", res.data);
-                this.partners = res.data;
-                for (var i = 0; i < this.partners.length; ++i) {
-                    this.partners[i].validFrom = new Date(res.data[i].validFrom);
-                    this.partners[i].validTo = new Date(res.data[i].validTo);
-                    if (!this.partners[i].customers)
-                        this.partners[i].customers = [];
-                    for (let c of this.partners[i].customers) {
-                        if (!c.loans)
-                            c.loans = [];
-                    }
-                }
+                this.partners = [];
+                for (var i = 0; i < res.data.length; ++i) 
+                    this.partners.push(new Partner.From(res.data[i]));
+                window.console.log(this.partners);
             },
             (res) => {
                 window.console.log("Error!", res);

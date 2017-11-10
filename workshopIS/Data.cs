@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Util;
@@ -43,18 +44,27 @@ namespace workshopIS
         /// </summary>
         public static void ReadDataFromDatabase()
         {
-            ISession session = NHibernateHelper.GetCurrentSession();
-            var results = session.Query<CPartner>();
-            Partners = results.ToList<IPartner>();
-            foreach (IPartner partner in Partners)
+            try
             {
-                partner.Customers = session.Query<CCustomer>().Where(c => c.Partner.Id == partner.Id).ToList();
-                foreach (CCustomer customer in partner.Customers)
+
+                ISession session = NHibernateHelper.GetCurrentSession();
+                var results = session.Query<CPartner>();
+                Partners = results.ToList<IPartner>();
+                foreach (IPartner partner in Partners)
                 {
-                    customer.Loans = session.Query<CLoan>().Where(l => l.Customer.Id == customer.Id).ToList();
+                    partner.Customers = session.Query<CCustomer>().Where(c => c.Partner.Id == partner.Id).ToList();
+                    foreach (CCustomer customer in partner.Customers)
+                    {
+                        customer.Loans = session.Query<CLoan>().Where(l => l.Customer.Id == customer.Id).ToList();
+                    }
                 }
+                session.Close();
             }
-            session.Close();
+            catch (Exception e)
+            {
+                Trace.WriteLine("Error while reading from DB");
+                Partners = new List<IPartner>();
+            }
         }
 
         /// <summary>
